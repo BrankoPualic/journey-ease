@@ -25,11 +25,45 @@ $ultra-light-orange: #fff1cd;
 
 // Application
 $transition: 0.3s;
-$border-radius: 10px;
+$border-radius: 5px;
+$section-padding: 0 6%;
+
+// Mixins
+@mixin border($width: 1px, $style: solid, $color: $light-green) {
+  border: $width $style $color;
+}
+@mixin flex($direction, $justify, $wrap, $align) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  flex-wrap: $wrap;
+  align-items: $align;
+}
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Quattrocento Sans", sans-serif;
+  font-family: "Quattrocento Sans", "Font Awesome 5 Free", sans-serif;
+  list-style-type: none;
+}
+
+.btn {
+  padding: 0.75rem 1rem;
+  font-size: 1em;
+  font-weight: bold;
+  background-color: transparent;
+  cursor: pointer;
+  border-radius: $border-radius;
+  @include border();
+  &.btn-empty-style {
+    color: $light-green;
+  }
+  &.btn-full-style {
+    background-color: $light-green;
+    color: $white;
+  }
+}
+.green-text {
+  color: $light-green;
 }

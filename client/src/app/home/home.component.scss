@@ -1,0 +1,39 @@
+@import "../../styles.scss";
+main {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  .cover {
+    height: 100dvh;
+    .cover-image {
+      background-image: url("../../assets/img/cover.jpg");
+      background-position: center;
+      background-size: cover;
+      height: 100%;
+      width: 100%;
+      filter: blur(3px);
+    }
+    .cover-content {
+      position: absolute;
+      top: 20%;
+      padding: 0 11%;
+      h1,
+      p {
+        text-align: center;
+        font-size: 2.7em;
+        width: 70%;
+        margin: 0 auto 2rem;
+        color: $dark-grey;
+        letter-spacing: 0.1rem;
+      }
+      p {
+        font-size: 1.1em;
+        color: $black;
+        font-weight: bold;
+        line-height: 1.75rem;
+      }
+    }
+  }
+}
