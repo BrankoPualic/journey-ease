@@ -1,0 +1,23 @@
+.sign-up-form-holder {
+  h2 {
+    text-align: center;
+    margin-bottom: 1.2rem;
+    font-size: 1.8em;
+  }
+
+  form {
+    .sign-up-form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      column-gap: 1rem;
+    }
+
+    .newsletter-row {
+      flex-direction: row;
+
+      label {
+        margin-left: 1rem;
+      }
+    }
+  }
+}
