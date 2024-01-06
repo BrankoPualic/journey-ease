@@ -25,16 +25,7 @@ $ultra-light-orange: #fff1cd;
 
 // Application
 $transition: 0.3s;
-$border-radius: generate-border-radius(10px);
-
-// Functions
-@function generate-border-radius($values...) {
-  @if length($values) == 1 {
-    @return $values;
-  } @else if length($values) == 4 {
-    @return join($values, " ");
-  }
-}
+$border-radius: 10px;
 
 * {
   margin: 0;
