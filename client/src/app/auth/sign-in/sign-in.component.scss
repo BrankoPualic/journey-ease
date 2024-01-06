@@ -1,0 +1,17 @@
+.sign-in-form-holder {
+  h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2em;
+  }
+
+  form {
+    .form-row {
+      .password-forgotten {
+        margin-top: 0.4rem;
+        margin-left: auto;
+        font-size: 0.9em;
+      }
+    }
+  }
+}
