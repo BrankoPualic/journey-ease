@@ -1,1 +1,15 @@
-<p>search-home works!</p>
+<form [formGroup]="searchForm" (ngSubmit)="search()">
+  <div class="input-element">
+    <app-text-input
+      [formControl]="$any(searchForm.controls['searchValue'])"
+      [label]="'Find your destination...'"
+    />
+  </div>
+  <select>
+    <option value="0">Season</option>
+    <!-- @for (season of (seasons$ | async); track season) {
+    <option value="{{ season.id }}">{{ season.season }}</option>
+    } -->
+  </select>
+  <input type="submit" value="Search" class="btn btn-full-style" />
+</form>
