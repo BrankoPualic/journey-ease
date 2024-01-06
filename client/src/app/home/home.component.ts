@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
+import { SearchHomeComponent } from './search-home/search-home.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [],
+  imports: [SearchHomeComponent],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  styleUrl: './home.component.scss',
 })
-export class HomeComponent {
-
-}
+export class HomeComponent {}
