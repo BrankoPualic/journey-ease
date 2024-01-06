@@ -1,1 +1,44 @@
 /* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css2?family=Quattrocento+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
+// Colors
+$white: #ffffff;
+$snow-white: #e7e7e7;
+$black: #1a1a1a;
+$dark-green: #1f4a38;
+$green: #3a6955;
+$light-green: #10bc7e;
+$ultra-light-green: #ccffd7;
+$lime-green: #00db30;
+$dark-grey: #5b5b5b;
+$grey: #b8b8b8;
+$light-grey: #f6f6f6;
+$ultra-light-grey: #ededed;
+$blue: #5b9dff;
+$blue-2: #267dff;
+$ultra-light-blue: #dae9ff;
+$red: #ff2e2e;
+$light-red: #fe6969;
+$ultra-light-red: #fed8d8;
+$orange: #ffb906;
+$ultra-light-orange: #fff1cd;
+
+// Application
+$transition: 0.3s;
+$border-radius: generate-border-radius(10px);
+
+// Functions
+@function generate-border-radius($values...) {
+  @if length($values) == 1 {
+    @return $values;
+  } @else if length($values) == 4 {
+    @return join($values, " ");
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Quattrocento Sans", sans-serif;
+}
