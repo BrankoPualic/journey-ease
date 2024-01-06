@@ -1,0 +1,32 @@
+@import "../../../styles.scss";
+form {
+  width: 99%;
+  margin: 0 auto;
+  @include flex("row", "flex-start", "nowrap", center);
+  height: 50px;
+  background-color: $white;
+  border-radius: 50px;
+  box-shadow: $box-shadow;
+  padding: 0.5rem;
+
+  .input-element {
+    flex: 1;
+  }
+  input[type="submit"] {
+    border-radius: 50px;
+    width: 100px;
+    padding: 0.5rem;
+  }
+  select {
+    margin: 0 0.75rem;
+    width: 120px;
+    border-radius: 50px;
+    padding: 0.5rem;
+    font-size: 1em;
+    font-weight: bold;
+    color: $dark-grey;
+    border: none;
+    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+  }
+}
