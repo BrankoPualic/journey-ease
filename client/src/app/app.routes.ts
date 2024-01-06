@@ -8,6 +8,16 @@ export const routes: Routes = [
     component: HomeComponent,
   },
   {
+    path: '',
+    children: [
+      {
+        path: 'auth',
+        loadComponent: () =>
+          import('./auth/auth.component').then((m) => m.AuthComponent),
+      },
+    ],
+  },
+  {
     path: '**',
     component: PageNotFoundComponent,
   },
