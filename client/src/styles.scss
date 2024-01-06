@@ -26,7 +26,10 @@ $ultra-light-orange: #fff1cd;
 // Application
 $transition: 0.3s;
 $border-radius: 5px;
+$border-radius-2: 10px;
 $section-padding: 0 6%;
+$box-shadow-hover: 0px 0px 5px 0px $light-green;
+$box-shadow-blocks: 0 5px 15px $black;
 
 // Mixins
 @mixin border($width: 1px, $style: solid, $color: $light-green) {
@@ -55,6 +58,7 @@ $section-padding: 0 6%;
   background-color: transparent;
   cursor: pointer;
   border-radius: $border-radius;
+  transition: $transition;
   @include border();
   &.btn-empty-style {
     color: $light-green;
@@ -62,6 +66,17 @@ $section-padding: 0 6%;
   &.btn-full-style {
     background-color: $light-green;
     color: $white;
+  }
+
+  &.btn-empty-style:hover {
+    -webkit-box-shadow: $box-shadow-hover;
+    -moz-box-shadow: $box-shadow-hover;
+    box-shadow: $box-shadow-hover;
+  }
+  &.btn-full-style:hover {
+    -webkit-box-shadow: $box-shadow-hover;
+    -moz-box-shadow: $box-shadow-hover;
+    box-shadow: $box-shadow-hover;
   }
 }
 .green-text {
@@ -76,14 +91,18 @@ $section-padding: 0 6%;
   margin-top: 1rem;
 
   label {
-    font-size: 1.2em;
+    font-size: 1em;
+    margin-bottom: 0.35rem;
   }
 
   input[type="email"],
-  input[type="password"] {
+  input[type="password"],
+  input[type="tel"],
+  input[type="text"],
+  select {
+    @include border(1px, solid, $dark-grey);
     padding: 0.5rem 1rem;
-    border: 1px solid $dark-grey;
-    border-radius: 5px;
+    border-radius: $border-radius;
     width: 100%;
     font-size: 1em;
   }
@@ -93,23 +112,31 @@ $section-padding: 0 6%;
   }
 
   input[type="submit"] {
-    padding: 0.5rem 2rem;
-    font-size: 1em;
     cursor: pointer;
     border: none;
-    border-radius: 5px;
+    border-radius: $border-radius;
     background-color: $light-green;
     color: $light-grey;
+    transition: $transition;
   }
 
   input[type="submit"]:hover {
-    -webkit-box-shadow: 0px 0px 5px 0px $light-green;
-    -moz-box-shadow: 0px 0px 5px 0px $light-green;
-    box-shadow: 0px 0px 5px 0px $light-green;
+    -webkit-box-shadow: $box-shadow-hover;
+    -moz-box-shadow: $box-shadow-hover;
+    box-shadow: $box-shadow-hover;
+  }
+
+  input[type="checkbox"] {
+    width: 1.5rem;
+    height: 1.5rem;
+    accent-color: $light-green;
   }
 
   a.form-switch-line {
     font-size: 0.9em;
     margin-top: 2rem;
+    color: $blue;
+    text-decoration: underline;
+    cursor: pointer;
   }
 }
