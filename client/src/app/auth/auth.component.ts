@@ -1,7 +1,11 @@
 import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { take } from 'rxjs';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 
+type LayoutType = 'sign-in' | 'sign-up';
+type UrlSegment = string | null | LayoutType | undefined;
 @Component({
   selector: 'app-auth',
   standalone: true,
@@ -10,13 +14,21 @@ import { SignUpComponent } from './sign-up/sign-up.component';
   styleUrl: './auth.component.scss',
 })
 export class AuthComponent implements OnInit {
-  constructor(private elementRef: ElementRef, private renderer: Renderer2) {}
+  formType?: UrlSegment;
+
+  constructor(
+    private elementRef: ElementRef,
+    private renderer: Renderer2,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.selectLayout('sign-in');
+    this.takeUrlParam();
+    this.selectLayout(this.formType);
   }
 
-  selectLayout(type: 'sign-in' | 'sign-up') {
+  selectLayout(type: UrlSegment) {
     const authTextBg =
       this.elementRef.nativeElement.querySelector('.auth-text');
 
@@ -74,7 +86,7 @@ export class AuthComponent implements OnInit {
     }
   }
 
-  toggleForms(type: 'sign-up' | 'sign-in' | string) {
+  toggleForms(type: UrlSegment) {
     const signUpText =
       this.elementRef.nativeElement.querySelector('.sign-up-text');
     const signInForm =
@@ -87,11 +99,20 @@ export class AuthComponent implements OnInit {
       this.elementRef.nativeElement.querySelector('.sign-up-form');
 
     if (type === 'sign-up') {
+      this.router.navigateByUrl('/auth/sign-up');
       this.nonActiveFormsState(signUpText, signInForm, type);
       this.activeFormsState(authTextBg, signInText, signUpForm, type);
     } else if (type === 'sign-in') {
+      this.router.navigateByUrl('/auth/sign-in');
       this.nonActiveFormsState(signInText, signUpForm, type);
       this.activeFormsState(authTextBg, signUpText, signInForm, type);
     }
+  }
+
+  private takeUrlParam() {
+    this.route.paramMap.subscribe((params) => {
+      this.formType = params.get('type');
+      this.toggleForms(this.formType);
+    });
   }
 }
