@@ -1,0 +1,33 @@
+@import "../../styles.scss";
+header {
+  @include flex(row, space-between, nowrap, center);
+  padding: $section-padding;
+  height: 120px;
+  overflow: hidden;
+  .logo img {
+    width: 200px;
+    cursor: pointer;
+  }
+  nav ul {
+    @include flex(row, flex-start, nowrap, center);
+    li {
+      margin: 0 0.25rem;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 0.75rem 1rem;
+      transition: $transition;
+      border-radius: $border-radius;
+      i {
+        margin-left: 0.5rem;
+      }
+      &:hover {
+        background-color: $light-grey;
+      }
+    }
+  }
+  .auth {
+    button {
+      margin: 0 0.25rem;
+    }
+  }
+}
