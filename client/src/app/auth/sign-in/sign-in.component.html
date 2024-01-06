@@ -8,11 +8,11 @@
     <div class="form-row">
       <label for="sign-in-password">Password</label>
       <input type="password" name="password" id="sign-in-password" />
-      <a href="#" class="password-forgotten">Forgot your password?</a>
+      <a class="password-forgotten">Forgot your password?</a>
     </div>
     <div class="form-row">
-      <input type="submit" value="Sign in" />
-      <a href="#" class="form-switch-line"
+      <input type="submit" value="Sign in" class="btn btn-full-style" />
+      <a class="form-switch-line" (click)="onShowSignUp()"
         >Don't have an account? Sign up, now.</a
       >
     </div>

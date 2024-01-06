@@ -1,7 +1,7 @@
 <main>
   <section class="auth-container">
     <div class="auth-text">
-      <div class="sign-in">
+      <div class="sign-in-text">
         <h2>
           Sign in to <span class="green-text">JourneyEase</span> and discover a
           world of hassle-free travel planning.
@@ -10,14 +10,38 @@
           Unlock exclusive deals, personalized itineraries, and seamless booking
           services. Your next adventure awaits!
         </p>
+        <button class="btn btn-empty-style" (click)="toggleForms('sign-in')">
+          Sign in
+        </button>
       </div>
-      <!-- #TODO -->
-      <!-- <div class="sign-up">
-        <h2></h2>
-      </div> -->
+      <div class="sign-up-text">
+        <h2>
+          Ready to start your journey with
+          <span class="green-text">JourneyEase</span>?
+        </h2>
+        <h3>
+          Sign up now to access exclusive travel deals, personalized
+          itineraries, and a seamless booking experience.
+        </h3>
+        <p>
+          Don't forget to read our <a href="#">Terms and Policies</a> to ensure
+          a smooth and enjoyable adventure ahead!
+        </p>
+        <button class="btn btn-empty-style" (click)="toggleForms('sign-up')">
+          Sign up
+        </button>
+      </div>
     </div>
+
     <div class="auth-forms">
-      <app-sign-in class="sign-in-form" />
+      <app-sign-in
+        class="form-container sign-in-form"
+        (showSignUpEvent)="toggleForms($event)"
+      />
+      <app-sign-up
+        class="form-container sign-up-form"
+        (showSignInEvent)="toggleForms($event)"
+      />
     </div>
   </section>
 </main>
