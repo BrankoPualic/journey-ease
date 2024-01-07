@@ -13,4 +13,8 @@ export class DataService {
   get<T>(url: string) {
     return this.http.get<T>(this.baseUrl + url);
   }
+
+  post<T>(data: any, url: string) {
+    return this.http.post<T>(this.baseUrl + url, data);
+  }
 }

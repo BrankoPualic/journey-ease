@@ -19,9 +19,7 @@ main {
     background-size: cover;
     @include flex(row, start, nowrap, normal);
     border-radius: 10px;
-    -webkit-box-shadow: $box-shadow-blocks;
-    -moz-box-shadow: $box-shadow-blocks;
-    box-shadow: $box-shadow-blocks;
+    box-shadow: $box-shadow;
     max-height: 60%;
     height: 60%;
 
