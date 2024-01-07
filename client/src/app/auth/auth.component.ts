@@ -78,9 +78,7 @@ export class AuthComponent implements OnInit {
   ) {
     this.renderer.setStyle(authForm, 'opacity', 0);
     this.renderer.setStyle(authForm, 'right', '65%');
-    setTimeout(() => {
-      this.renderer.setStyle(authForm, 'z-index', -1);
-    }, 500);
+    this.renderer.setStyle(authForm, 'z-index', -1);
 
     if (formType === 'sign-up') {
       this.renderer.setStyle(authText, 'right', '-180%');
