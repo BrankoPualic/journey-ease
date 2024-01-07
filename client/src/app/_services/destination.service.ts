@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
 import { Observable } from 'rxjs';
-import { Season } from '../_types/season.type';
+import { Country, Season } from '../_types/shared.types';
 
 @Injectable({
   providedIn: 'root',
@@ -11,5 +11,9 @@ export class DestinationService {
 
   getSeasons(): Observable<Season[]> {
     return this.dataSerivce.get('seasons');
+  }
+
+  getCountries(): Observable<Country[]> {
+    return this.dataSerivce.get('countries');
   }
 }

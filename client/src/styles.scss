@@ -29,7 +29,6 @@ $border-radius: 5px;
 $border-radius-2: 10px;
 $section-padding: 0 6%;
 $box-shadow-hover: 0px 0px 5px 0px $light-green;
-$box-shadow-blocks: 0 5px 15px $black;
 $box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
 
 // Mixins
@@ -88,24 +87,26 @@ $box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   margin-top: 1rem;
-
-  label {
-    font-size: 1em;
-    margin-bottom: 0.35rem;
-  }
 
   input[type="email"],
   input[type="password"],
   input[type="tel"],
   input[type="text"],
   select {
-    @include border(1px, solid, $dark-grey);
     padding: 0.5rem 1rem;
     border-radius: $border-radius;
-    width: 100%;
-    font-size: 1em;
+    box-shadow: $box-shadow !important;
+    font-size: 1em !important;
+    border: none;
+    outline: none;
+    color: $dark-grey;
+    font-weight: bold;
+  }
+  .invalid-feedback {
+    color: $red;
+    font-weight: bold;
+    margin: 0.25rem 0;
   }
 
   input:focus {
@@ -113,20 +114,29 @@ $box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
   }
 
   input[type="submit"] {
+    width: 100px;
+    margin: 0 auto;
     cursor: pointer;
     border: none;
     border-radius: $border-radius;
     background-color: $light-green;
     color: $light-grey;
     transition: $transition;
+    &:hover {
+      -webkit-box-shadow: $box-shadow-hover;
+      -moz-box-shadow: $box-shadow-hover;
+      box-shadow: $box-shadow-hover;
+    }
+    &:disabled {
+      background-color: $grey;
+      cursor: default;
+      &:hover {
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+      }
+    }
   }
-
-  input[type="submit"]:hover {
-    -webkit-box-shadow: $box-shadow-hover;
-    -moz-box-shadow: $box-shadow-hover;
-    box-shadow: $box-shadow-hover;
-  }
-
   input[type="checkbox"] {
     width: 1.5rem;
     height: 1.5rem;
@@ -135,9 +145,10 @@ $box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
 
   a.form-switch-line {
     font-size: 0.9em;
-    margin-top: 2rem;
+    margin: 2rem auto 0;
     color: $blue;
     text-decoration: underline;
     cursor: pointer;
+    text-align: center;
   }
 }
