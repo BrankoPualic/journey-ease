@@ -29,15 +29,15 @@ main {
           margin: 3.5px 0;
 
           &.line-1 {
-            width: 80%;
+            width: 60%;
           }
 
           &.line-2 {
-            width: 100%;
+            width: 80%;
           }
 
           &.line-3 {
-            width: 55%;
+            width: 50%;
           }
         }
       }
@@ -49,18 +49,27 @@ main {
 
       .sidebar-body-row {
         @include flex(row, start, nowrap, center);
-        margin-top: 1.4rem;
+        margin-top: 1rem;
         cursor: pointer;
+        transition: $transition;
+        position: relative;
+        height: 40px;
+        width: 100%;
 
-        &:hover img.filter-white {
-          transition: all $transition ease-in-out;
-          filter: invert(78%) sepia(7%) saturate(13%) hue-rotate(116deg)
-            brightness(95%) contrast(88%);
+        &:before {
+          content: "";
+          position: absolute;
+          border-left: 4px solid $white;
+          border-radius: $border-radius;
+          left: -1rem;
+          height: 20px;
+          opacity: 0;
+          transition: opacity 0.3s ease;
         }
-
-        &:hover a {
-          transition: all $transition ease-in-out;
-          color: $grey;
+        &:hover {
+          &:before {
+            opacity: 1;
+          }
         }
 
         img {
