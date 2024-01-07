@@ -110,7 +110,7 @@ export class AuthComponent implements OnInit {
     }
   }
 
-  private takeUrlParam() {
+  takeUrlParam() {
     this.route.paramMap.subscribe((params) => {
       this.formType = params.get('type');
       this.toggleForms(this.formType);
