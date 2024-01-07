@@ -55,17 +55,18 @@ export class AuthComponent implements OnInit {
     authForm: HTMLElement,
     formType: 'sign-up' | 'sign-in'
   ) {
+    this.renderer.setStyle(authForm, 'opacity', 1);
+    this.renderer.setStyle(authForm, 'z-index', 1);
+
     if (formType === 'sign-in') {
       this.renderer.setStyle(authTextBg, 'left', '50%');
       this.renderer.setStyle(authTextBg, 'border-radius', '0 10px 10px 0');
       this.renderer.setStyle(authText, 'right', '15%');
-      this.renderer.setStyle(authForm, 'opacity', 1);
       this.renderer.setStyle(authForm, 'right', '115%');
     } else if (formType === 'sign-up') {
       this.renderer.setStyle(authTextBg, 'left', 0);
       this.renderer.setStyle(authTextBg, 'border-radius', '10px 0 0 10px');
       this.renderer.setStyle(authText, 'left', '15%');
-      this.renderer.setStyle(authForm, 'opacity', 1);
       this.renderer.setStyle(authForm, 'right', '15%');
     }
   }
@@ -75,14 +76,16 @@ export class AuthComponent implements OnInit {
     authForm: HTMLElement,
     formType: 'sign-up' | 'sign-in'
   ) {
+    this.renderer.setStyle(authForm, 'opacity', 0);
+    this.renderer.setStyle(authForm, 'right', '65%');
+    setTimeout(() => {
+      this.renderer.setStyle(authForm, 'z-index', -1);
+    }, 500);
+
     if (formType === 'sign-up') {
       this.renderer.setStyle(authText, 'right', '-180%');
-      this.renderer.setStyle(authForm, 'opacity', 0);
-      this.renderer.setStyle(authForm, 'right', '65%');
     } else if (formType === 'sign-in') {
       this.renderer.setStyle(authText, 'left', '-125%');
-      this.renderer.setStyle(authForm, 'opacity', 0);
-      this.renderer.setStyle(authForm, 'right', '65%');
     }
   }
 
