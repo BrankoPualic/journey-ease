@@ -1,17 +1,28 @@
 <div class="sign-in-form-holder">
   <h2>Sign in</h2>
-  <form>
+  <form [formGroup]="signinForm" (ngSubmit)="signin()">
     <div class="form-row">
-      <label for="sign-in-email">Email address</label>
-      <input type="email" name="email" id="sign-in-email" />
+      <app-text-input
+        [type]="'email'"
+        [label]="'Email address'"
+        [formControl]="$any(signinForm.controls['email'])"
+      />
     </div>
     <div class="form-row">
-      <label for="sign-in-password">Password</label>
-      <input type="password" name="password" id="sign-in-password" />
+      <app-text-input
+        [type]="'password'"
+        [label]="'Password'"
+        [formControl]="$any(signinForm.controls['password'])"
+      />
       <a class="password-forgotten">Forgot your password?</a>
     </div>
     <div class="form-row">
-      <input type="submit" value="Sign in" class="btn btn-full-style" />
+      <input
+        type="submit"
+        value="Sign in"
+        class="btn btn-full-style"
+        [disabled]="!signinForm.valid"
+      />
       <a class="form-switch-line" (click)="onShowSignUp()"
         >Don't have an account? Sign up, now.</a
       >
