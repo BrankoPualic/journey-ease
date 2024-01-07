@@ -7,7 +7,7 @@ main {
   height: 100dvh;
   width: 100%;
   z-index: -1;
-  background-color: $light-grey;
+  background: linear-gradient(0deg, $grey, $white);
   @include flex(row, start, nowrap, center);
 
   .auth-container {
@@ -19,9 +19,9 @@ main {
     background-size: cover;
     @include flex(row, start, nowrap, normal);
     border-radius: 10px;
-    -webkit-box-shadow: $box-shadow-blocks;
-    -moz-box-shadow: $box-shadow-blocks;
-    box-shadow: $box-shadow-blocks;
+    -webkit-box-shadow: $box-shadow;
+    -moz-box-shadow: $box-shadow;
+    box-shadow: $box-shadow;
     max-height: 60%;
     height: 60%;
 
