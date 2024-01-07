@@ -1,53 +1,70 @@
 <div class="sign-up-form-holder">
   <h2>Sign up</h2>
-  <form>
+  <form [formGroup]="signupForm" (ngSubmit)="signup()">
     <div class="sign-up-form-grid">
       <div class="form-row">
-        <label for="sign-up-fName">First name</label>
-        <input type="text" name="firstName" id="sign-up-fName" />
+        <app-text-input
+          [label]="'First name *'"
+          [formControl]="$any(signupForm.controls['firstName'])"
+        />
       </div>
       <div class="form-row">
-        <label for="sign-up-lName">Last name</label>
-        <input type="text" name="lastName" id="sign-up-lName" />
+        <app-text-input
+          [label]="'Last name *'"
+          [formControl]="$any(signupForm.controls['lastName'])"
+        />
       </div>
       <div class="form-row">
-        <label for="sign-up-userPhone">Phone</label>
-        <input type="tel" name="userPhone" id="sign-up-userPhone" />
+        <app-text-input
+          [type]="'tel'"
+          [label]="'Phone number'"
+          [formControl]="$any(signupForm.controls['phone'])"
+        />
       </div>
       <div class="form-row">
-        <label for="sign-up-email">Email address</label>
-        <input type="email" name="email" id="sign-up-email" />
+        <app-text-input
+          [type]="'email'"
+          [label]="'Email address *'"
+          [formControl]="$any(signupForm.controls['email'])"
+        />
       </div>
       <div class="form-row">
-        <label for="sign-up-password">Password</label>
-        <input type="password" name="password" id="sign-up-password" />
+        <app-text-input
+          [type]="'password'"
+          [label]="'Password *'"
+          [formControl]="$any(signupForm.controls['password'])"
+        />
       </div>
       <div class="form-row">
-        <label for="sign-up-passwordRetype">Password retype</label>
-        <input
-          type="password"
-          name="passwordRetype"
-          id="sign-up-passwordRetype"
+        <app-text-input
+          [type]="'password'"
+          [label]="'Confirm password *'"
+          [formControl]="$any(signupForm.controls['confirmPassword'])"
         />
       </div>
     </div>
     <div class="form-row">
-      <label for="sign-up-country">Choose your country</label>
-      <select name="country" id="sign-up-country">
-        <option value="0"></option>
-        <option value="1">Serbia</option>
-        <option value="2">Romania</option>
+      <select formControlName="country">
+        <option value="0">Country *</option>
+        <!-- @for (country of (countries$ | async); track country) {
+        <option value="{{ country.id }}">{{ country.country }}</option>
+        } -->
       </select>
     </div>
     <div class="form-row newsletter-row">
-      <input type="checkbox" name="newsletter" id="newsletter" />
+      <input type="checkbox" id="newsletter" formControlName="newsletter" />
       <label for="newsletter"
         >Stay in the loop with our latest updates and exclusive offers by
         subscribing to our newsletter.</label
       >
     </div>
     <div class="form-row">
-      <input type="submit" value="Sign up" class="btn btn-full-style" />
+      <input
+        type="submit"
+        value="Sign up"
+        class="btn btn-full-style"
+        [disabled]="!signupForm.valid"
+      />
       <a class="form-switch-line" (click)="onShowSignIn()"
         >Already have an account? Sign in, now.</a
       >

@@ -1,3 +1,4 @@
+@import "../../../styles.scss";
 .sign-in-form-holder {
   h2 {
     text-align: center;
@@ -8,9 +9,12 @@
   form {
     .form-row {
       .password-forgotten {
+        cursor: pointer;
         margin-top: 0.4rem;
         margin-left: auto;
         font-size: 0.9em;
+        color: $blue;
+        text-decoration: underline;
       }
     }
   }

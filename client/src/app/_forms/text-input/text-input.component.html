@@ -5,7 +5,7 @@
     [formControl]="control"
     placeholder="{{ label }}"
   />
-  @if (control.errors?.['required']) {
+  @if (control.errors?.['required'] && control.touched) {
   <div class="invalid-feedback">Please enter a {{ label }}</div>
   } @else if (control.errors?.['minlength']) {
   <div class="invalid-feedback">
@@ -19,5 +19,10 @@
   </div>
   } @else if (control.errors?.['notMatching']) {
   <div class="invalid-feedback">Passwords do not match</div>
+  } @else if (control.errors?.['pattern']?.requiredPattern ===
+  "/^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/") {
+  <div class="invalid-feedback">Password needs to have letters and numbers</div>
+  } @else if (control.errors?.['email']) {
+  <div class="invalid-feedback">Email must be in the right format.</div>
   }
 </div>
