@@ -7,19 +7,22 @@ main {
     color: $white;
     background-color: $dark-green;
     padding: 2rem;
-    @include flex(column, space-between, nowrap, normal);
+    @include flex(column, flex-start, nowrap, normal);
     position: fixed;
     z-index: 1;
     top: 0;
     left: 0;
     overflow: hidden;
 
+    h2 {
+      font-size: 2em;
+    }
+
     .sidebar-row {
       @include flex(row, space-between, nowrap, center);
-      height: 10%;
 
       .ham-icon-holder {
-        width: 15%;
+        width: 35px;
         @include flex(column, baseline, nowrap, end);
 
         .line {
@@ -29,11 +32,11 @@ main {
           margin: 3.5px 0;
 
           &.line-1 {
-            width: 80%;
+            width: 70%;
           }
 
           &.line-2 {
-            width: 100%;
+            width: 85%;
           }
 
           &.line-3 {
@@ -44,23 +47,33 @@ main {
     }
 
     .sidebar-body {
-      height: 80%;
+      margin-top: 1.5rem;
+      flex: 1;
       @include flex(column, start, nowrap, start);
 
       .sidebar-body-row {
         @include flex(row, start, nowrap, center);
-        margin-top: 1.4rem;
+        margin-top: 0.3rem;
         cursor: pointer;
+        transition: $transition;
+        position: relative;
+        height: 40px;
+        width: 100%;
 
-        &:hover img.filter-white {
-          transition: all $transition ease-in-out;
-          filter: invert(78%) sepia(7%) saturate(13%) hue-rotate(116deg)
-            brightness(95%) contrast(88%);
+        &:before {
+          content: "";
+          position: absolute;
+          border-left: 4px solid $white;
+          border-radius: $border-radius;
+          left: -1rem;
+          height: 20px;
+          opacity: 0;
+          transition: opacity 0.3s ease;
         }
-
-        &:hover a {
-          transition: all $transition ease-in-out;
-          color: $grey;
+        &:hover {
+          &:before {
+            opacity: 1;
+          }
         }
 
         img {
