@@ -1,6 +1,7 @@
 @import "../../../styles.scss";
 .input-text {
   width: 100%;
+  position: relative;
   input {
     width: 100%;
     padding-left: 1rem;
@@ -10,6 +11,7 @@
     outline: none;
   }
   .invalid-feedback {
+    position: absolute;
     color: $red;
     font-weight: bold;
     margin: 0.25rem 0;
