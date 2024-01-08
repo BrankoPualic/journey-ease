@@ -8,6 +8,10 @@
 
   form {
     .form-row {
+      height: 60px;
+      &:nth-child(2) {
+        margin-bottom: 2rem;
+      }
       .password-forgotten {
         cursor: pointer;
         margin-top: 0.4rem;
