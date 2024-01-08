@@ -36,4 +36,16 @@ main {
       }
     }
   }
+  .moto {
+    height: 200px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .moto-text {
+      font-size: 1.35em;
+      font-style: italic;
+      font-weight: bold;
+    }
+  }
 }
