@@ -1,33 +1,35 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   FormGroup,
-  Validators,
-  ValidatorFn,
-  AbstractControl,
   ReactiveFormsModule,
+  ValidatorFn,
+  Validators,
 } from '@angular/forms';
+import { Store, StoreModule } from '@ngrx/store';
 import { TextInputComponent } from '../../_forms/text-input/text-input.component';
-import { CommonModule } from '@angular/common';
-import { DestinationService } from '../../_services/destination.service';
+import { AppState } from '../../_store/app.state';
+import { selectAllCountries } from '../../_store/countries/countries.selectors';
+import { loadCountries } from '../../_store/countries/countries.actions';
 
 @Component({
   selector: 'app-sign-up',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TextInputComponent],
+  imports: [CommonModule, ReactiveFormsModule, TextInputComponent, StoreModule],
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.scss',
 })
 export class SignUpComponent implements OnInit {
   @Output() showSignInEvent: EventEmitter<string> = new EventEmitter<string>();
   signupForm: FormGroup = this.fb.group({});
-  // countries$ = this.destinationService.getCountries();
+  countries$ = this.store.select(selectAllCountries);
 
-  constructor(
-    private fb: FormBuilder,
-    private destinationService: DestinationService
-  ) {}
+  constructor(private fb: FormBuilder, private store: Store<AppState>) {}
   ngOnInit(): void {
+    this.store.dispatch(loadCountries());
+
     this.initializeForm();
   }
 
