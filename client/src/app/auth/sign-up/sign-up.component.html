@@ -46,9 +46,11 @@
     <div class="form-row">
       <select formControlName="country">
         <option value="0">Country *</option>
-        <!-- @for (country of (countries$ | async); track country) {
-        <option value="{{ country.id }}">{{ country.country }}</option>
-        } -->
+        @for (country of (countries$ | async); track country) {
+        <option value="{{ country.countryId }}">
+          {{ country.countryName }}
+        </option>
+        }
       </select>
     </div>
     <div class="form-row newsletter-row">

@@ -1,3 +1,5 @@
+export type UnionStatus = 'pending' | 'loading' | 'success' | 'error';
+
 export type Season = {
   id: number;
   season: string;
@@ -6,6 +8,6 @@ export type Season = {
 };
 
 export type Country = {
-  id: number;
-  country: string;
+  countryId: number;
+  countryName: string;
 };
