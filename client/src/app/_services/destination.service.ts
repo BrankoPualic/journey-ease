@@ -14,6 +14,6 @@ export class DestinationService {
   }
 
   getCountries(): Observable<Country[]> {
-    return this.dataSerivce.get('countries');
+    return this.dataSerivce.get('destination');
   }
 }
