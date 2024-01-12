@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240108181559_PostgresInitial")]
+    [Migration("20240112095415_PostgresInitial")]
     partial class PostgresInitial
     {
         /// <inheritdoc />
@@ -38,7 +38,7 @@ namespace API.Data.Migrations
 
                     b.HasKey("CountryId");
 
-                    b.ToTable("Country");
+                    b.ToTable("Countries");
                 });
 
             modelBuilder.Entity("API.Entities.Role", b =>
@@ -54,7 +54,7 @@ namespace API.Data.Migrations
 
                     b.HasKey("RoleId");
 
-                    b.ToTable("Role");
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("API.Entities.User", b =>
