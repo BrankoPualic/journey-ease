@@ -7,14 +7,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
 {
-    public class DestinationRepository : IDestinationRepository
+    public class CountryRepository : ICountryRepository
     {
         private readonly IMapper _mapper;
         private readonly DataContext _context;
-        public DestinationRepository(DataContext context, IMapper mapper)
+        public CountryRepository(DataContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
+        }
+
+        public void AddCountry(string countryName)
+        {
+            _context.Countries.Add(
+                new Country
+                {
+                    CountryName = countryName
+                }
+            );
         }
 
         public async Task<IEnumerable<CountryDto>> GetCountriesAsync()
@@ -23,5 +33,6 @@ namespace API.Data
                 .ProjectTo<CountryDto>(_mapper.ConfigurationProvider)
                 .ToListAsync();
         }
+        
     }
 }
