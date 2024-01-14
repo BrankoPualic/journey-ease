@@ -13,6 +13,11 @@ namespace API.Data
             _mapper = mapper;
         }
 
-        public IDestinationRepository DestinationRepository => new DestinationRepository(_context, _mapper);
+        public ICountryRepository CountryRepository => new CountryRepository(_context, _mapper);
+
+        public async Task<bool> Complete()
+        {
+            return await _context.SaveChangesAsync() > 0;
+        }
     }
 }

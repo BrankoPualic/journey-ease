@@ -32,6 +32,20 @@ export const routes: Routes = [
                 (m) => m.DashboardComponent
               ),
           },
+          {
+            path: 'countries-and-places',
+            loadComponent: () =>
+              import(
+                './admin/countries-and-places/countries-and-places.component'
+              ).then((m) => m.CountriesAndPlacesComponent),
+          },
+          {
+            path: 'faqs',
+            loadComponent: () =>
+              import('./admin/faqs/faqs.component').then(
+                (m) => m.FaqsComponent
+              ),
+          },
         ],
       },
     ],
