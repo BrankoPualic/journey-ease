@@ -9,13 +9,17 @@
       </div>
     </div>
     <div class="sidebar-body">
-      <div class="sidebar-body-row">
+      <div
+        class="sidebar-body-row"
+        [routerLink]="['./dashboard']"
+        routerLinkActive="active"
+      >
         <img
           src="../../assets/icons/view-dashboard.svg"
           alt="View dashboard icon"
           class="filter-white"
         />
-        <a>Dashboard</a>
+        <span>Dashboard</span>
       </div>
       <div class="sidebar-body-row">
         <img
@@ -23,7 +27,7 @@
           alt="Account circle icon"
           class="filter-white"
         />
-        <a>Users & Roles</a>
+        <span>Users & Roles</span>
       </div>
       <div class="sidebar-body-row">
         <img
@@ -31,23 +35,31 @@
           alt="Post icon"
           class="filter-white"
         />
-        <a>Blogs</a>
+        <span>Blogs</span>
       </div>
-      <div class="sidebar-body-row">
+      <div
+        class="sidebar-body-row"
+        [routerLink]="['./countries-and-places']"
+        routerLinkActive="active"
+      >
         <img
           src="../../assets/icons/earth.svg"
           alt="Earth icon"
           class="filter-white"
         />
-        <a>Countries & Places</a>
+        <span>Countries & Places</span>
       </div>
-      <div class="sidebar-body-row">
+      <div
+        class="sidebar-body-row"
+        [routerLink]="['./faqs']"
+        routerLinkActive="active"
+      >
         <img
           src="../../assets/icons/help-circle.svg"
           alt="Help circle icon"
           class="filter-white"
         />
-        <a>FAQs</a>
+        <span>FAQs</span>
       </div>
       <div class="sidebar-body-row">
         <img
@@ -55,7 +67,7 @@
           alt="Server outline icon"
           class="filter-white"
         />
-        <a>Surveys</a>
+        <span>Surveys</span>
       </div>
       <div class="sidebar-body-row">
         <img
@@ -63,7 +75,7 @@
           alt="Camera icon"
           class="filter-white"
         />
-        <a>Photographers</a>
+        <span>Photographers</span>
       </div>
       <div class="sidebar-body-row">
         <img
@@ -71,7 +83,7 @@
           alt="Bed icon"
           class="filter-white"
         />
-        <a>Hotels</a>
+        <span>Hotels</span>
       </div>
       <div class="sidebar-body-row">
         <img
@@ -79,7 +91,7 @@
           alt="Airplane icon"
           class="filter-white"
         />
-        <a>Traveling & Destinations</a>
+        <span>Traveling & Destinations</span>
       </div>
       <div class="sidebar-body-row">
         <img
@@ -87,7 +99,7 @@
           alt="Book multiple icon"
           class="filter-white"
         />
-        <a>Bookings</a>
+        <span>Bookings</span>
       </div>
     </div>
     <div class="sidebar-footer">
@@ -95,5 +107,39 @@
     </div>
   </section>
 
-  <router-outlet />
+  <section class="header">
+    <div class="page-info">
+      <h1 class="page-title">Dashboard</h1>
+      <div class="breadcrumb">
+        <a [routerLink]="['./dashboard']" routerLinkActive="breadcrumb-active"
+          >Home</a
+        >
+        <!-- >
+        <a>FAQs</a> -->
+      </div>
+    </div>
+    <div class="admin-info">
+      <div class="admin-info-top">
+        <img
+          src="../../assets/icons/bell.svg"
+          alt="Bell icon"
+          class="bell-icon filter-grey"
+        />
+        <img
+          src="../../assets/icons/email-outline.svg"
+          alt="Email outline icon"
+          class="message-icon filter-grey"
+        />
+        <img
+          src="../../assets/icons/account-circle.svg"
+          alt="Account circle icon"
+          class="user-icon filter-grey"
+        />
+        <p class="admin-name">Admin name</p>
+      </div>
+      <div class="admin-info-bottom"></div>
+    </div>
+  </section>
+
+  <section class="body"><router-outlet /></section>
 </main>

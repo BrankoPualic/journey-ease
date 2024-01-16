@@ -8,6 +8,6 @@ export type Season = {
 };
 
 export type Country = {
-  countryId: number;
+  countryId?: number;
   countryName: string;
 };

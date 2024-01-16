@@ -2,8 +2,9 @@ using API.DTOs;
 
 namespace API.Interfaces
 {
-    public interface IDestinationRepository
+    public interface ICountryRepository
     {
         Task<IEnumerable<CountryDto>> GetCountriesAsync();
+        void AddCountry(string countryName);
     }
 }

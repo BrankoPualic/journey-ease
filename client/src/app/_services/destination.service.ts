@@ -14,6 +14,10 @@ export class DestinationService {
   }
 
   getCountries(): Observable<Country[]> {
-    return this.dataSerivce.get('destination');
+    return this.dataSerivce.get('country');
+  }
+
+  addCountry(countryName: string): Observable<{ message: string }> {
+    return this.dataSerivce.post({ countryName }, 'country');
   }
 }

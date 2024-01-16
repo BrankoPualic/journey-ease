@@ -1,4 +1,4 @@
-<div class="admin-body dashboard-body">
+<div class="admin-body">
   <!-- #TODO Get the data from database -->
   <div class="admin-info-stats dashboard-info">
     <div class="admin-stats-block total-accounts-stats">
@@ -53,5 +53,41 @@
         <p>Bookings last 30 days</p>
       </div>
     </div>
+  </div>
+  <div class="admin-data-body">
+    <form>
+      <table>
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Question</th>
+            <th>Answer</th>
+            <th>Operations</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td></td>
+            <td>
+              <div class="form-row">
+                <input type="text" />
+              </div>
+            </td>
+            <td>
+              <div class="form-row">
+                <input type="text" />
+              </div>
+            </td>
+            <td>
+              <input
+                type="submit"
+                value="Insert"
+                class="btn admin-insert-btn btn-full-style"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
   </div>
 </div>
