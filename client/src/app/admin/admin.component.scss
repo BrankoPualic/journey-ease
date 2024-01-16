@@ -70,7 +70,8 @@ main {
           opacity: 0;
           transition: opacity 0.3s ease;
         }
-        &:hover {
+        &:hover,
+        &.active {
           &:before {
             opacity: 1;
           }
@@ -86,7 +87,7 @@ main {
           }
         }
 
-        a {
+        span {
           margin-left: 1rem;
           font-size: 1.1em;
         }
@@ -98,5 +99,89 @@ main {
       font-size: 0.8em;
       @include flex(row, start, nowrap, end);
     }
+  }
+
+  .header {
+    margin-left: 16%;
+    padding: 2rem 3.5rem;
+    @include flex(row, space-between, nowrap, normal);
+    height: 15dvh;
+
+    .page-info {
+      width: 80%;
+      @include flex(column, space-between, nowrap, start);
+
+      h1 {
+        margin-top: 0.3rem;
+      }
+
+      .breadcrumb {
+        a {
+          text-decoration: none;
+
+          &.breadcrumb-active {
+            color: $grey;
+            font-weight: bold;
+            text-decoration: none;
+            pointer-events: none;
+          }
+        }
+      }
+    }
+
+    .admin-info {
+      width: auto;
+
+      .admin-info-top {
+        @include flex(row, start, nowrap, center);
+        img {
+          width: 1.5rem;
+          height: 1.5rem;
+          margin-right: 0.8rem;
+          cursor: pointer;
+
+          &.filter-grey {
+            filter: brightness(0) saturate(100%) invert(72%) sepia(9%)
+              saturate(13%) hue-rotate(315deg) brightness(104%) contrast(85%);
+          }
+
+          &.user-icon {
+            width: 3rem;
+            height: 3rem;
+            margin-right: 0;
+            cursor: unset;
+          }
+        }
+
+        p.admin-name {
+          color: $dark-grey;
+          &::after {
+            font-family: FontAwesome;
+            content: "\F107";
+            margin-left: 0.3rem;
+            cursor: pointer;
+          }
+        }
+      }
+
+      .admin-info-bottom {
+        text-align: end;
+        &::after {
+          content: "\2026";
+          font-size: 2.8em;
+          color: $grey;
+          position: relative;
+          bottom: 0.6rem;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .body {
+    margin-left: 16%;
+    width: 84%;
+    height: 85dvh;
+    background-color: $light-grey;
   }
 }

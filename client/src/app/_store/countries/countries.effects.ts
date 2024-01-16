@@ -4,11 +4,15 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../app.state';
 import { DestinationService } from '../../_services/destination.service';
 import {
+  addCountry,
   loadCountries,
   loadCountriesFailure,
   loadCountriesSuccess,
+  saveCountriesFailure,
+  saveCountriesSuccess,
 } from './countries.actions';
-import { catchError, map, of, switchMap } from 'rxjs';
+import { catchError, from, map, of, switchMap, withLatestFrom } from 'rxjs';
+import { selectAllCountries } from './countries.selectors';
 
 @Injectable()
 export class CountryEffects {
@@ -27,6 +31,35 @@ export class CountryEffects {
           catchError((error) => of(loadCountriesFailure({ error })))
         )
       )
+    )
+  );
+
+  addCountries$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(addCountry),
+      withLatestFrom(this.store.select(selectAllCountries)),
+      switchMap(([action, countries]) => {
+        return from(
+          this.destinationService.addCountry(action.countryName).pipe(
+            map(() => {
+              return saveCountriesSuccess();
+            }),
+            catchError((error) => {
+              console.log(error);
+              return of(saveCountriesFailure({ error }));
+            })
+          )
+        );
+      })
+    )
+  );
+
+  loadAfterSave$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(saveCountriesSuccess),
+      map(() => {
+        return loadCountries();
+      })
     )
   );
 }

@@ -1,9 +1,12 @@
 import { createReducer, on } from '@ngrx/store';
 import { Country, UnionStatus } from '../../_types/shared.types';
 import {
+  addCountry,
   loadCountries,
   loadCountriesFailure,
   loadCountriesSuccess,
+  saveCountriesFailure,
+  saveCountriesSuccess,
 } from './countries.actions';
 
 export type CountryState = {
@@ -34,6 +37,23 @@ export const countryReducer = createReducer(
   })),
 
   on(loadCountriesFailure, (state, { error }) => ({
+    ...state,
+    error,
+    status: 'error' as const,
+  })),
+
+  on(addCountry, (state, { countryName }) => ({
+    ...state,
+    countries: [...state.countries, { countryName: countryName }],
+  })),
+
+  on(saveCountriesSuccess, (state) => ({
+    ...state,
+    error: null,
+    status: 'success' as const,
+  })),
+
+  on(saveCountriesFailure, (state, { error }) => ({
     ...state,
     error,
     status: 'error' as const,

@@ -2,6 +2,7 @@ namespace API.Interfaces
 {
     public interface IUnitOfWork
     {
-        IDestinationRepository DestinationRepository {get;}
+        ICountryRepository CountryRepository {get;}
+        Task<bool> Complete();
     }
 }

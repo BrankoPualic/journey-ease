@@ -50,6 +50,8 @@
         <option value="{{ country.countryId }}">
           {{ country.countryName }}
         </option>
+        } @empty {
+        <option value="0">There are no countries available</option>
         }
       </select>
     </div>
