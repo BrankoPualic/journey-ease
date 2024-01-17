@@ -4,5 +4,6 @@ namespace API.Interfaces
     {
         ICountryRepository CountryRepository {get;}
         Task<bool> Complete();
+        bool HasChanges();
     }
 }
