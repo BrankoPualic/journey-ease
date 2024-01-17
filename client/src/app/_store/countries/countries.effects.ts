@@ -5,9 +5,11 @@ import { AppState } from '../app.state';
 import { DestinationService } from '../../_services/destination.service';
 import {
   addCountry,
+  editCountry,
   loadCountries,
   loadCountriesFailure,
   loadCountriesSuccess,
+  removeCountry,
   saveCountriesFailure,
   saveCountriesSuccess,
 } from './countries.actions';
@@ -41,6 +43,46 @@ export class CountryEffects {
       switchMap(([action, countries]) => {
         return from(
           this.destinationService.addCountry(action.countryName).pipe(
+            map(() => {
+              return saveCountriesSuccess();
+            }),
+            catchError((error) => {
+              console.log(error);
+              return of(saveCountriesFailure({ error }));
+            })
+          )
+        );
+      })
+    )
+  );
+
+  removeCountries$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(removeCountry),
+      withLatestFrom(this.store.select(selectAllCountries)),
+      switchMap(([action, countries]) => {
+        return from(
+          this.destinationService.removeCountry(action.countryId).pipe(
+            map(() => {
+              return saveCountriesSuccess();
+            }),
+            catchError((error) => {
+              console.log(error);
+              return of(saveCountriesFailure({ error }));
+            })
+          )
+        );
+      })
+    )
+  );
+
+  editCountries$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(editCountry),
+      withLatestFrom(this.store.select(selectAllCountries)),
+      switchMap(([action, countries]) => {
+        return from(
+          this.destinationService.editCountry(action.content).pipe(
             map(() => {
               return saveCountriesSuccess();
             }),

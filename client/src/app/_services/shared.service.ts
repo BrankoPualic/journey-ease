@@ -1,5 +1,12 @@
-export abstract class KeyHandler<T extends object> {
-  protected getObjectKeys(obj: T): string[] {
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class SharedService {
+  constructor() {}
+
+  getObjKeys<T extends object>(obj: T): string[] {
     return this.transformKeys(Object.keys(obj));
   }
 
@@ -11,8 +18,10 @@ export abstract class KeyHandler<T extends object> {
     const words = key.split(/(?=[A-Z])/);
     if (words.length > 1) {
       words[0] = words[0].charAt(0).toUpperCase() + words[0].slice(1);
+
       return words.join(' ');
     }
+
     return key;
   }
 }

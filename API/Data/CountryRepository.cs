@@ -17,6 +17,11 @@ namespace API.Data
             _mapper = mapper;
         }
 
+        public async Task<Country> GetCountry(int countryId)
+        {
+            return await _context.Countries.FindAsync(countryId);
+        }
+        
         public void AddCountry(string countryName)
         {
             _context.Countries.Add(
@@ -33,6 +38,15 @@ namespace API.Data
                 .ProjectTo<CountryDto>(_mapper.ConfigurationProvider)
                 .ToListAsync();
         }
-        
+
+        public void RemoveCountry(Country country)
+        {
+            _context.Countries.Remove(country);
+        }
+
+        public void UpdateCountry(Country country)
+        {
+            _context.Entry(country).State = EntityState.Modified;
+        }
     }
 }
