@@ -16,16 +16,28 @@ export const loadCountriesFailure = createAction(
 
 // INSERT
 export const addCountry = createAction(
-  '[Countries] Add Country',
+  '[Admin Page] Add Country',
   props<{ countryName: string }>()
+);
+
+// DELETE
+export const removeCountry = createAction(
+  '[Admin Page] Remove Country',
+  props<{ countryId: number }>()
+);
+
+// EDIT
+export const editCountry = createAction(
+  '[Admin Page] Edit Country',
+  props<{ content: Country }>()
 );
 
 // SAVING
 export const saveCountriesSuccess = createAction(
-  '[Countries] Save Countries Success'
+  '[Admin Page] Save Countries Success'
 );
 
 export const saveCountriesFailure = createAction(
-  '[Countries] Save Coutnries Failure',
+  '[Admin Page] Save Countries Failure',
   props<{ error: string }>()
 );

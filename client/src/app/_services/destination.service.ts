@@ -20,4 +20,12 @@ export class DestinationService {
   addCountry(countryName: string): Observable<{ message: string }> {
     return this.dataSerivce.post({ countryName }, 'country');
   }
+
+  removeCountry(countryId: number): Observable<{ message: string }> {
+    return this.dataSerivce.delete(`country/${countryId}`);
+  }
+
+  editCountry(newCountry: Country): Observable<{ message: string }> {
+    return this.dataSerivce.patch('country', newCountry);
+  }
 }

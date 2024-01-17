@@ -1,5 +1,7 @@
 using API.DTOs;
+using API.Entities;
 using API.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -7,8 +9,10 @@ namespace API.Controllers
     public class CountryController : BaseApiController
     {
         private readonly IUnitOfWork _uow;
-        public CountryController(IUnitOfWork uow)
+        private readonly IMapper _mapper;
+        public CountryController(IUnitOfWork uow, IMapper mapper)
         {
+            _mapper = mapper;
             _uow = uow;        
         }
 
@@ -27,13 +31,9 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<string>> AddCountry(CountryDto countryDto)
         {
-            if(!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             try
             {
-                if(countryDto.CountryName == null) return BadRequest(new { message = "Country name can't be null!"});
+                if(countryDto.CountryName == null || countryDto.CountryName == "") return BadRequest(new { message = "Country name can't be null!"});
 
                 _uow.CountryRepository.AddCountry(countryDto.CountryName);
 
@@ -47,6 +47,34 @@ namespace API.Controllers
             {
                 return BadRequest(new { message = ex.Message });
             }
+        }
+
+        [HttpDelete("{countryId}")]
+        public async Task<ActionResult> DeleteCountry(int countryId)
+        {
+            Country country = await _uow.CountryRepository.GetCountry(countryId);
+
+            if(country == null) return NotFound();
+
+            _uow.CountryRepository.RemoveCountry(country);
+
+            if(await _uow.Complete()) return NoContent();
+
+            return BadRequest(new { message = "Failed to delete country"});
+        }
+
+        [HttpPatch]
+        public async Task<ActionResult> UpdateCountry(CountryDto countryDto)
+        {
+            Country country =  await _uow.CountryRepository.GetCountry(countryDto.CountryId);
+
+            if(country == null) return NotFound();
+
+            _mapper.Map(countryDto, country);
+
+            if(await _uow.Complete()) return NoContent();
+
+            return BadRequest(new { message = "Failed to update country"});
         }
     }
 }
