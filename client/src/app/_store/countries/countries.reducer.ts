@@ -2,9 +2,11 @@ import { createReducer, on } from '@ngrx/store';
 import { Country, UnionStatus } from '../../_types/shared.types';
 import {
   addCountry,
+  editCountry,
   loadCountries,
   loadCountriesFailure,
   loadCountriesSuccess,
+  removeCountry,
   saveCountriesFailure,
   saveCountriesSuccess,
 } from './countries.actions';
@@ -42,9 +44,9 @@ export const countryReducer = createReducer(
     status: 'error' as const,
   })),
 
-  on(addCountry, (state, { countryName }) => ({
+  on(addCountry, (state) => ({
     ...state,
-    countries: [...state.countries, { countryName: countryName }],
+    countries: [...state.countries],
   })),
 
   on(saveCountriesSuccess, (state) => ({
@@ -57,5 +59,15 @@ export const countryReducer = createReducer(
     ...state,
     error,
     status: 'error' as const,
+  })),
+
+  on(removeCountry, (state, { countryId }) => ({
+    ...state,
+    countries: [...state.countries.filter((x) => x.countryId !== countryId)],
+  })),
+
+  on(editCountry, (state) => ({
+    ...state,
+    countries: [...state.countries],
   }))
 );

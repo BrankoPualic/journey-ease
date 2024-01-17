@@ -8,11 +8,13 @@ import {
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { KeyHandler } from '../../_shared/key-handler';
+import { SharedService } from '../../_services/shared.service';
 import { AppState } from '../../_store/app.state';
 import {
   addCountry,
+  editCountry,
   loadCountries,
+  removeCountry,
 } from '../../_store/countries/countries.actions';
 import { selectAllCountries } from '../../_store/countries/countries.selectors';
 import { Country } from '../../_types/shared.types';
@@ -24,27 +26,26 @@ import { Country } from '../../_types/shared.types';
   templateUrl: './countries-and-places.component.html',
   styleUrl: './countries-and-places.component.scss',
 })
-export class CountriesAndPlacesComponent
-  extends KeyHandler<Country>
-  implements OnInit, OnDestroy
-{
+export class CountriesAndPlacesComponent implements OnInit, OnDestroy {
   private countriesSubscription: Subscription | undefined;
   countries$ = this.store.select(selectAllCountries);
   countryKeys: string[] = [];
   insertForm: FormGroup = this.fb.group({});
+  editingCountryIndex: number | undefined = 6;
 
   constructor(
     private store: Store<AppState>,
     private fb: FormBuilder,
-    private elementRef: ElementRef
-  ) {
-    super();
-  }
+    private elementRef: ElementRef,
+    private sharedService: SharedService
+  ) {}
 
   ngOnInit(): void {
     this.countriesSubscription = this.countries$.subscribe((countries) => {
       if (countries && countries.length > 0) {
-        this.countryKeys = this.getObjectKeys(countries[0]);
+        this.countryKeys = this.sharedService.getObjKeys(countries[0]);
+
+        this.unsubscribeCountries();
       }
     });
 
@@ -56,6 +57,7 @@ export class CountriesAndPlacesComponent
   initializeForm() {
     this.insertForm = this.fb.group({
       countryName: ['', [Validators.required]],
+      editCountry: ['', [Validators.required]],
     });
   }
 
@@ -89,9 +91,29 @@ export class CountriesAndPlacesComponent
   }
 
   // #TODO
-  onEditCountryRow() {}
+  onEditCountryRow(countryId: number) {
+    this.editingCountryIndex = countryId;
+  }
 
-  onDeleteCountryRow(countryId: number) {}
+  onEditCancel() {
+    this.editingCountryIndex = undefined;
+  }
+
+  onEditCountry(countryId: number) {
+    console.log(countryId, this.insertForm.value.editCountry);
+
+    this.store.dispatch(
+      editCountry({
+        content: { countryId, countryName: this.insertForm.value.editCountry },
+      })
+    );
+
+    this.editingCountryIndex = undefined;
+  }
+
+  onDeleteCountryRow(countryId: number) {
+    this.store.dispatch(removeCountry({ countryId }));
+  }
 
   private unsubscribeCountries() {
     if (this.countriesSubscription) {

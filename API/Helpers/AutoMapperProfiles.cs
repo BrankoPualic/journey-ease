@@ -9,6 +9,7 @@ namespace API.Helpers
         public AutoMapperProfiles()
         {
             CreateMap<Country, CountryDto>();
+            CreateMap<CountryDto, Country>();
         }
     }
 }

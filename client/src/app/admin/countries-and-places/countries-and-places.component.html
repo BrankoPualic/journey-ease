@@ -89,6 +89,8 @@
           @if(country.countryId){
           <tr>
             <td>{{ country.countryId }}</td>
+            @if(editingCountryIndex === undefined || editingCountryIndex !==
+            country.countryId ){
             <td>{{ country.countryName }}</td>
             <td class="operation-td" (click)="onRowAction(country.countryId)">
               <div
@@ -96,7 +98,9 @@
                   country.countryId
                 }}"
               >
-                <span class="admin-edit-span" (click)="onEditCountryRow()"
+                <span
+                  class="admin-edit-span"
+                  (click)="onEditCountryRow(country.countryId)"
                   >Edit</span
                 >
                 <span
@@ -106,6 +110,24 @@
                 >
               </div>
             </td>
+            } @else {
+            <td>
+              <div class="form-row">
+                <input
+                  type="text"
+                  [placeholder]="country.countryName"
+                  name="editCountry"
+                  formControlName="editCountry"
+                />
+              </div>
+            </td>
+            <td class="edit-operation-td">
+              <div class="edit-mark edit-checkmark" (click)="onEditCountry(country.countryId)">&check;</div>
+              <div class="edit-mark edit-xmark" (click)="onEditCancel()">
+                &#x2717;
+              </div>
+            </td>
+            }
           </tr>
           } }
         </tbody>
