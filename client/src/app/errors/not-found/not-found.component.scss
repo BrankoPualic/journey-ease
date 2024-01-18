@@ -1,0 +1,14 @@
+@import "../../../styles.scss";
+div {
+  padding: $section-padding;
+  text-align: center;
+  margin-top: 5rem;
+  h1 {
+    font-size: 3em;
+    color: $green;
+  }
+  h2 {
+    font-size: 2em;
+    margin: 0.5rem 0 2rem;
+  }
+}
