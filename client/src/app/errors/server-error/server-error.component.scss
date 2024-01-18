@@ -1,0 +1,14 @@
+@import "../../../styles.scss";
+h4 {
+  font-size: 1.75em;
+  padding: $section-padding;
+}
+h5 {
+  color: $red;
+}
+code {
+  pre {
+    margin-top: 3rem;
+    background-color: $snow-white;
+  }
+}
