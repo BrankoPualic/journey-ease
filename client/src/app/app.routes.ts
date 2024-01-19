@@ -1,7 +1,5 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { NotFoundComponent } from './errors/not-found/not-found.component';
-import { ServerErrorComponent } from './errors/server-error/server-error.component';
 
 export const routes: Routes = [
   {
@@ -51,7 +49,26 @@ export const routes: Routes = [
       },
     ],
   },
-  { path: 'not-found', component: NotFoundComponent },
-  { path: 'server-error', component: ServerErrorComponent },
-  { path: '**', component: NotFoundComponent, pathMatch: 'full' },
+  {
+    path: 'not-found',
+    loadComponent: () =>
+      import('./errors/not-found/not-found.component').then(
+        (m) => m.NotFoundComponent
+      ),
+  },
+  {
+    path: 'server-error',
+    loadComponent: () =>
+      import('./errors/server-error/server-error.component').then(
+        (m) => m.ServerErrorComponent
+      ),
+  },
+  {
+    path: '**',
+    loadComponent: () =>
+      import('./errors/not-found/not-found.component').then(
+        (m) => m.NotFoundComponent
+      ),
+    pathMatch: 'full',
+  },
 ];
