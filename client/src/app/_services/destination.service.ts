@@ -10,7 +10,7 @@ export class DestinationService {
   constructor(private dataSerivce: DataService) {}
 
   getSeasons(): Observable<Season[]> {
-    return this.dataSerivce.get('seasons');
+    return this.dataSerivce.get('destination/seasons');
   }
 
   getCountries(): Observable<Country[]> {

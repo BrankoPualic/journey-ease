@@ -5,11 +5,13 @@
       [label]="'Find your destination...'"
     />
   </div>
-  <select>
-    <option value="0">Season</option>
-    <!-- @for (season of (seasons$ | async); track season) {
-    <option value="{{ season.id }}">{{ season.season }}</option>
-    } -->
-  </select>
+  <div class="season-select">
+    <select>
+      <option value="0">Season</option>
+      @for (season of seasons; track season) {
+      <option value="{{ season.id }}">{{ season.name }}</option>
+      }
+    </select>
+  </div>
   <input type="submit" value="Search" class="btn btn-full-style" />
 </form>
