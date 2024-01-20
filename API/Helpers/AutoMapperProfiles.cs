@@ -10,6 +10,8 @@ namespace API.Helpers
         {
             CreateMap<Country, CountryDto>();
             CreateMap<CountryDto, Country>();
+            CreateMap<Season, SeasonDto>();
+            CreateMap<Post, PostDto>();
         }
     }
 }

@@ -1,0 +1,26 @@
+[
+  {
+    "Id": 1,
+    "Name": "Spring",
+    "StartDate": "1st of March",
+    "EndDate": "31th of May"
+  },
+  {
+    "Id": 2,
+    "Name": "Summer",
+    "StartDate": "1st of June",
+    "EndDate": "31th of August"
+  },
+  {
+    "Id": 3,
+    "Name": "Fall",
+    "StartDate": "1st of September",
+    "EndDate": "30th of November"
+  },
+  {
+    "Id": 4,
+    "Name": "Winter",
+    "StartDate": "1st of December",
+    "EndDate": "28th of February"
+  }
+]

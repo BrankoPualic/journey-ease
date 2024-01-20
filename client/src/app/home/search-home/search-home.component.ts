@@ -3,6 +3,7 @@ import { TextInputComponent } from '../../_forms/text-input/text-input.component
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { DestinationService } from '../../_services/destination.service';
 import { CommonModule } from '@angular/common';
+import { Season } from '../../_types/shared.types';
 
 @Component({
   selector: 'app-search-home',
@@ -13,12 +14,16 @@ import { CommonModule } from '@angular/common';
 })
 export class SearchHomeComponent implements OnInit {
   searchForm: FormGroup = this.fb.group({});
-  // seasons$ = this.destinationService.getSeasons();
+  seasons: Season[] = [];
 
   constructor(
     private fb: FormBuilder,
     private destinationService: DestinationService
-  ) {}
+  ) {
+    this.destinationService
+      .getSeasons()
+      .subscribe((seasons) => (this.seasons = seasons));
+  }
 
   ngOnInit(): void {
     this.initializeForm();

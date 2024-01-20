@@ -23,8 +23,6 @@ namespace API.Controllers
 
             if(countries == null) return NotFound();
 
-            if(!countries.Any()) return Ok(new List<CountryDto>());
-
             return Ok(countries);
         }
 

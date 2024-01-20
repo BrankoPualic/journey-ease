@@ -1,6 +1,7 @@
 using API.Data;
 using API.Entities;
 using API.Extensions;
+using API.Middleware;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +16,7 @@ builder.Services.AddIdentityServices(builder.Configuration);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseCors(builder => builder
     .AllowAnyHeader()
@@ -37,6 +39,7 @@ try
 
     await context.Database.MigrateAsync();
     await Seed.SeedCountries(context);
+    await Seed.SeedSeasons(context);
     await Seed.SeedUsers(userManager, roleManager);
 }
 catch(Exception ex)
