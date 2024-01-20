@@ -7,22 +7,6 @@ namespace API.Data
 {
     public class Seed
     {
-        public static async Task SeedCountries(DataContext context)
-        {
-            if(await context.Countries.AnyAsync()) return;
-
-            string countryData = await File.ReadAllTextAsync("Data/Seeds/CountrySeedData.json");
-
-            List<Country> countries = JsonSerializer.Deserialize<List<Country>>(countryData);
-
-            foreach(Country country in countries)
-            {
-                context.Countries.Add(country);
-            }
-
-            await context.SaveChangesAsync();
-        }
-
         public static async Task SeedUsers(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
         {
             if(await userManager.Users.AnyAsync()) return;
@@ -72,5 +56,37 @@ namespace API.Data
             } catch(Exception ex){Console.WriteLine($"{ex}");}
             
         }
+        public static async Task SeedCountries(DataContext context)
+        {
+            if(await context.Countries.AnyAsync()) return;
+
+            string countryData = await File.ReadAllTextAsync("Data/Seeds/CountrySeedData.json");
+
+            List<Country> countries = JsonSerializer.Deserialize<List<Country>>(countryData);
+
+            foreach(Country country in countries)
+            {
+                context.Countries.Add(country);
+            }
+
+            await context.SaveChangesAsync();
+        }
+
+        public static async Task SeedSeasons(DataContext context)
+        {
+            if(await context.Seasons.AnyAsync()) return;
+
+            string seasonData = await File.ReadAllTextAsync("Data/Seeds/SeasonSeedData.json");
+
+            List<Season> seasons = JsonSerializer.Deserialize<List<Season>>(seasonData);
+
+            foreach(Season season in seasons)
+            {
+                context.Seasons.Add(season);
+            }
+
+            await context.SaveChangesAsync();
+        }
+        
     }
 }
