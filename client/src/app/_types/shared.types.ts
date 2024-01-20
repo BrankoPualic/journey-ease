@@ -2,7 +2,7 @@ export type UnionStatus = 'pending' | 'loading' | 'success' | 'error';
 
 export type Season = {
   id: number;
-  season: string;
+  name: string;
   startDate?: Date;
   endDate?: Date;
 };

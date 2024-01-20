@@ -15,6 +15,10 @@ namespace API.Data
 
         public ICountryRepository CountryRepository => new CountryRepository(_context, _mapper);
 
+        public IDestinationRepository DestinationRepository => new DestinationRepository(_context, _mapper);
+
+        public IPostRepository PostRepository => new PostRepository(_context, _mapper);
+
         public async Task<bool> Complete()
         {
             return await _context.SaveChangesAsync() > 0;
