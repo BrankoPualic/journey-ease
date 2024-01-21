@@ -18,7 +18,7 @@
   }
 
   .testimonials-holder {
-    margin-top: 5rem;
+    margin-top: 3rem;
 
     .testimonial {
       padding: 3rem 4rem;
@@ -35,6 +35,16 @@
 
         .testimonial-bottom {
           text-align: end;
+
+          .testimonial-location {
+            display: flex;
+            justify-content: end;
+            flex-direction: row-reverse;
+
+            i {
+              margin-left: 0.2rem;
+            }
+          }
         }
       }
 

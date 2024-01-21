@@ -31,7 +31,8 @@ export class CountriesAndPlacesComponent implements OnInit, OnDestroy {
   countries$ = this.store.select(selectAllCountries);
   countryKeys: string[] = [];
   insertForm: FormGroup = this.fb.group({});
-  editingCountryIndex: number | undefined = 6;
+  editingCountryIndex: number | undefined;
+  selectedAdminTab = 'countries';
 
   constructor(
     private store: Store<AppState>,
@@ -52,6 +53,30 @@ export class CountriesAndPlacesComponent implements OnInit, OnDestroy {
     this.initializeForm();
 
     this.store.dispatch(loadCountries());
+  }
+
+  onToggleCountriesPlaces(tab: string) {
+    this.selectedAdminTab = tab;
+
+    const countriesTab = this.elementRef.nativeElement.querySelector(
+      '.admin-tab-countries'
+    );
+    const placesTab =
+      this.elementRef.nativeElement.querySelector('.admin-tab-places');
+
+    switch (tab) {
+      case 'countries':
+        this.sharedService.removeActiveClassAdmin(placesTab);
+        this.sharedService.addActiveClassAdmin(countriesTab);
+        break;
+      case 'places':
+        this.sharedService.removeActiveClassAdmin(countriesTab);
+        this.sharedService.addActiveClassAdmin(placesTab);
+        break;
+      default:
+        this.sharedService.removeActiveClassAdmin(placesTab);
+        this.sharedService.addActiveClassAdmin(countriesTab);
+    }
   }
 
   initializeForm() {

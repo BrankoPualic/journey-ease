@@ -41,8 +41,8 @@ export const routes: Routes = [
           {
             path: 'faqs',
             loadComponent: () =>
-              import('./admin/faqs/faqs.component').then(
-                (m) => m.FaqsComponent
+              import('./admin/admin-faqs/admin-faqs.component').then(
+                (m) => m.AdminFaqsComponent
               ),
           },
         ],
