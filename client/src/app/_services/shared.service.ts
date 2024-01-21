@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 export class SharedService {
   constructor() {}
 
+  // ADMIN
   getObjKeys<T extends object>(obj: T): string[] {
     return this.transformKeys(Object.keys(obj));
   }
@@ -24,4 +25,14 @@ export class SharedService {
 
     return key;
   }
+
+  addActiveClassAdmin(el: HTMLElement) {
+    el.classList.add('admin-tab-active');
+  }
+
+  removeActiveClassAdmin(el: HTMLElement) {
+    el.classList.remove('admin-tab-active');
+  }
+
+  // =======================================
 }

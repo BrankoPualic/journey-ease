@@ -30,6 +30,7 @@ $border-radius-2: 10px;
 $section-padding: 0 6%;
 $box-shadow-hover: 0px 0px 5px 0px $light-green;
 $box-shadow-hover-bad: 0px 0px 5px 0px $red;
+$box-shadow-hover-grey: 0px 0px 5px 0px $grey;
 $box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
 
 // Mixins
@@ -237,6 +238,30 @@ $box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
     border-radius: $border-radius-2;
     padding: 2rem 2.8rem;
     overflow: auto;
+
+    .admin-tab-row {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      column-gap: 1.5rem;
+
+      .admin-tab {
+        border: none;
+        font-size: 1.3em;
+        margin-bottom: 1rem;
+        cursor: pointer;
+        padding: 0.5rem 1rem;
+        border-radius: $border-radius;
+        background-color: $white;
+        @include border(1px, solid, $grey);
+        color: $dark-grey;
+        transition: $transition ease-in-out;
+
+        &:hover,
+        &.admin-tab-active {
+          box-shadow: $box-shadow-hover-grey;
+        }
+      }
+    }
 
     form {
       table {
