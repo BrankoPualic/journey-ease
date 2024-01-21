@@ -26,6 +26,16 @@ namespace API.Controllers
             return Ok(blog);
         }
 
+        [HttpGet("{postId}")]
+        public async Task<ActionResult<PostDto>> GetPickedPost(int postId)
+        {
+            Post post = await _uow.PostRepository.GetPost(postId);
+
+            if(post == null) return NotFound();
+
+            return Ok(post);
+        }
+
         [HttpPost]
         public async Task<ActionResult<string>> AddPost(PostDto postDto)
         {
