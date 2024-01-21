@@ -41,6 +41,7 @@ try
     await Seed.SeedCountries(context);
     await Seed.SeedSeasons(context);
     await Seed.SeedUsers(userManager, roleManager);
+    await Seed.SeedBlog(context);
 }
 catch(Exception ex)
 {

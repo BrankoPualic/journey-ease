@@ -1,4 +1,5 @@
 using API.Data;
+using API.Helpers;
 using API.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +16,7 @@ namespace API.Extensions
             services.AddCors();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.Configure<CloduinarySettings>(config.GetSection("CloudinarySettings"));
 
             return services;
         }
