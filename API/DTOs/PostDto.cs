@@ -8,6 +8,5 @@ namespace API.DTOs
         public string PostImageUrl { get; set; }
         public DateTime PostDate { get; set; } = DateTime.UtcNow;
         public string CreatorName { get; set; }
-        public CountryDto Country { get; set; }
     }
 }

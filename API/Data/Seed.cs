@@ -87,6 +87,23 @@ namespace API.Data
 
             await context.SaveChangesAsync();
         }
+
+        public static async Task SeedBlog(DataContext context)
+        {
+            if(await context.Blog.AnyAsync()) return;
+
+            string blogData = await File.ReadAllTextAsync("Data/Seeds/PostSeedData.json");
+
+            List<Post> blog = JsonSerializer.Deserialize<List<Post>>(blogData);
+
+            foreach (Post post in blog)
+            {
+                post.PostDate = post.PostDate.ToUniversalTime();
+                context.Blog.Add(post);
+            }
+
+            await context.SaveChangesAsync();
+        }
         
     }
 }
