@@ -55,6 +55,21 @@
     </div>
   </div>
   <div class="admin-data-body">
+    <div class="admin-tab-row">
+      <button
+        class="admin-tab admin-tab-countries admin-tab-active"
+        (click)="onToggleCountriesPlaces('countries')"
+      >
+        Countries
+      </button>
+      <button
+        class="admin-tab admin-tab-places"
+        (click)="onToggleCountriesPlaces('places')"
+      >
+        Places
+      </button>
+    </div>
+    @if(selectedAdminTab === 'countries'){
     <form [formGroup]="insertForm" (ngSubmit)="onInsertCountry()">
       <table>
         <thead>
@@ -122,7 +137,12 @@
               </div>
             </td>
             <td class="edit-operation-td">
-              <div class="edit-mark edit-checkmark" (click)="onEditCountry(country.countryId)">&check;</div>
+              <div
+                class="edit-mark edit-checkmark"
+                (click)="onEditCountry(country.countryId)"
+              >
+                &check;
+              </div>
               <div class="edit-mark edit-xmark" (click)="onEditCancel()">
                 &#x2717;
               </div>
@@ -133,5 +153,7 @@
         </tbody>
       </table>
     </form>
+    } @else { @defer (when selectedAdminTab === 'places') { ovde trebaju mesta
+    da se stave } }
   </div>
 </div>
