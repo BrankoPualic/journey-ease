@@ -16,7 +16,7 @@ namespace API.Extensions
             services.AddCors();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.Configure<CloduinarySettings>(config.GetSection("CloudinarySettings"));
+            services.Configure<CloduinarySettings>(options => config.GetSection("CloudinarySettings").Bind(options));
 
             return services;
         }
