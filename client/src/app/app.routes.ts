@@ -15,6 +15,11 @@ export const routes: Routes = [
           import('./auth/auth.component').then((m) => m.AuthComponent),
       },
       {
+        path: 'blog',
+        loadComponent: () =>
+          import('./blog/blog.component').then((m) => m.BlogComponent),
+      },
+      {
         path: 'admin',
         loadComponent: () =>
           import('./admin/admin.component').then((m) => m.AdminComponent),
