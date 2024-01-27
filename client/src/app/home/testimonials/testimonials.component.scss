@@ -1,12 +1,9 @@
 @import "../../../styles.scss";
 
 .testimonials-block {
-  background-color: $light-grey;
   margin: 0 auto;
   width: 60%;
-  border-radius: $border-radius-2;
-  box-shadow: $box-shadow;
-  padding: 2rem;
+  padding: 0 2rem 2rem;
 
   h2 {
     text-transform: uppercase;
@@ -21,11 +18,13 @@
     margin-top: 3rem;
 
     .testimonial {
+      background: linear-gradient(to bottom, $light-grey, $ultra-light-grey);
       padding: 3rem 4rem;
-      border-bottom: 2px solid $grey;
+      margin-bottom: 1.5rem;
+      border-radius: $border-radius-2;
 
       &:last-child {
-        border-bottom: none;
+        margin-bottom: 0;
       }
 
       &:nth-child(even) {
@@ -90,6 +89,36 @@
             color: $blue;
           }
         }
+      }
+
+      // ANIMATION
+      &.hidden-testimonial {
+        opacity: 0;
+        filter: blur(5px);
+        transform: translateX(-100%);
+        transition: all 1.5s;
+      }
+
+      &.hidden-testimonial:nth-child(even) {
+        transform: translateX(100%);
+      }
+
+      &.show-testimonial {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateX(0);
+      }
+
+      &.show-testimonial:nth-child(even) {
+        transform: translateX(0);
+      }
+
+      &:nth-child(2) {
+        transition-delay: 100ms;
+      }
+
+      &:nth-child(3) {
+        transition-delay: 200ms;
       }
     }
   }

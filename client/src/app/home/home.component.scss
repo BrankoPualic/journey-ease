@@ -34,6 +34,10 @@ main {
         color: $black;
         font-weight: bold;
         line-height: 1.75rem;
+        transition-delay: 200ms;
+      }
+      .search {
+        transition-delay: 600ms;
       }
     }
   }
@@ -52,5 +56,6 @@ main {
   .testimonials {
     height: auto;
     padding: 5rem 0;
+    overflow: hidden;
   }
 }

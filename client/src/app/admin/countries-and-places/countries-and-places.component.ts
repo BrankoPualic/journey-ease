@@ -17,7 +17,6 @@ import {
   removeCountry,
 } from '../../_store/countries/countries.actions';
 import { selectAllCountries } from '../../_store/countries/countries.selectors';
-import { Country } from '../../_types/shared.types';
 
 @Component({
   selector: 'app-countries-and-places',
