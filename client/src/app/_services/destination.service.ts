@@ -26,6 +26,6 @@ export class DestinationService {
   }
 
   editCountry(newCountry: Country): Observable<{ message: string }> {
-    return this.dataSerivce.patch('country', newCountry);
+    return this.dataSerivce.patch(newCountry, 'country');
   }
 }
