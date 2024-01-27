@@ -8,7 +8,7 @@
   <div class="season-select">
     <select>
       <option value="0">Season</option>
-      @for (season of seasons; track season) {
+      @for (season of (seasons$ | async); track season) {
       <option value="{{ season.id }}">{{ season.name }}</option>
       }
     </select>

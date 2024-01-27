@@ -3,7 +3,10 @@ import { TextInputComponent } from '../../_forms/text-input/text-input.component
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { DestinationService } from '../../_services/destination.service';
 import { CommonModule } from '@angular/common';
-import { Season } from '../../_types/shared.types';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../_store/app.state';
+import { selectAllSeasons } from '../../_store/destinations/destinations.selectors';
+import { loadSeasons } from '../../_store/destinations/destinations.actions';
 
 @Component({
   selector: 'app-search-home',
@@ -14,19 +17,14 @@ import { Season } from '../../_types/shared.types';
 })
 export class SearchHomeComponent implements OnInit {
   searchForm: FormGroup = this.fb.group({});
-  seasons: Season[] = [];
+  seasons$ = this.store.select(selectAllSeasons);
 
-  constructor(
-    private fb: FormBuilder,
-    private destinationService: DestinationService
-  ) {
-    this.destinationService
-      .getSeasons()
-      .subscribe((seasons) => (this.seasons = seasons));
-  }
+  constructor(private fb: FormBuilder, private store: Store<AppState>) {}
 
   ngOnInit(): void {
     this.initializeForm();
+
+    this.store.dispatch(loadSeasons());
   }
 
   initializeForm() {
