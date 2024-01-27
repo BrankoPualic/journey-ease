@@ -43,5 +43,13 @@ namespace API.Data
         {
             _context.Entry(post).State = EntityState.Modified;
         }
+
+        public async Task<IEnumerable<PostDto>> GetSearchedBlog(string searchValue)
+        {
+            return await _context.Blog
+                .Where(blog => blog.PostTitle.ToLower().Contains(searchValue.ToLower()))
+                .ProjectTo<PostDto>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+        }
     }
 }

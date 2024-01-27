@@ -1,1 +1,26 @@
-<p>blog works!</p>
+<section class="blog">
+  <div class="search-blog">
+    <h2>Journey Ease Blog page</h2>
+    <div class="search-blog-container">
+      <img src="assets/icons/magnify.svg" alt="magnify svg icon" />
+      <input type="text" placeholder="Search" [formControl]="searchValue" />
+    </div>
+  </div>
+  @for (post of (blog$ | async); track post) {
+  <div class="post">
+    <div class="post-info">
+      <h3>{{ post.postTitle }}</h3>
+      <p>
+        {{ post.postDescription }}
+      </p>
+      <p class="small-info">
+        {{ post.creatorName }}, {{ post.postDate | date : "mediumDate" }}
+      </p>
+      <a>Read More</a>
+    </div>
+    <div class="post-image">
+      <img src="{{ post.postImageUrl }}" alt="{{ post.postImageUrl }}" />
+    </div>
+  </div>
+  }
+</section>
