@@ -11,5 +11,6 @@ namespace API.Entities
         public string PostImageUrl { get; set; }
         public DateTime PostDate { get; set; } = DateTime.UtcNow;
         public string CreatorName { get; set; }
+        public string PostDescription { get; set; }
     }
 }

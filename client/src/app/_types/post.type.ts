@@ -5,4 +5,5 @@ export type Post = {
   postImageUrl: string;
   postDate: Date;
   creatorName: string;
+  postDescription: string;
 };

@@ -8,13 +8,15 @@ import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { countryReducer } from './_store/countries/countries.reducer';
 import { CountryEffects } from './_store/countries/countries.effects';
+import { BlogEffects } from './_store/blog/blog.effects';
+import { blogReducer } from './_store/blog/blog.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideClientHydration(),
     provideHttpClient(withFetch()),
-    provideStore({ countries: countryReducer }),
-    provideEffects([CountryEffects]),
+    provideStore({ countries: countryReducer, blog: blogReducer }),
+    provideEffects([CountryEffects, BlogEffects]),
   ],
 };

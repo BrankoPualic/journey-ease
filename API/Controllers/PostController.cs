@@ -36,6 +36,18 @@ namespace API.Controllers
             return Ok(post);
         }
 
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<PostDto>>> GetSearchedBlog([FromQuery] string searchValue)
+        {
+            if(string.IsNullOrWhiteSpace(searchValue)) return BadRequest(new { message = "Search value cannot be empty"});
+
+            IEnumerable<PostDto> blog = await _uow.PostRepository.GetSearchedBlog(searchValue);
+
+            if(blog == null) return NotFound();
+
+            return Ok(blog);
+        }
+
         [HttpPost]
         public async Task<ActionResult<string>> AddPost(PostDto postDto)
         {
@@ -57,6 +69,8 @@ namespace API.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+        
 
         [HttpDelete("{postId}")]
         public async Task<ActionResult> DeletePost(int postId)
