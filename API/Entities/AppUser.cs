@@ -11,5 +11,6 @@ namespace API.Entities
         
         public Country Country { get; set; }
         public ICollection<AppUserRole> UserRoles { get; set; }
+        public ICollection<PostComment> PostComments { get; set; }
     }
 }

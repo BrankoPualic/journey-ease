@@ -1,0 +1,23 @@
+[
+  {
+    "CommentId": 1,
+    "Comment": "The Swiss Alps have always been my dream winter destination, and this blog post has fueled my excitement even more! The vivid descriptions of Zermatt and Verbier, along with the mention of après-ski delights, make me want to book my trip right away. The tips at the end are a helpful bonus for someone like me who's planning their ultimate ski adventure.",
+    "CommentDate": "2023-10-30T07:31:53",
+    "PostId": 1,
+    "UserId": 1
+  },
+  {
+    "CommentId": 2,
+    "Comment": "Banff and Whistler have been on my bucket list for ages, and this blog post has just heightened my desire to experience the majesty of the Canadian Rockies. The mention of hot springs after a day of skiing sounds like the perfect way to unwind. I appreciate the practical tips at the end—definitely taking notes for my upcoming winter getaway!",
+    "CommentDate": "2023-11-15T17:11:22",
+    "PostId": 1,
+    "UserId": 6
+  },
+  {
+    "CommentId": 3,
+    "Comment": "The elegance of Austrian ski resorts portrayed in this blog post is simply enchanting. Innsbruck and Kitzbühel seem to offer a unique blend of history and world-class skiing that's hard to resist. The mention of traditional alpine cuisine adds a delightful touch. Can't wait to immerse myself in the charming atmosphere and experience the renowned Austrian hospitality!",
+    "CommentDate": "2023-12-05T12:44:02",
+    "PostId": 1,
+    "UserId": 4
+  }
+]

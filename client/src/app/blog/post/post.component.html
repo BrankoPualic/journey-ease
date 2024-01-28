@@ -17,5 +17,9 @@
         {{ post.postContent }}
     </pre>
   </div>
+  @if (isSignedIn) {
+  <!-- Logic for adding comment -->
+  }
+  <div class="post-page-comments hidden-el hidden-opacity"></div>
 </section>
 }
