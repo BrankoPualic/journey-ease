@@ -10,6 +10,7 @@ import {
 } from '../../_store/blog/blog.actions';
 import { Post } from '../../_types/post.type';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../_services/auth.service';
 
 @Component({
   selector: 'app-post',
@@ -21,11 +22,14 @@ import { CommonModule } from '@angular/common';
 export class PostComponent implements OnInit, OnDestroy {
   $post = this.store.select(selectPost);
   post?: Post;
+  isSignedIn = false;
+
   constructor(
     private route: ActivatedRoute,
     private store: Store<AppState>,
     private router: Router,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -42,6 +46,7 @@ export class PostComponent implements OnInit, OnDestroy {
         },
       });
     });
+    this.isSignedIn = this.authService.isSignedIn();
   }
 
   ngOnDestroy(): void {
