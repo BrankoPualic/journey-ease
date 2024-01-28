@@ -1,0 +1,41 @@
+@import "../../../styles.scss";
+.post-page {
+  margin: 0rem auto;
+  width: 80%;
+  padding: $section-padding;
+  .post-page-image {
+    width: 100%;
+    height: 200px;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 7.5px;
+    }
+  }
+  .post-page-informations {
+    margin: 0.75rem 0;
+    a {
+      float: right;
+      color: $blue;
+      text-decoration: underline;
+      cursor: pointer;
+      font-size: 1.05em;
+    }
+  }
+  .post-page-body {
+    width: 100%;
+    transition-delay: 500ms;
+    h2 {
+      color: $dark-grey;
+      font-size: 2.2em;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    pre {
+      text-wrap: wrap;
+      font-size: 1.1em;
+      line-height: 2rem;
+    }
+  }
+}

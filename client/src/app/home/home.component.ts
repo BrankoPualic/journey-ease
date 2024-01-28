@@ -1,7 +1,6 @@
 import { Component, ElementRef } from '@angular/core';
 import { SearchHomeComponent } from './search-home/search-home.component';
 import { TestimonialsComponent } from './testimonials/testimonials.component';
-import { SharedService } from '../_services/shared.service';
 
 @Component({
   selector: 'app-home',

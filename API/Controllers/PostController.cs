@@ -48,6 +48,19 @@ namespace API.Controllers
             return Ok(blog);
         }
 
+        [HttpGet("selected")]
+        public async Task<ActionResult<PostDto>> GetSelectedPost([FromQuery] int postId)
+        {
+            if(postId <= 0) return BadRequest(new {message = "Post id cannot be 0 or negative values"});
+
+            PostDto post = await _uow.PostRepository.GetSelectedPost(postId);
+
+            if(post == null) return NotFound();
+
+            return Ok(post);
+        }
+
+
         [HttpPost]
         public async Task<ActionResult<string>> AddPost(PostDto postDto)
         {

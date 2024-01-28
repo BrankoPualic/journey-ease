@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Post } from '../_types/post.type';
 
 @Injectable({
@@ -27,5 +27,9 @@ export class BlogService {
 
   getSearchedBlog(searchValue: string): Observable<Post[]> {
     return this.dataService.get(`post/search?searchValue=${searchValue}`);
+  }
+
+  getPost(postId: number) {
+    return this.dataService.get<Post>(`post/selected?postId=${postId}`);
   }
 }
