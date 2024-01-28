@@ -8,6 +8,7 @@ namespace API.Interfaces
         Task<IEnumerable<PostDto>> GetBlogAsync();
         Task<Post> GetPost(int postId);
         Task<IEnumerable<PostDto>> GetSearchedBlog(string searchValue);
+        Task<PostDto> GetSelectedPost(int postId);
         void AddPost(Post post);
         void RemovePost(Post post);
         void UpdatePost(Post post);

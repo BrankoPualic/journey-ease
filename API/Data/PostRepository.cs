@@ -47,9 +47,19 @@ namespace API.Data
         public async Task<IEnumerable<PostDto>> GetSearchedBlog(string searchValue)
         {
             return await _context.Blog
-                .Where(blog => blog.PostTitle.ToLower().Contains(searchValue.ToLower()))
+                .Where(blog => blog.PostTitle.ToLower().Contains(searchValue.ToLower()) 
+                    || blog.CreatorName.ToLower().Contains(searchValue.ToLower()))
                 .ProjectTo<PostDto>(_mapper.ConfigurationProvider)
                 .ToListAsync();
+        }
+
+        public async Task<PostDto> GetSelectedPost(int postId)
+        {
+            return await _context.Blog
+                .Where(post => post.PostId == postId)
+                .ProjectTo<PostDto>(_mapper.ConfigurationProvider)
+                .SingleOrDefaultAsync();
+                
         }
     }
 }

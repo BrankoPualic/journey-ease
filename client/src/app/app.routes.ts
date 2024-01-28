@@ -16,8 +16,19 @@ export const routes: Routes = [
       },
       {
         path: 'blog',
-        loadComponent: () =>
-          import('./blog/blog.component').then((m) => m.BlogComponent),
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('./blog/blog.component').then((m) => m.BlogComponent),
+            pathMatch: 'full',
+          },
+          {
+            path: 'post/:id',
+            loadComponent: () =>
+              import('./blog/post/post.component').then((m) => m.PostComponent),
+          },
+        ],
       },
       {
         path: 'admin',

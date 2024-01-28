@@ -9,6 +9,9 @@ import {
   loadBlog,
   loadBlogFailure,
   loadBlogSuccess,
+  loadPost,
+  loadPostFailure,
+  loadPostSuccess,
   loadSearchedBlog,
   removePost,
   saveBlogFailure,
@@ -32,6 +35,18 @@ export class BlogEffects {
         this.blogService.getBlog().pipe(
           map((blog) => loadBlogSuccess({ blog })),
           catchError((error) => of(loadBlogFailure({ error })))
+        )
+      )
+    )
+  );
+
+  loadPost$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadPost),
+      switchMap((action) =>
+        this.blogService.getPost(action.postId).pipe(
+          map((post) => loadPostSuccess({ post })),
+          catchError((error) => of(loadPostFailure({ error })))
         )
       )
     )

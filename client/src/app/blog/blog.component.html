@@ -1,3 +1,4 @@
+<router-outlet></router-outlet>
 <section class="blog">
   <div class="search-blog">
     <h2>Journey Ease Blog page</h2>
@@ -7,7 +8,7 @@
     </div>
   </div>
   @for (post of (blog$ | async); track post) {
-  <div class="post">
+  <div class="post hidden-el hidden-opacity">
     <div class="post-info">
       <h3>{{ post.postTitle }}</h3>
       <p>
@@ -16,7 +17,7 @@
       <p class="small-info">
         {{ post.creatorName }}, {{ post.postDate | date : "mediumDate" }}
       </p>
-      <a>Read More</a>
+      <a [routerLink]="['./post', post.postId]">Read More</a>
     </div>
     <div class="post-image">
       <img src="{{ post.postImageUrl }}" alt="{{ post.postImageUrl }}" />

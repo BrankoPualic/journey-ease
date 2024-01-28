@@ -6,21 +6,31 @@ import {
   editPost,
   loadBlog,
   loadBlogSuccess,
+  loadPost,
+  loadPostFailure,
+  loadPostSuccess,
   loadSearchedBlog,
   removePost,
+  removeSelectedCreator,
+  removeSelectedPost,
   saveBlogFailure,
   saveBlogSuccess,
+  setSelectedCreator,
 } from './blog.actions';
 import { loadCountriesFailure } from '../countries/countries.actions';
 
 export type BlogState = {
   blog: Post[];
+  post: Post | null;
+  selectedCreator: string | null;
   error: string | null;
   status: UnionStatus;
 };
 
 export const initialState: BlogState = {
   blog: [],
+  post: null,
+  selectedCreator: null,
   error: null,
   status: 'pending',
 };
@@ -53,6 +63,21 @@ export const blogReducer = createReducer(
     ],
   })),
 
+  on(setSelectedCreator, (state, { creator }) => ({
+    ...state,
+    selectedCreator: creator,
+  })),
+
+  on(removeSelectedCreator, (state) => ({
+    ...state,
+    selectedCreator: null,
+  })),
+
+  on(removeSelectedPost, (state) => ({
+    ...state,
+    post: null,
+  })),
+
   on(addPost, (state, { post }) => ({
     ...state,
     blog: [...state.blog, post],
@@ -80,5 +105,23 @@ export const blogReducer = createReducer(
     blog: state.blog.map((post) =>
       post.postId === updatedPost.postId ? updatedPost : post
     ),
+  })),
+
+  on(loadPost, (state) => ({
+    ...state,
+    status: 'loading' as const,
+  })),
+
+  on(loadPostSuccess, (state, { post }) => ({
+    ...state,
+    post,
+    error: null,
+    status: 'success' as const,
+  })),
+
+  on(loadPostFailure, (state, { error }) => ({
+    ...state,
+    error,
+    status: 'error' as const,
   }))
 );
