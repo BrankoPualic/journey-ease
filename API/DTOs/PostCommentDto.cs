@@ -5,7 +5,8 @@ namespace API.DTOs
         public int CommentId { get; set; }
         public string Comment { get; set; }
         public DateTime CommentDate { get; set; }
-        public PostDto Post { get; set; }
+        public bool Edited { get; set; }
+        public int PostId { get; set; }
         public UserCommentDto User { get; set; }
     }
 }

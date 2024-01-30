@@ -5,6 +5,7 @@ namespace API.Interfaces
         ICountryRepository CountryRepository {get;}
         IDestinationRepository DestinationRepository {get;}
         IPostRepository PostRepository {get;}
+        IPostCommentRepository PostCommentRepository {get;}
         Task<bool> Complete();
         bool HasChanges();
     }

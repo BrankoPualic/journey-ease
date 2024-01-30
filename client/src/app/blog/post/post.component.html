@@ -20,6 +20,8 @@
   @if (isSignedIn) {
   <!-- Logic for adding comment -->
   }
-  <div class="post-page-comments hidden-el hidden-opacity"></div>
+  <div class="post-page-comments hidden-el hidden-opacity">
+    <app-comments [postComments]="postComments" />
+  </div>
 </section>
 }
