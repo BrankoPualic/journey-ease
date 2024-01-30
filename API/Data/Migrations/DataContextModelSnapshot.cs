@@ -66,7 +66,7 @@ namespace API.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("text");
 
-                    b.Property<int?>("CountryId")
+                    b.Property<int>("CountryId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Email")
@@ -211,6 +211,9 @@ namespace API.Data.Migrations
                     b.Property<DateTime>("CommentDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<bool>("Edited")
+                        .HasColumnType("boolean");
+
                     b.Property<int>("PostId")
                         .HasColumnType("integer");
 
@@ -340,7 +343,9 @@ namespace API.Data.Migrations
                 {
                     b.HasOne("API.Entities.Country", "Country")
                         .WithMany()
-                        .HasForeignKey("CountryId");
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Country");
                 });

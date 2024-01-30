@@ -11,11 +11,14 @@ import {
 import { Post } from '../../_types/post.type';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../_services/auth.service';
+import { BlogService } from '../../_services/blog.service';
+import { CommentsComponent } from './comments/comments.component';
+import { Comment } from '../../_types/comment.type';
 
 @Component({
   selector: 'app-post',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CommentsComponent],
   templateUrl: './post.component.html',
   styleUrl: './post.component.scss',
 })
@@ -23,13 +26,15 @@ export class PostComponent implements OnInit, OnDestroy {
   $post = this.store.select(selectPost);
   post?: Post;
   isSignedIn = false;
+  postComments: Comment[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private store: Store<AppState>,
     private router: Router,
     private elementRef: ElementRef,
-    private authService: AuthService
+    private authService: AuthService,
+    private blogService: BlogService
   ) {}
 
   ngOnInit(): void {
@@ -42,6 +47,9 @@ export class PostComponent implements OnInit, OnDestroy {
             setTimeout(() => {
               this.animateContent();
             }, 0);
+            this.blogService.getBlogComments(this.post.postId).subscribe({
+              next: (data) => (this.postComments = data),
+            });
           }
         },
       });

@@ -1,0 +1,35 @@
+<h3>Comments</h3>
+@for (comment of postComments; track comment.commentId) {
+<div class="post-comment">
+  <div class="comment-info">
+    <div class="comment-user-image">
+      <img
+        src="{{ comment.user.userImage }}"
+        alt="{{ comment.user.userImage }}"
+      />
+    </div>
+    <div class="comment-user-cred">
+      <p>
+        {{ comment.user.firstName }} {{ comment.user.lastName }}
+        <span>
+          (comments
+          {{ comment.user.commentCount }})
+        </span>
+      </p>
+      <p class="small-info">
+        {{ comment.edited ? "Edited on " : "Posted on " }}
+        {{ comment.commentDate | date : "mediumDate" }}
+      </p>
+    </div>
+  </div>
+  <div class="comment-text">
+    {{ comment.comment }}
+  </div>
+  @if (isSignedIn) {
+  <div class="comment-user-actions">
+    <a (click)="editComment()">Edit</a> |
+    <a (click)="deleteComment()">Delete</a>
+  </div>
+  }
+</div>
+}

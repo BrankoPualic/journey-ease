@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
 import { Observable } from 'rxjs';
 import { Post } from '../_types/post.type';
+import { Comment } from '../_types/comment.type';
 
 @Injectable({
   providedIn: 'root',
@@ -31,5 +32,9 @@ export class BlogService {
 
   getPost(postId: number) {
     return this.dataService.get<Post>(`post/selected?postId=${postId}`);
+  }
+
+  getBlogComments(postId: number) {
+    return this.dataService.get<Comment[]>(`postComment?postId=${postId}`);
   }
 }
