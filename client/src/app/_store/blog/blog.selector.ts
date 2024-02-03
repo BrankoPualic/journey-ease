@@ -10,3 +10,13 @@ export const selectSelectedCreator = createSelector(
   selectBlog,
   (state) => state.selectedCreator
 );
+
+export const selectCurrentPage = createSelector(
+  selectBlog,
+  (state) => state.currentPage
+);
+
+export const selectTotalPages = createSelector(
+  selectBlog,
+  (state) => state.totalPages
+);

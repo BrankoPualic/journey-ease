@@ -8,7 +8,7 @@ import {
   removeSelectedPost,
   setSelectedCreator,
 } from '../../_store/blog/blog.actions';
-import { Post } from '../../_types/post.type';
+import { Post } from '../../_types/post.types';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../_services/auth.service';
 import { BlogService } from '../../_services/blog.service';
@@ -47,7 +47,7 @@ export class PostComponent implements OnInit, OnDestroy {
             setTimeout(() => {
               this.animateContent();
             }, 0);
-            this.blogService.getBlogComments(this.post.postId).subscribe({
+            this.blogService.getPostComments(this.post.postId).subscribe({
               next: (data) => (this.postComments = data),
             });
           }

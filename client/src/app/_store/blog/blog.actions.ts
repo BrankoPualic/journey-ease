@@ -1,17 +1,22 @@
 import { createAction, props } from '@ngrx/store';
-import { Post } from '../../_types/post.type';
+import { BlogResponse, Post } from '../../_types/post.types';
 
 // BLOG
 export const loadBlog = createAction('[Blog] Load Blog');
 
 export const loadBlogSuccess = createAction(
   '[Blog] Blog Load Success',
-  props<{ blog: Post[] }>()
+  props<{ response: BlogResponse }>()
 );
 
 export const loadBlogFailure = createAction(
   '[Blog] Blog Load Failure',
   props<{ error: string }>()
+);
+
+export const setCurrentPage = createAction(
+  '[Blog] Blog Current Page',
+  props<{ currentPage: number }>()
 );
 
 export const loadSearchedBlog = createAction(

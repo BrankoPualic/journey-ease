@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
 import { Observable } from 'rxjs';
-import { Post } from '../_types/post.type';
+import { BlogResponse, Post } from '../_types/post.types';
 import { Comment } from '../_types/comment.type';
 
 @Injectable({
@@ -10,8 +10,8 @@ import { Comment } from '../_types/comment.type';
 export class BlogService {
   constructor(private dataService: DataService) {}
 
-  getBlog(): Observable<Post[]> {
-    return this.dataService.get('post');
+  getBlog(page: number, pageSize = 5): Observable<BlogResponse> {
+    return this.dataService.get(`post?page=${page}&pageSize=${pageSize}`);
   }
 
   addPost(post: Post): Observable<{ message: string }> {
@@ -34,7 +34,7 @@ export class BlogService {
     return this.dataService.get<Post>(`post/selected?postId=${postId}`);
   }
 
-  getBlogComments(postId: number) {
+  getPostComments(postId: number) {
     return this.dataService.get<Comment[]>(`postComment?postId=${postId}`);
   }
 }

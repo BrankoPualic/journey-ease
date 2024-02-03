@@ -1,0 +1,20 @@
+@import "../../styles.scss";
+.pagination {
+  margin: 1rem auto;
+  width: auto;
+  @include flex(row, flex-start, nowrap, center);
+  .pages {
+    width: 30px;
+    height: 30px;
+    margin: 0 0.1rem;
+    @include border(2px, solid, $light-green);
+    @include flex(row, center, nowrap, center);
+    cursor: pointer;
+    padding: 1rem;
+    color: $light-green;
+  }
+  .active {
+    color: $white;
+    background-color: $light-green;
+  }
+}
