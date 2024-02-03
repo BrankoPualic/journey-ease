@@ -1,5 +1,6 @@
 using API.DTOs;
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -17,11 +18,24 @@ namespace API.Data
             _context = context;
 
         }
-        public async Task<IEnumerable<PostDto>> GetBlogAsync()
+        public async Task<BlogResponse> GetBlogAsync(int page, int pageSize)
         {
-            return await _context.Blog
+            int totalPosts = await _context.Blog.CountAsync();
+            int totalPages = (int)Math.Ceiling((double)totalPosts / pageSize);
+
+            List<PostDto> blog = await _context.Blog
+                .OrderByDescending(b => b.PostDate)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .ProjectTo<PostDto>(_mapper.ConfigurationProvider)
                 .ToListAsync();
+            
+            return new BlogResponse
+            {
+                TotalPages = totalPages,
+                Blog = blog
+            };
+
         }
 
         public async Task<Post> GetPost(int postId)
