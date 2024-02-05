@@ -77,11 +77,6 @@ export const blogReducer = createReducer(
     status: 'error' as const,
   })),
 
-  on(setCurrentPage, (state, { currentPage }) => ({
-    ...state,
-    currentPage,
-  })),
-
   on(loadSearchedBlog, (state, { searchValue }) => ({
     ...state,
     blog: [

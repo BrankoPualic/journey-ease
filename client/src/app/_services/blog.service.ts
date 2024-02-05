@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
 import { map } from 'rxjs';
-import { Post } from '../_types/post.type';
+import { Post } from '../_types/post.types';
 import { Comment } from '../_types/comment.type';
 import { HttpParams, HttpResponse } from '@angular/common/http';
 import { PaginatedResult } from '../_types/pagination';

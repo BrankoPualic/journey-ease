@@ -7,8 +7,3 @@ export type Post = {
   creatorName: string;
   postDescription: string;
 };
-
-export type BlogResponse = {
-  totalPages: number;
-  blog: Post[];
-};

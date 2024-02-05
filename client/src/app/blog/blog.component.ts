@@ -25,7 +25,7 @@ import { Subscription, debounceTime, distinctUntilChanged, map } from 'rxjs';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { PaginationComponent } from '../pagination/pagination.component';
 import { Pagination } from '../_types/pagination';
-import { Post } from '../_types/post.type';
+import { Post } from '../_types/post.types';
 
 @Component({
   selector: 'app-blog',
@@ -70,11 +70,6 @@ export class BlogComponent implements OnInit, OnDestroy {
         this.scrollToTop();
       }, 0);
     });
-    setTimeout(() => {
-      this.store.select(selectTotalPages).subscribe((data) => {
-        this.totalPages = data;
-      });
-    }, 10);
 
     // this.pagination = resolvedData.paginatedResult;
 
@@ -107,7 +102,6 @@ export class BlogComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.store.dispatch(removeSelectedCreator());
-    this.blogLoaded = false;
   }
 
   // blogSearch(searchValue: string | null) {
