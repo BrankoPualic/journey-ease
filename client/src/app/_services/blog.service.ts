@@ -57,7 +57,7 @@ export class BlogService {
     return this.dataService.get<Post>(`post/selected?postId=${postId}`);
   }
 
-  getBlogComments(postId: number) {
+  getPostComments(postId: number) {
     return this.dataService.get<Comment[]>(`postComment?postId=${postId}`);
   }
 }

@@ -18,6 +18,11 @@ export const loadBlogFailure = createAction(
   props<{ error: string }>()
 );
 
+export const setCurrentPage = createAction(
+  '[Blog] Blog Current Page',
+  props<{ currentPage: number }>()
+);
+
 export const loadSearchedBlog = createAction(
   '[Blog] Blog Search',
   props<{ searchValue: string }>()

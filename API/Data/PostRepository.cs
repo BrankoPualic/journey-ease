@@ -18,6 +18,7 @@ namespace API.Data
             _context = context;
 
         }
+
         public async Task<PagedList<PostDto>> GetBlogAsync(PostParams postParams)
         {
             var query = _context.Blog

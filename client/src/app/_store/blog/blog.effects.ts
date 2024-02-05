@@ -18,7 +18,7 @@ import {
   saveBlogSuccess,
 } from './blog.actions';
 import { catchError, from, map, of, switchMap, withLatestFrom } from 'rxjs';
-import { selectAllBlog } from './blog.selector';
+import { selectAllBlog, selectCurrentPage } from './blog.selector';
 
 @Injectable()
 export class BlogEffects {

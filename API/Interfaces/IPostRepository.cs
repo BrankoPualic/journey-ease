@@ -6,6 +6,7 @@ namespace API.Interfaces
 {
     public interface IPostRepository
     {
+
         Task<PagedList<PostDto>> GetBlogAsync(PostParams postParams);
         Task<Post> GetPost(int postId);
         Task<IEnumerable<PostDto>> GetSearchedBlog(string searchValue);

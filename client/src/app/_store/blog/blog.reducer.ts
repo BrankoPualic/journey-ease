@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { Post } from '../../_types/post.type';
+import { Post } from '../../_types/post.types';
 import { UnionStatus } from '../../_types/shared.types';
 import {
   addPost,
@@ -15,6 +15,7 @@ import {
   removeSelectedPost,
   saveBlogFailure,
   saveBlogSuccess,
+  setCurrentPage,
   setSelectedCreator,
 } from './blog.actions';
 import { loadCountriesFailure } from '../countries/countries.actions';
@@ -74,6 +75,11 @@ export const blogReducer = createReducer(
     ...state,
     error,
     status: 'error' as const,
+  })),
+
+  on(setCurrentPage, (state, { currentPage }) => ({
+    ...state,
+    currentPage,
   })),
 
   on(loadSearchedBlog, (state, { searchValue }) => ({
