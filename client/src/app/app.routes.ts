@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
+import { blogResolver } from './_resolvers/blog.resolver';
 
 export const routes: Routes = [
   {
@@ -22,6 +23,7 @@ export const routes: Routes = [
             loadComponent: () =>
               import('./blog/blog.component').then((m) => m.BlogComponent),
             pathMatch: 'full',
+            resolve: { blogData: blogResolver },
           },
           {
             path: 'post/:id',

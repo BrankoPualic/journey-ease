@@ -10,8 +10,8 @@ export class DataService {
 
   constructor(private http: HttpClient) {}
 
-  get<T>(url: string) {
-    return this.http.get<T>(this.baseUrl + url);
+  get<T>(url: string, options?: object) {
+    return this.http.get<T>(this.baseUrl + url, options);
   }
 
   post<T>(data: any, url: string) {

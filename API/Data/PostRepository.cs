@@ -1,5 +1,6 @@
 using API.DTOs;
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -17,11 +18,13 @@ namespace API.Data
             _context = context;
 
         }
-        public async Task<IEnumerable<PostDto>> GetBlogAsync()
+        public async Task<PagedList<PostDto>> GetBlogAsync(PostParams postParams)
         {
-            return await _context.Blog
+            var query = _context.Blog
                 .ProjectTo<PostDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
+                .AsNoTracking();
+
+            return await PagedList<PostDto>.CreateAsync(query, postParams.PageNumber, postParams.PageSize);
         }
 
         public async Task<Post> GetPost(int postId)

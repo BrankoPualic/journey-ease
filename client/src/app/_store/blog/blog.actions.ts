@@ -1,12 +1,16 @@
 import { createAction, props } from '@ngrx/store';
 import { Post } from '../../_types/post.type';
+import { PaginatedResult } from '../../_types/pagination';
 
 // BLOG
-export const loadBlog = createAction('[Blog] Load Blog');
+export const loadBlog = createAction(
+  '[Blog] Load Blog',
+  props<{ page: number; itemsPerPage: number }>()
+);
 
 export const loadBlogSuccess = createAction(
   '[Blog] Blog Load Success',
-  props<{ blog: Post[] }>()
+  props<{ paginatedResult: PaginatedResult<Post[]> }>()
 );
 
 export const loadBlogFailure = createAction(

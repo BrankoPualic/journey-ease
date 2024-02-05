@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
-import { Observable } from 'rxjs';
+import { map } from 'rxjs';
 import { Post } from '../_types/post.type';
 import { Comment } from '../_types/comment.type';
+import { HttpParams, HttpResponse } from '@angular/common/http';
+import { PaginatedResult } from '../_types/pagination';
 
 @Injectable({
   providedIn: 'root',
@@ -10,24 +12,45 @@ import { Comment } from '../_types/comment.type';
 export class BlogService {
   constructor(private dataService: DataService) {}
 
-  getBlog(): Observable<Post[]> {
-    return this.dataService.get('post');
+  getBlog(page?: number, itemsPerPage?: number) {
+    let params = new HttpParams();
+
+    if (page && itemsPerPage) {
+      params = params.append('pageNumber', page);
+      params = params.append('pageSize', itemsPerPage);
+    }
+
+    return this.dataService
+      .get<HttpResponse<Post[]>>('post', { observe: 'response', params })
+      .pipe(
+        map((response) => {
+          const paginatedResult = new PaginatedResult<Post[]>();
+          if (response.body) paginatedResult.result = response.body;
+
+          const pagination = response.headers.get('Pagination');
+
+          if (pagination) paginatedResult.pagination = JSON.parse(pagination);
+          return paginatedResult;
+        })
+      );
   }
 
-  addPost(post: Post): Observable<{ message: string }> {
-    return this.dataService.post(post, 'post');
+  addPost(post: Post) {
+    return this.dataService.post<{ message: string }>(post, 'post');
   }
 
-  removePost(postId: number): Observable<{ message: string }> {
-    return this.dataService.delete(`post/${postId}`);
+  removePost(postId: number) {
+    return this.dataService.delete<{ message: string }>(`post/${postId}`);
   }
 
-  editPost(newPost: Post): Observable<{ message: string }> {
-    return this.dataService.patch(newPost, 'post');
+  editPost(newPost: Post) {
+    return this.dataService.patch<{ message: string }>(newPost, 'post');
   }
 
-  getSearchedBlog(searchValue: string): Observable<Post[]> {
-    return this.dataService.get(`post/search?searchValue=${searchValue}`);
+  getSearchedBlog(searchValue: string) {
+    return this.dataService.get<Post[]>(
+      `post/search?searchValue=${searchValue}`
+    );
   }
 
   getPost(postId: number) {

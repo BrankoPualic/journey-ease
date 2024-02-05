@@ -31,9 +31,9 @@ export class BlogEffects {
   loadBlog$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadBlog),
-      switchMap(() =>
-        this.blogService.getBlog().pipe(
-          map((blog) => loadBlogSuccess({ blog })),
+      switchMap((action) =>
+        this.blogService.getBlog(action.page, action.itemsPerPage).pipe(
+          map((result) => loadBlogSuccess({ paginatedResult: result })),
           catchError((error) => of(loadBlogFailure({ error })))
         )
       )
@@ -52,18 +52,18 @@ export class BlogEffects {
     )
   );
 
-  loadSearchedBlog$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(loadSearchedBlog),
-      withLatestFrom(this.store.select(selectAllBlog)),
-      switchMap(([action, blog]) =>
-        this.blogService.getSearchedBlog(action.searchValue).pipe(
-          map((blog) => loadBlogSuccess({ blog })),
-          catchError((error) => of(loadBlogFailure({ error })))
-        )
-      )
-    )
-  );
+  // loadSearchedBlog$ = createEffect(() =>
+  //   this.actions$.pipe(
+  //     ofType(loadSearchedBlog),
+  //     withLatestFrom(this.store.select(selectAllBlog)),
+  //     switchMap(([action, blog]) =>
+  //       this.blogService.getSearchedBlog(action.searchValue).pipe(
+  //         map((blog) => loadBlogSuccess({ blog })),
+  //         catchError((error) => of(loadBlogFailure({ error })))
+  //       )
+  //     )
+  //   )
+  // );
 
   addPost$ = createEffect(() =>
     this.actions$.pipe(
@@ -110,10 +110,10 @@ export class BlogEffects {
     )
   );
 
-  loadAfterSave$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(saveBlogSuccess),
-      map(() => loadBlog())
-    )
-  );
+  // loadAfterSave$ = createEffect(() =>
+  //   this.actions$.pipe(
+  //     ofType(saveBlogSuccess),
+  //     map(() => loadBlog())
+  //   )
+  // );
 }

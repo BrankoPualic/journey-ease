@@ -1,0 +1,13 @@
+@import "../../styles.scss";
+.pagination {
+  @include flex(row, center, nowrap, center);
+  margin: 1rem 0;
+  .page {
+    width: 35px;
+    height: 35px;
+    @include border(2px, solid, $light-green);
+    cursor: pointer;
+    margin: 0px 5px;
+    @include flex(row, center, nowrap, center);
+  }
+}
