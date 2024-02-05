@@ -1,11 +1,17 @@
-import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Inject,
+  OnDestroy,
+  OnInit,
+  PLATFORM_ID,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../_store/app.state';
 import {
   selectAllBlog,
-  selectCurrentPage,
+  selectBlogState,
   selectSelectedCreator,
-  selectTotalPages,
 } from '../_store/blog/blog.selector';
 import {
   loadBlog,
@@ -13,11 +19,13 @@ import {
   removeSelectedCreator,
   setCurrentPage,
 } from '../_store/blog/blog.actions';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Subscription, debounceTime, distinctUntilChanged } from 'rxjs';
-import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
+import { Subscription, debounceTime, distinctUntilChanged, map } from 'rxjs';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { PaginationComponent } from '../pagination/pagination.component';
+import { Pagination } from '../_types/pagination';
+import { Post } from '../_types/post.type';
 
 @Component({
   selector: 'app-blog',
@@ -33,43 +41,33 @@ import { PaginationComponent } from '../pagination/pagination.component';
   styleUrl: './blog.component.scss',
 })
 export class BlogComponent implements OnInit, OnDestroy {
-  title = 'Blog Page';
-  blog$ = this.store.select(selectAllBlog);
+  blog$ = this.store.select(selectBlogState);
+  blog: Post[] = [];
+  pagination?: Pagination;
   searchValue = new FormControl('');
   typingSubscription?: Subscription;
-  currentPage = 0;
-  totalPages = 0;
-  blogLoaded = false;
 
   constructor(
     private store: Store<AppState>,
     private elementRef: ElementRef,
-    private route: ActivatedRoute
+    @Inject(PLATFORM_ID) private platformId: any
   ) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
-      if (params['page'])
-        this.store.dispatch(setCurrentPage({ currentPage: +params['page'] }));
-    });
-    this.store.select(selectSelectedCreator).subscribe((creator) => {
-      if (creator) {
-        this.searchValue.setValue(creator);
-        this.store.dispatch(loadSearchedBlog({ searchValue: creator }));
-      } else {
-        this.searchValue.setValue('');
-        // this.store.dispatch(loadBlog());
-        this.store.select(selectCurrentPage).subscribe((page) => {
-          this.currentPage = page;
-          this.store.dispatch(loadBlog());
-        });
-      }
-    });
+    // const resolvedData = this.route.snapshot.data['blogData'];
+    // this.blog = resolvedData.blog;
+    // console.log(resolvedData);
+    // setTimeout(() => {
+    //   this.animateContent();
+    // }, 0);
+    // this.pagination = resolvedData.pagination;
 
-    this.blog$.subscribe((data) => {
-      if (data.length) this.blogLoaded = true;
+    this.blog$.subscribe((state) => {
+      this.blog = state.blog;
+      this.pagination = state.pagination;
       setTimeout(() => {
         this.animateContent();
+        this.scrollToTop();
       }, 0);
     });
     setTimeout(() => {
@@ -78,9 +76,33 @@ export class BlogComponent implements OnInit, OnDestroy {
       });
     }, 10);
 
-    this.typingSubscription = this.searchValue.valueChanges
-      .pipe(debounceTime(500), distinctUntilChanged())
-      .subscribe((newSearchValue) => this.blogSearch(newSearchValue));
+    // this.pagination = resolvedData.paginatedResult;
+
+    // this.store.select(selectSelectedCreator).subscribe((creator) => {
+    //   if (creator) {
+    //     this.searchValue.setValue(creator);
+    //     this.store.dispatch(loadSearchedBlog({ searchValue: creator }));
+    //   } else {
+    //     this.searchValue.setValue('');
+    //     this.store.dispatch(loadBlog());
+    //   }
+    // });
+    // this.blog$.subscribe((state) => {
+    //   (this.blog = state.blog), (this.pagination = state.pagination);
+    //   // console.log(state);
+    //   setTimeout(() => {
+    //     this.animateContent();
+    //   }, 0);
+    // });
+
+    // this.typingSubscription = this.searchValue.valueChanges
+    //   .pipe(debounceTime(500), distinctUntilChanged())
+    //   .subscribe((newSearchValue) => this.blogSearch(newSearchValue));
+  }
+
+  scrollToTop() {
+    if (isPlatformBrowser(this.platformId))
+      window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   ngOnDestroy(): void {
@@ -88,18 +110,18 @@ export class BlogComponent implements OnInit, OnDestroy {
     this.blogLoaded = false;
   }
 
-  blogSearch(searchValue: string | null) {
-    if (searchValue === '') {
-      this.store.dispatch(loadBlog());
-      return;
-    }
-    if (searchValue) this.store.dispatch(loadSearchedBlog({ searchValue }));
-    this.blog$.subscribe(() => {
-      setTimeout(() => {
-        this.animateContent();
-      }, 0);
-    });
-  }
+  // blogSearch(searchValue: string | null) {
+  //   if (searchValue === '') {
+  //     this.store.dispatch(loadBlog());
+  //     return;
+  //   }
+  //   if (searchValue) this.store.dispatch(loadSearchedBlog({ searchValue }));
+  //   this.blog$.subscribe(() => {
+  //     setTimeout(() => {
+  //       this.animateContent();
+  //     }, 0);
+  //   });
+  // }
 
   animateContent() {
     if (typeof IntersectionObserver !== 'undefined') {

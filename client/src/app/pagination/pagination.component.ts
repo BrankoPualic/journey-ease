@@ -1,9 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { AppState } from '../_store/app.state';
-import { Store } from '@ngrx/store';
-import { setCurrentPage } from '../_store/blog/blog.actions';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, Input, OnInit } from '@angular/core';
+import { TypeOfPagination } from '../_types/pagination';
+import { Store } from '@ngrx/store';
+import { AppState } from '../_store/app.state';
+import { loadBlog } from '../_store/blog/blog.actions';
 
 @Component({
   selector: 'app-pagination',
@@ -13,49 +13,32 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrl: './pagination.component.scss',
 })
 export class PaginationComponent implements OnInit {
-  @Input() currentPage?: number;
   @Input() totalPages?: number;
-  @Input() whichPaginationSource?: string;
-  totalPagesArray: number[] = [];
-  activePage = 1;
+  @Input() itemsPerPage?: number;
+  @Input() paginationType?: TypeOfPagination;
+  @Input() currentPage?: number;
+  totalItemsArray: number[] = [];
 
-  constructor(
-    private store: Store<AppState>,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {}
+  constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.totalPagesArray = new Array(this.totalPages).fill(0);
-    this.route.queryParams.subscribe((params) => {
-      this.activePage = +params['page'];
-    });
+    this.totalItemsArray = new Array(this.totalPages).fill(0);
   }
 
-  loadSelectedPage(page: number) {
-    switch (this.whichPaginationSource) {
-      case 'Blog Page':
-        this.loadSelectedPageBlog(page);
-        break;
-      case 'Post Page Comments':
-        this.loadSelectedPageComments(page);
+  changePage(page: number) {
+    switch (this.paginationType) {
+      case 'blog':
+        this.changeBlogPage(page);
         break;
     }
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: { page },
-      queryParamsHandling: 'merge',
-    });
-
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
   }
 
-  loadSelectedPageBlog(page: number) {
-    this.store.dispatch(setCurrentPage({ currentPage: page }));
+  changeBlogPage(page: number) {
+    this.store.dispatch(
+      loadBlog({
+        page,
+        itemsPerPage: this.itemsPerPage ? this.itemsPerPage : 10,
+      })
+    );
   }
-
-  loadSelectedPageComments(page: number) {}
 }

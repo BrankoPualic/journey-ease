@@ -18,24 +18,14 @@ namespace API.Data
             _context = context;
 
         }
-        public async Task<BlogResponse> GetBlogAsync(int page, int pageSize)
+
+        public async Task<PagedList<PostDto>> GetBlogAsync(PostParams postParams)
         {
-            int totalPosts = await _context.Blog.CountAsync();
-            int totalPages = (int)Math.Ceiling((double)totalPosts / pageSize);
-
-            List<PostDto> blog = await _context.Blog
-                .OrderByDescending(b => b.PostDate)
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
+            var query = _context.Blog
                 .ProjectTo<PostDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
-            
-            return new BlogResponse
-            {
-                TotalPages = totalPages,
-                Blog = blog
-            };
+                .AsNoTracking();
 
+            return await PagedList<PostDto>.CreateAsync(query, postParams.PageNumber, postParams.PageSize);
         }
 
         public async Task<Post> GetPost(int postId)

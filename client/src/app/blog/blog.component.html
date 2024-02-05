@@ -9,7 +9,7 @@
       <input type="text" placeholder="Search" [formControl]="searchValue" />
     </div>
   </div>
-  @for (post of (blog$ | async); track post) {
+  @for (post of blog; track post) {
   <div class="post hidden-el hidden-opacity">
     <div class="post-info">
       <h3>{{ post.postTitle }}</h3>
@@ -25,11 +25,12 @@
       <img src="{{ post.postImageUrl }}" alt="{{ post.postImageUrl }}" />
     </div>
   </div>
-  } @if (totalPages) {
+  } @if (pagination) {
   <app-pagination
-    [currentPage]="currentPage"
-    [totalPages]="totalPages"
-    [whichPaginationSource]="title"
+    [itemsPerPage]="pagination.itemsPerPage"
+    [totalPages]="pagination.totalPages"
+    [currentPage]="pagination.currentPage"
+    [paginationType]="'blog'"
   />
   }
 </section>

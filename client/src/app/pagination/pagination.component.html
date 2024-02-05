@@ -1,11 +1,11 @@
 <div class="pagination">
-  @for (el of totalPagesArray; track el; let index = $index) {
+  @for (page of totalItemsArray; let i = $index; track page) {
   <div
-    class="pages"
-    (click)="loadSelectedPage(index + 1)"
-    [class.active]="index + 1 === activePage"
+    class="page"
+    (click)="changePage(i + 1)"
+    [class.active]="i + 1 === currentPage"
   >
-    <a>{{ index + 1 }}</a>
+    <a>{{ i + 1 }}</a>
   </div>
   }
 </div>

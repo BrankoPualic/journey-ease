@@ -1,5 +1,6 @@
 using API.DTOs;
 using API.Entities;
+using API.Extensions;
 using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
@@ -18,11 +19,11 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<BlogResponse>> GetBlog([FromQuery] int page, int pageSize = 5)
+        public async Task<ActionResult<PagedList<PostDto>>> GetBlog([FromQuery]PostParams postParams)
         {
-            BlogResponse blog = await _uow.PostRepository.GetBlogAsync(page, pageSize);
+            PagedList<PostDto> blog = await _uow.PostRepository.GetBlogAsync(postParams);
 
-            if(blog.Blog == null || blog.TotalPages <= 0) return NotFound();
+            Response.AddPaginationHeader(new PaginationHeader(blog.CurrentPage, blog.PageSize, blog.TotalCount, blog.TotalPages));
 
             return Ok(blog);
         }

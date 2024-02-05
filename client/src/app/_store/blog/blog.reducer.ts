@@ -19,11 +19,11 @@ import {
   setSelectedCreator,
 } from './blog.actions';
 import { loadCountriesFailure } from '../countries/countries.actions';
+import { Pagination } from '../../_types/pagination';
 
 export type BlogState = {
   blog: Post[];
-  currentPage: number;
-  totalPages: number;
+  pagination: Pagination;
   post: Post | null;
   selectedCreator: string | null;
   error: string | null;
@@ -32,8 +32,12 @@ export type BlogState = {
 
 export const initialState: BlogState = {
   blog: [],
-  currentPage: 1,
-  totalPages: 1,
+  pagination: {
+    currentPage: 1,
+    itemsPerPage: 5,
+    totalItems: 0,
+    totalPages: 0,
+  },
   post: null,
   selectedCreator: null,
   error: null,
@@ -43,18 +47,29 @@ export const initialState: BlogState = {
 export const blogReducer = createReducer(
   initialState,
 
-  on(loadBlog, (state) => ({
+  on(loadBlog, (state, { page, itemsPerPage }) => ({
     ...state,
+    pagination: {
+      ...state.pagination,
+      currentPage: page,
+      itemsPerPage,
+    },
     status: 'loading' as const,
   })),
 
-  on(loadBlogSuccess, (state, { response }) => ({
-    ...state,
-    blog: response.blog,
-    totalPages: response.totalPages,
-    error: null,
-    status: 'success' as const,
-  })),
+  on(loadBlogSuccess, (state, { paginatedResult }) => {
+    const updatedBlog = paginatedResult.result
+      ? [...paginatedResult.result]
+      : state.blog;
+
+    return {
+      ...state,
+      blog: updatedBlog,
+      pagination: paginatedResult.pagination || state.pagination,
+      error: null,
+      status: 'success' as const,
+    };
+  }),
 
   on(loadCountriesFailure, (state, { error }) => ({
     ...state,

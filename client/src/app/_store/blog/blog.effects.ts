@@ -31,10 +31,9 @@ export class BlogEffects {
   loadBlog$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadBlog),
-      withLatestFrom(this.store.select(selectCurrentPage)),
-      switchMap(([action, currentPage]) =>
-        this.blogService.getBlog(currentPage).pipe(
-          map((response) => loadBlogSuccess({ response })),
+      switchMap((action) =>
+        this.blogService.getBlog(action.page, action.itemsPerPage).pipe(
+          map((result) => loadBlogSuccess({ paginatedResult: result })),
           catchError((error) => of(loadBlogFailure({ error })))
         )
       )
