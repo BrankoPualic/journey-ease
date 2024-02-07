@@ -11,3 +11,5 @@ export class PaginatedResult<T> {
 }
 
 export type TypeOfPagination = 'blog' | 'comments';
+
+export const ITEMS_PER_PAGE = 10;

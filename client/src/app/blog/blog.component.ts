@@ -24,7 +24,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Subscription, debounceTime, distinctUntilChanged, map } from 'rxjs';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { PaginationComponent } from '../pagination/pagination.component';
-import { Pagination } from '../_types/pagination';
+import { ITEMS_PER_PAGE, Pagination } from '../_types/pagination';
 import { Post } from '../_types/post.types';
 
 @Component({
@@ -54,14 +54,12 @@ export class BlogComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    // const resolvedData = this.route.snapshot.data['blogData'];
-    // this.blog = resolvedData.blog;
-    // console.log(resolvedData);
-    // setTimeout(() => {
-    //   this.animateContent();
-    // }, 0);
-    // this.pagination = resolvedData.pagination;
+    this.initializeBlog();
 
+    this.searchTypingManagment();
+  }
+
+  initializeBlog() {
     this.blog$.subscribe((state) => {
       this.blog = state.blog;
       this.pagination = state.pagination;
@@ -71,28 +69,28 @@ export class BlogComponent implements OnInit, OnDestroy {
       }, 0);
     });
 
-    // this.pagination = resolvedData.paginatedResult;
+    this.store.select(selectSelectedCreator).subscribe((creator) => {
+      if (creator) {
+        this.searchValue.setValue(creator);
+        this.store.dispatch(
+          loadSearchedBlog({
+            searchValue: creator,
+            page: 1,
+            itemsPerPage: ITEMS_PER_PAGE,
+          })
+        );
+      } else {
+        this.searchValue.setValue('');
+        this.store.dispatch(
+          loadBlog({ page: 1, itemsPerPage: ITEMS_PER_PAGE })
+        );
+      }
+    });
+  }
 
-    // this.store.select(selectSelectedCreator).subscribe((creator) => {
-    //   if (creator) {
-    //     this.searchValue.setValue(creator);
-    //     this.store.dispatch(loadSearchedBlog({ searchValue: creator }));
-    //   } else {
-    //     this.searchValue.setValue('');
-    //     this.store.dispatch(loadBlog());
-    //   }
-    // });
-    // this.blog$.subscribe((state) => {
-    //   (this.blog = state.blog), (this.pagination = state.pagination);
-    //   // console.log(state);
-    //   setTimeout(() => {
-    //     this.animateContent();
-    //   }, 0);
-    // });
-
-    // this.typingSubscription = this.searchValue.valueChanges
-    //   .pipe(debounceTime(500), distinctUntilChanged())
-    //   .subscribe((newSearchValue) => this.blogSearch(newSearchValue));
+  ngOnDestroy(): void {
+    this.store.dispatch(removeSelectedCreator());
+    this.typingSubscription?.unsubscribe();
   }
 
   scrollToTop() {
@@ -100,22 +98,22 @@ export class BlogComponent implements OnInit, OnDestroy {
       window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  ngOnDestroy(): void {
-    this.store.dispatch(removeSelectedCreator());
+  blogSearch(searchValue: string | null) {
+    if (searchValue === '') {
+      this.store.dispatch(removeSelectedCreator());
+      this.store.dispatch(loadBlog({ page: 1, itemsPerPage: ITEMS_PER_PAGE }));
+      return;
+    }
+    if (searchValue)
+      this.store.dispatch(
+        loadSearchedBlog({ searchValue, page: 1, itemsPerPage: ITEMS_PER_PAGE })
+      );
+    this.blog$.subscribe(() => {
+      setTimeout(() => {
+        this.animateContent();
+      }, 0);
+    });
   }
-
-  // blogSearch(searchValue: string | null) {
-  //   if (searchValue === '') {
-  //     this.store.dispatch(loadBlog());
-  //     return;
-  //   }
-  //   if (searchValue) this.store.dispatch(loadSearchedBlog({ searchValue }));
-  //   this.blog$.subscribe(() => {
-  //     setTimeout(() => {
-  //       this.animateContent();
-  //     }, 0);
-  //   });
-  // }
 
   animateContent() {
     if (typeof IntersectionObserver !== 'undefined') {
@@ -137,5 +135,11 @@ export class BlogComponent implements OnInit, OnDestroy {
       console.warn(
         'IntersectionObserver is not supported. Skipping animation.'
       );
+  }
+
+  private searchTypingManagment() {
+    this.typingSubscription = this.searchValue.valueChanges
+      .pipe(debounceTime(500), distinctUntilChanged())
+      .subscribe((newSearchValue) => this.blogSearch(newSearchValue));
   }
 }

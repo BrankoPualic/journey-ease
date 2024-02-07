@@ -23,6 +23,7 @@ namespace API.Data
         {
             var query = _context.Blog
                 .ProjectTo<PostDto>(_mapper.ConfigurationProvider)
+                .OrderByDescending(p => p.PostDate)
                 .AsNoTracking();
 
             return await PagedList<PostDto>.CreateAsync(query, postParams.PageNumber, postParams.PageSize);
@@ -48,13 +49,16 @@ namespace API.Data
             _context.Entry(post).State = EntityState.Modified;
         }
 
-        public async Task<IEnumerable<PostDto>> GetSearchedBlog(string searchValue)
+        public async Task<PagedList<PostDto>> GetSearchedBlog(string searchValue, PostParams postParams)
         {
-            return await _context.Blog
-                .Where(blog => blog.PostTitle.ToLower().Contains(searchValue.ToLower()) 
-                    || blog.CreatorName.ToLower().Contains(searchValue.ToLower()))
+            var query = _context.Blog
+                .Where(p => p.PostTitle.ToLower().Contains(searchValue.ToLower())
+                    || p.CreatorName.ToLower().Contains(searchValue.ToLower()))
+                .OrderByDescending(p => p.PostDate)
                 .ProjectTo<PostDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
+                .AsNoTracking();
+
+            return await PagedList<PostDto>.CreateAsync(query, postParams.PageNumber, postParams.PageSize);
         }
 
         public async Task<PostDto> GetSelectedPost(int postId)

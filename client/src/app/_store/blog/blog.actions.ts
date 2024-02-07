@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Post } from '../../_types/post.type';
+import { Post } from '../../_types/post.types';
 import { PaginatedResult } from '../../_types/pagination';
 
 // BLOG
@@ -25,7 +25,7 @@ export const setCurrentPage = createAction(
 
 export const loadSearchedBlog = createAction(
   '[Blog] Blog Search',
-  props<{ searchValue: string }>()
+  props<{ searchValue: string; page: number; itemsPerPage: number }>()
 );
 
 export const setSelectedCreator = createAction(

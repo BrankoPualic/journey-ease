@@ -9,7 +9,7 @@ namespace API.Interfaces
 
         Task<PagedList<PostDto>> GetBlogAsync(PostParams postParams);
         Task<Post> GetPost(int postId);
-        Task<IEnumerable<PostDto>> GetSearchedBlog(string searchValue);
+        Task<PagedList<PostDto>> GetSearchedBlog(string searchValue, PostParams postParams);
         Task<PostDto> GetSelectedPost(int postId);
         void AddPost(Post post);
         void RemovePost(Post post);
