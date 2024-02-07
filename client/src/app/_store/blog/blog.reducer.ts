@@ -19,7 +19,7 @@ import {
   setSelectedCreator,
 } from './blog.actions';
 import { loadCountriesFailure } from '../countries/countries.actions';
-import { Pagination } from '../../_types/pagination';
+import { ITEMS_PER_PAGE, Pagination } from '../../_types/pagination';
 
 export type BlogState = {
   blog: Post[];
@@ -34,7 +34,7 @@ export const initialState: BlogState = {
   blog: [],
   pagination: {
     currentPage: 1,
-    itemsPerPage: 5,
+    itemsPerPage: ITEMS_PER_PAGE,
     totalItems: 0,
     totalPages: 0,
   },
@@ -77,11 +77,16 @@ export const blogReducer = createReducer(
     status: 'error' as const,
   })),
 
-  on(loadSearchedBlog, (state, { searchValue }) => ({
+  on(loadSearchedBlog, (state, { searchValue, page, itemsPerPage }) => ({
     ...state,
     blog: [
       ...state.blog.filter((blog) => blog.postTitle.includes(searchValue)),
     ],
+    pagination: {
+      ...state.pagination,
+      currentPage: page,
+      itemsPerPage,
+    },
   })),
 
   on(setSelectedCreator, (state, { creator }) => ({

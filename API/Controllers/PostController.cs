@@ -39,13 +39,13 @@ namespace API.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<ActionResult<IEnumerable<PostDto>>> GetSearchedBlog([FromQuery] string searchValue)
+        public async Task<ActionResult<PagedList<PostDto>>> GetSearchedBlog([FromQuery] string searchValue, [FromQuery] PostParams postParams)
         {
             if(string.IsNullOrWhiteSpace(searchValue)) return BadRequest(new { message = "Search value cannot be empty"});
 
-            IEnumerable<PostDto> blog = await _uow.PostRepository.GetSearchedBlog(searchValue);
+            PagedList<PostDto> blog = await _uow.PostRepository.GetSearchedBlog(searchValue, postParams);
 
-            if(blog == null) return NotFound();
+            Response.AddPaginationHeader(new PaginationHeader(blog.CurrentPage, blog.PageSize, blog.TotalCount, blog.TotalPages));
 
             return Ok(blog);
         }

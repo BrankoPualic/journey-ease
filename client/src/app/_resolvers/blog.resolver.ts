@@ -5,9 +5,12 @@ import { AppState } from '../_store/app.state';
 import { loadBlog } from '../_store/blog/blog.actions';
 import { selectAllBlog, selectBlogState } from '../_store/blog/blog.selector';
 import { BlogState } from '../_store/blog/blog.reducer';
+import { ITEMS_PER_PAGE } from '../_types/pagination';
 
 export const blogResolver: ResolveFn<BlogState> = (route, state) => {
-  inject(Store<AppState>).dispatch(loadBlog({ page: 1, itemsPerPage: 5 }));
+  inject(Store<AppState>).dispatch(
+    loadBlog({ page: 1, itemsPerPage: ITEMS_PER_PAGE })
+  );
 
   return inject(Store<AppState>).select(selectBlogState);
 };

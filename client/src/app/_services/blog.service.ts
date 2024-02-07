@@ -47,10 +47,32 @@ export class BlogService {
     return this.dataService.patch<{ message: string }>(newPost, 'post');
   }
 
-  getSearchedBlog(searchValue: string) {
-    return this.dataService.get<Post[]>(
-      `post/search?searchValue=${searchValue}`
-    );
+  getSearchedBlog(searchValue: string, page?: number, itemsPerPage?: number) {
+    let params = new HttpParams();
+
+    if (page && itemsPerPage) {
+      params = params.append('pageNumber', page);
+      params = params.append('pageSize', itemsPerPage);
+    }
+
+    return this.dataService
+      .get<HttpResponse<Post[]>>(`post/search?searchValue=${searchValue}`, {
+        observe: 'response',
+        params,
+      })
+      .pipe(
+        map((response) => {
+          const paginatedResult = new PaginatedResult<Post[]>();
+
+          if (response.body) paginatedResult.result = response.body;
+
+          const pagination = response.headers.get('Pagination');
+
+          if (pagination) paginatedResult.pagination = JSON.parse(pagination);
+
+          return paginatedResult;
+        })
+      );
   }
 
   getPost(postId: number) {
