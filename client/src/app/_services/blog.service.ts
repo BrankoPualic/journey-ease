@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
 import { map } from 'rxjs';
-import { Post } from '../_types/post.types';
+import { BlogStatistics, Post } from '../_types/post.types';
 import { Comment } from '../_types/comment.type';
 import { HttpParams, HttpResponse } from '@angular/common/http';
 import { PaginatedResult } from '../_types/pagination';
@@ -81,5 +81,9 @@ export class BlogService {
 
   getPostComments(postId: number) {
     return this.dataService.get<Comment[]>(`postComment?postId=${postId}`);
+  }
+
+  fetchBlogStatisticsForAdminPage() {
+    return this.dataService.get<BlogStatistics>('admin/blogStatistics');
   }
 }

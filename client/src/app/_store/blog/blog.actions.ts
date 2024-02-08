@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Post } from '../../_types/post.types';
+import { BlogStatistics, Post } from '../../_types/post.types';
 import { PaginatedResult } from '../../_types/pagination';
 
 // BLOG
@@ -74,5 +74,17 @@ export const saveBlogSuccess = createAction('[Admin Page] Save Blog Success');
 
 export const saveBlogFailure = createAction(
   '[Admin Page] Save Blog Failure',
+  props<{ error: string }>()
+);
+
+export const blogStatistics = createAction('[Admin Page] Blog Statistics');
+
+export const loadBlogStatisticsSuccess = createAction(
+  '[Admin Page] Blog Statistics Success',
+  props<{ stats: BlogStatistics }>()
+);
+
+export const loadBlogStatisticsFailure = createAction(
+  '[Admin Page] Blog Statistics Failure',
   props<{ error: string }>()
 );

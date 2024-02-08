@@ -1,0 +1,125 @@
+@if (blogStats$ | async; as stats) {
+<div class="admin-body">
+  <div class="admin-info-stats dashboard-info">
+    <div class="admin-stats-block total-accounts-stats">
+      <div class="admin-stats-icon-holder filter-first">
+        <img
+          src="../../../assets/icons/post.svg"
+          alt="Account multiple icon"
+          class="filter-blue"
+        />
+      </div>
+      <div class="stats-info">
+        <h3>{{ stats.totalBlog }}</h3>
+        <p>Total blog</p>
+      </div>
+    </div>
+    <div class="admin-stats-block logins-stats">
+      <div class="admin-stats-icon-holder filter-second">
+        <img
+          src="../../../assets/icons/account-check.svg"
+          alt="Account clock icon"
+          class="filter-orange"
+        />
+      </div>
+      <div class="stats-info">
+        <h3>{{ stats.totalAuthors }}</h3>
+        <p>Total number of authors</p>
+      </div>
+    </div>
+    <div class="admin-stats-block total-photographers-stats">
+      <div class="admin-stats-icon-holder filter-third">
+        <img
+          src="../../../assets/icons/account-arrow-up.svg"
+          alt="Camera icon"
+          class="filter-green"
+        />
+      </div>
+      <div class="stats-info">
+        <h3>{{ stats.topAuthor }}</h3>
+        <p>Top author</p>
+      </div>
+    </div>
+    <div class="admin-stats-block bookings-stats">
+      <div class="admin-stats-icon-holder filter-fourth">
+        <img
+          src="../../../assets/icons/comment-text-multiple.svg"
+          alt="Block clock icon"
+          class="filter-red"
+        />
+      </div>
+      <div class="stats-info">
+        <h3>{{ stats.totalComments }}</h3>
+        <p>Total number of comments</p>
+      </div>
+    </div>
+  </div>
+  <div class="admin-data-body">
+    <form [formGroup]="post" (ngSubmit)="onInsertPost()">
+      <table>
+        <thead>
+          <tr>
+            @for (key of postKeys; track key) {
+            <th>{{ key }}</th>
+            }
+            <th>Operations</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td></td>
+            <td>
+              <div class="form-row">
+                <input type="text" formControlName="postTitle" />
+              </div>
+            </td>
+            <td>
+              <!-- Dugme za modal za upisati content -->
+            </td>
+            <td>
+              <!-- insert image -->
+            </td>
+            <td></td>
+            <td>
+              <div class="form-row">
+                <input type="text" formControlName="creatorName" />
+              </div>
+            </td>
+            <td>
+              <!-- dugme za modal za kratku descripciju -->
+            </td>
+            <td>
+              <input
+                type="submit"
+                value="Insert"
+                class="btn admin-insert-btn btn-full-style"
+              />
+            </td>
+          </tr>
+          @for (post of blog; track post.postId) {
+          <tr>
+            <td>{{ post.postId }}</td>
+            <td class="text-continues">
+              {{ post.postTitle }}
+            </td>
+            <td>...</td>
+            <td>
+              <div class="admin-post-img">
+                <img src="{{ post.postImageUrl }}" alt="Post image" />
+                <div class="black-drop">View</div>
+              </div>
+            </td>
+            <td>{{ post.postDate | date : "longDate" }}</td>
+            <td class="text-continues">{{ post.creatorName }}</td>
+            <td>...</td>
+            <td class="operation-td">
+              <!-- Treba dodati opcije -->
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </form>
+  </div>
+</div>
+}

@@ -11,3 +11,8 @@ export const selectSelectedCreator = createSelector(
   selectBlog,
   (state) => state.selectedCreator
 );
+
+export const selectBlogStats = createSelector(
+  selectBlog,
+  (state) => state.adminPageStats
+);

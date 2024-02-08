@@ -7,3 +7,10 @@ export type Post = {
   creatorName: string;
   postDescription: string;
 };
+
+export type BlogStatistics = {
+  totalBlog: number;
+  totalAuthors: number;
+  topAuthor: string;
+  totalComments: number;
+};

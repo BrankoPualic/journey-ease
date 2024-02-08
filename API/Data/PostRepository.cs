@@ -69,5 +69,24 @@ namespace API.Data
                 .SingleOrDefaultAsync();
                 
         }
+
+        public async Task<BlogStatistics> GetBlogStatisticsForAdminPage()
+        {
+            int blogCount = await _context.Blog.CountAsync();
+            int authorsCount = await _context.Blog.Select(p => p.CreatorName).Distinct().CountAsync();
+            int commentsCount = await _context.BlogComments.CountAsync();
+            var topAuthor = await _context.Blog.GroupBy(p => p.CreatorName)
+                .Select(group => new { AuthorName = group.Key, PostCount = group.Count()})
+                .OrderByDescending(author => author.PostCount)
+                .FirstOrDefaultAsync();
+            
+            string author = "";
+            if(topAuthor != null) 
+            {
+                author = topAuthor.AuthorName;
+            }
+
+            return new BlogStatistics(blogCount, authorsCount, author, commentsCount);
+        }
     }
 }
