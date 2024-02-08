@@ -1,10 +1,13 @@
 import { createReducer, on } from '@ngrx/store';
-import { Post } from '../../_types/post.types';
+import { BlogStatistics, Post } from '../../_types/post.types';
 import { UnionStatus } from '../../_types/shared.types';
 import {
   addPost,
+  blogStatistics,
   editPost,
   loadBlog,
+  loadBlogStatisticsFailure,
+  loadBlogStatisticsSuccess,
   loadBlogSuccess,
   loadPost,
   loadPostFailure,
@@ -28,6 +31,7 @@ export type BlogState = {
   selectedCreator: string | null;
   error: string | null;
   status: UnionStatus;
+  adminPageStats: BlogStatistics;
 };
 
 export const initialState: BlogState = {
@@ -42,6 +46,12 @@ export const initialState: BlogState = {
   selectedCreator: null,
   error: null,
   status: 'pending',
+  adminPageStats: {
+    totalBlog: 0,
+    totalAuthors: 0,
+    topAuthor: '',
+    totalComments: 0,
+  },
 };
 
 export const blogReducer = createReducer(
@@ -146,6 +156,24 @@ export const blogReducer = createReducer(
   })),
 
   on(loadPostFailure, (state, { error }) => ({
+    ...state,
+    error,
+    status: 'error' as const,
+  })),
+
+  on(blogStatistics, (state) => ({
+    ...state,
+    status: 'loading' as const,
+  })),
+
+  on(loadBlogStatisticsSuccess, (state, { stats }) => ({
+    ...state,
+    adminPageStats: stats || state.adminPageStats,
+    error: null,
+    status: 'success' as const,
+  })),
+
+  on(loadBlogStatisticsFailure, (state, { error }) => ({
     ...state,
     error,
     status: 'error' as const,

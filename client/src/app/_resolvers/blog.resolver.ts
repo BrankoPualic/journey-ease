@@ -3,7 +3,7 @@ import { ResolveFn } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../_store/app.state';
 import { loadBlog } from '../_store/blog/blog.actions';
-import { selectAllBlog, selectBlogState } from '../_store/blog/blog.selector';
+import { selectBlogState } from '../_store/blog/blog.selector';
 import { BlogState } from '../_store/blog/blog.reducer';
 import { ITEMS_PER_PAGE } from '../_types/pagination';
 

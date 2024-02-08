@@ -5,9 +5,12 @@ import { AppState } from '../app.state';
 import { BlogService } from '../../_services/blog.service';
 import {
   addPost,
+  blogStatistics,
   editPost,
   loadBlog,
   loadBlogFailure,
+  loadBlogStatisticsFailure,
+  loadBlogStatisticsSuccess,
   loadBlogSuccess,
   loadPost,
   loadPostFailure,
@@ -117,4 +120,18 @@ export class BlogEffects {
   //     map(() => loadBlog())
   //   )
   // );
+
+  blogStatistics$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(blogStatistics),
+      switchMap((action) =>
+        this.blogService.fetchBlogStatisticsForAdminPage().pipe(
+          map(
+            (stats) => loadBlogStatisticsSuccess({ stats }),
+            catchError((error) => of(loadBlogStatisticsFailure({ error })))
+          )
+        )
+      )
+    )
+  );
 }

@@ -63,6 +63,13 @@ export const routes: Routes = [
                 (m) => m.AdminFaqsComponent
               ),
           },
+          {
+            path: 'blog',
+            loadComponent: () =>
+              import('./admin/admin-blog/admin-blog.component').then(
+                (m) => m.AdminBlogComponent
+              ),
+          },
         ],
       },
     ],

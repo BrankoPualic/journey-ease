@@ -14,5 +14,6 @@ namespace API.Interfaces
         void AddPost(Post post);
         void RemovePost(Post post);
         void UpdatePost(Post post);
+        Task<BlogStatistics> GetBlogStatisticsForAdminPage();
     }
 }

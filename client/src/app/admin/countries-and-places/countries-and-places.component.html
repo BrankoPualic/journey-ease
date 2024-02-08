@@ -100,7 +100,7 @@
               />
             </td>
           </tr>
-          @for (country of (countries$ | async); track country) {
+          @for (country of (countries$ | async); track country.countryId) {
           @if(country.countryId){
           <tr>
             <td>{{ country.countryId }}</td>
