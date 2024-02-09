@@ -104,6 +104,22 @@ namespace API.Data
 
             await context.SaveChangesAsync();
         }
+
+        public static async Task SeedFaqs(DataContext context)
+        {
+            if(await context.Faqs.AnyAsync()) return;
+
+            string faqsData = await File.ReadAllTextAsync("Data/Seeds/FaqSeedData.json");
+
+            List<Faq> faqs = JsonSerializer.Deserialize<List<Faq>>(faqsData);
+
+            foreach(Faq faq in faqs)
+            {
+                context.Faqs.Add(faq);
+            }
+
+            await context.SaveChangesAsync();
+        }
         
         public static async Task SeedBlogComments(DataContext context)
         {

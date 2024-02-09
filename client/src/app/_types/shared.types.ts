@@ -11,3 +11,9 @@ export type Country = {
   countryId: number;
   countryName: string;
 };
+
+export type Faq = {
+  faqId: number;
+  question: string;
+  answer: string;
+};

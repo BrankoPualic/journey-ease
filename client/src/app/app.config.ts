@@ -12,13 +12,25 @@ import { DestinationEffects } from './_store/destinations/destinations.effects';
 import { seasonReducer } from './_store/destinations/destinations.reducer';
 import { BlogEffects } from './_store/blog/blog.effects';
 import { blogReducer } from './_store/blog/blog.reducer';
+import { FaqEffects } from './_store/faqs/faqs.effects';
+import { faqReducer } from './_store/faqs/faqs.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideClientHydration(),
     provideHttpClient(withFetch()),
-    provideStore({ countries: countryReducer, seasons: seasonReducer, blog: blogReducer }),
-    provideEffects([CountryEffects, DestinationEffects, BlogEffects]),
+    provideStore({
+      countries: countryReducer,
+      seasons: seasonReducer,
+      blog: blogReducer,
+      faqs: faqReducer,
+    }),
+    provideEffects([
+      CountryEffects,
+      DestinationEffects,
+      BlogEffects,
+      FaqEffects,
+    ]),
   ],
 };
