@@ -30,7 +30,13 @@ export const setCurrentPage = createAction(
 
 export const loadSearchedBlog = createAction(
   '[Blog] Blog Search',
-  props<{ searchValue: string; page: number; itemsPerPage: number }>()
+  props<{
+    searchValue: string;
+    page: number;
+    itemsPerPage: number;
+    column?: string;
+    direction?: string;
+  }>()
 );
 
 export const setSelectedCreator = createAction(

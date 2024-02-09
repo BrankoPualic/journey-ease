@@ -37,6 +37,8 @@ export class AdminBlogComponent implements OnInit, OnDestroy {
   blog$ = this.store.select(selectBlogState);
   blog: Post[] = [];
   pagination?: Pagination;
+  stateOrderingColumn: string | undefined = 'PostDate';
+  stateDirection: string | undefined = 'descending';
   postKeys: string[] = [];
   post: FormGroup = this.fb.group({});
   blogSubscription?: Subscription;
@@ -68,8 +70,9 @@ export class AdminBlogComponent implements OnInit, OnDestroy {
   bodyInitialization() {
     this.blogSubscription = this.blog$.subscribe((state) => {
       this.blog = state.blog;
-
       this.postKeys = this.sharedService.getObjKeys(this.blog[0]);
+      this.stateOrderingColumn = state.orderingColumn;
+      this.stateDirection = state.direction;
 
       if (state.pagination.totalPages) {
         this.pagination = state.pagination;
@@ -84,19 +87,32 @@ export class AdminBlogComponent implements OnInit, OnDestroy {
   blogSearch(searchValue: string | null) {
     if (searchValue === '') {
       this.store.dispatch(removeSelectedCreator());
-      this.store.dispatch(loadBlog({ page: 1, itemsPerPage: ITEMS_PER_PAGE }));
+      this.store.dispatch(
+        loadBlog({
+          page: 1,
+          itemsPerPage: ITEMS_PER_PAGE,
+          column: this.stateOrderingColumn,
+          direction: this.stateDirection,
+        })
+      );
       return;
     }
     if (searchValue)
       this.store.dispatch(
-        loadSearchedBlog({ searchValue, page: 1, itemsPerPage: ITEMS_PER_PAGE })
+        loadSearchedBlog({
+          searchValue,
+          page: 1,
+          itemsPerPage: ITEMS_PER_PAGE,
+          column: this.stateOrderingColumn,
+          direction: this.stateDirection,
+        })
       );
   }
 
   orderBy(column: string) {
     const currentDirection = this.orderingOptions.get(column);
     const newDirection =
-    currentDirection === 'ascending' ? 'descending' : 'ascending';
+      currentDirection === 'ascending' ? 'descending' : 'ascending';
     this.orderingOptions.set(column, newDirection);
 
     const columnUsed = column.replace(' ', '');
