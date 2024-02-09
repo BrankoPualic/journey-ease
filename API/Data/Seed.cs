@@ -121,5 +121,21 @@ namespace API.Data
             await context.SaveChangesAsync();
         }
         
+        public static async Task SeedBlogComments(DataContext context)
+        {
+            if(await context.BlogComments.AnyAsync()) return;
+
+            string blogCommentsData = await File.ReadAllTextAsync("Data/Seeds/PostCommentSeedData.json");
+
+            List<PostComment> blogComments = JsonSerializer.Deserialize<List<PostComment>>(blogCommentsData);
+
+            foreach(PostComment comment in blogComments)
+            {
+                comment.CommentDate = comment.CommentDate.ToUniversalTime();
+                context.BlogComments.Add(comment);
+            }
+
+            await context.SaveChangesAsync();
+        }
     }
 }

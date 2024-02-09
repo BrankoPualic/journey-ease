@@ -15,6 +15,8 @@ namespace API.Data
         public DbSet<Season> Seasons { get; set; }
         public DbSet<Post> Blog { get; set; }
         public DbSet<Faq> Faqs { get; set; }
+        public DbSet<PostComment> BlogComments { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -30,6 +32,22 @@ namespace API.Data
                 .WithOne(r => r.Role)
                 .HasForeignKey(ur => ur.RoleId)
                 .IsRequired();
+
+            builder.Entity<PostComment>()
+                .HasKey(pc => pc.CommentId);
+
+            builder.Entity<AppUser>()
+                .HasMany(u => u.PostComments)
+                .WithOne(pc => pc.AppUser)
+                .HasForeignKey(pc => pc.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+                
+            builder.Entity<Post>()
+                .HasMany(p => p.PostComments)
+                .WithOne(pc => pc.Post)
+                .HasForeignKey(pc => pc.PostId)
+                .OnDelete(DeleteBehavior.Cascade);
+            
         }
 
     }

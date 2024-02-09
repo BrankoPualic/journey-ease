@@ -1,0 +1,27 @@
+@if (post) {
+<section class="post-page">
+  <div class="post-page-image hidden-el hidden-opacity">
+    <img src="{{ post.postImageUrl }}" alt="{{ post.postImageUrl }}" />
+  </div>
+  <div class="post-page-informations hidden-el hidden-opacity">
+    <a (click)="searchCreatorBlog(post.creatorName)"
+      >{{ post.creatorName }} blog</a
+    >
+    <p class="small-info">
+      {{ post.creatorName }}<br />{{ post.postDate | date : "longDate" }}
+    </p>
+  </div>
+  <div class="post-page-body hidden-el hidden-opacity">
+    <h2>{{ post.postTitle }}</h2>
+    <pre>
+        {{ post.postContent }}
+    </pre>
+  </div>
+  @if (isSignedIn) {
+  <!-- Logic for adding comment -->
+  }
+  <div class="post-page-comments hidden-el hidden-opacity">
+    <app-comments [postComments]="postComments" />
+  </div>
+</section>
+}

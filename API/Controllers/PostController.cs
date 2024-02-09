@@ -1,5 +1,7 @@
 using API.DTOs;
 using API.Entities;
+using API.Extensions;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -17,11 +19,11 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PostDto>>> GetBlog()
+        public async Task<ActionResult<PagedList<PostDto>>> GetBlog([FromQuery]PostParams postParams)
         {
-            IEnumerable<PostDto> blog = await _uow.PostRepository.GetBlogAsync();
+            PagedList<PostDto> blog = await _uow.PostRepository.GetBlogAsync(postParams);
 
-            if(blog == null) return NotFound();
+            Response.AddPaginationHeader(new PaginationHeader(blog.CurrentPage, blog.PageSize, blog.TotalCount, blog.TotalPages));
 
             return Ok(blog);
         }
@@ -37,16 +39,29 @@ namespace API.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<ActionResult<IEnumerable<PostDto>>> GetSearchedBlog([FromQuery] string searchValue)
+        public async Task<ActionResult<PagedList<PostDto>>> GetSearchedBlog([FromQuery] string searchValue, [FromQuery] PostParams postParams)
         {
             if(string.IsNullOrWhiteSpace(searchValue)) return BadRequest(new { message = "Search value cannot be empty"});
 
-            IEnumerable<PostDto> blog = await _uow.PostRepository.GetSearchedBlog(searchValue);
+            PagedList<PostDto> blog = await _uow.PostRepository.GetSearchedBlog(searchValue, postParams);
 
-            if(blog == null) return NotFound();
+            Response.AddPaginationHeader(new PaginationHeader(blog.CurrentPage, blog.PageSize, blog.TotalCount, blog.TotalPages));
 
             return Ok(blog);
         }
+
+        [HttpGet("selected")]
+        public async Task<ActionResult<PostDto>> GetSelectedPost([FromQuery] int postId)
+        {
+            if(postId <= 0) return BadRequest(new {message = "Post id cannot be 0 or negative values"});
+
+            PostDto post = await _uow.PostRepository.GetSelectedPost(postId);
+
+            if(post == null) return NotFound();
+
+            return Ok(post);
+        }
+
 
         [HttpPost]
         public async Task<ActionResult<string>> AddPost(PostDto postDto)

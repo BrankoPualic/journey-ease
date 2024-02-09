@@ -3,6 +3,7 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240128212422_BlogCommentsFixingAppUserCountryIdNull")]
+    partial class BlogCommentsFixingAppUserCountryIdNull
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -164,25 +167,6 @@ namespace API.Data.Migrations
                     b.HasKey("CountryId");
 
                     b.ToTable("Countries");
-                });
-
-            modelBuilder.Entity("API.Entities.Faq", b =>
-                {
-                    b.Property<int>("FaqId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("FaqId"));
-
-                    b.Property<string>("Answer")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Question")
-                        .HasColumnType("text");
-
-                    b.HasKey("FaqId");
-
-                    b.ToTable("FAQs");
                 });
 
             modelBuilder.Entity("API.Entities.Post", b =>

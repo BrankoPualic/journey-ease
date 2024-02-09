@@ -1,0 +1,11 @@
+<div class="pagination">
+  @for (page of totalItemsArray; let i = $index; track page) {
+  <div
+    class="page"
+    (click)="changePage(i + 1)"
+    [class.active]="i + 1 === currentPage"
+  >
+    <a>{{ i + 1 }}</a>
+  </div>
+  }
+</div>

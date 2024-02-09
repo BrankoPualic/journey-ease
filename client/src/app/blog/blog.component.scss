@@ -30,6 +30,9 @@
     border-bottom: 2px solid $grey;
     padding: 3rem 0;
     @include flex(row, space-between, nowrap, center);
+    &:nth-last-child(1) {
+      border-bottom: none;
+    }
     .post-info {
       @include flex(column, flex-start, nowrap, flex-start);
       height: 100%;

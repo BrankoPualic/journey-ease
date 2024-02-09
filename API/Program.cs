@@ -43,6 +43,7 @@ try
     await Seed.SeedUsers(userManager, roleManager);
     await Seed.SeedBlog(context);
     await Seed.SeedFaqs(context);
+    await Seed.SeedBlogComments(context);
 }
 catch(Exception ex)
 {

@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
+import { blogResolver } from './_resolvers/blog.resolver';
 
 export const routes: Routes = [
   {
@@ -16,8 +17,20 @@ export const routes: Routes = [
       },
       {
         path: 'blog',
-        loadComponent: () =>
-          import('./blog/blog.component').then((m) => m.BlogComponent),
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('./blog/blog.component').then((m) => m.BlogComponent),
+            pathMatch: 'full',
+            resolve: { blogData: blogResolver },
+          },
+          {
+            path: 'post/:id',
+            loadComponent: () =>
+              import('./blog/post/post.component').then((m) => m.PostComponent),
+          },
+        ],
       },
       {
         path: 'faqs',
@@ -53,6 +66,13 @@ export const routes: Routes = [
             loadComponent: () =>
               import('./admin/admin-faqs/admin-faqs.component').then(
                 (m) => m.AdminFaqsComponent
+              ),
+          },
+          {
+            path: 'blog',
+            loadComponent: () =>
+              import('./admin/admin-blog/admin-blog.component').then(
+                (m) => m.AdminBlogComponent
               ),
           },
         ],

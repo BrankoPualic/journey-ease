@@ -5,10 +5,16 @@ import { AppState } from '../app.state';
 import { BlogService } from '../../_services/blog.service';
 import {
   addPost,
+  blogStatistics,
   editPost,
   loadBlog,
   loadBlogFailure,
+  loadBlogStatisticsFailure,
+  loadBlogStatisticsSuccess,
   loadBlogSuccess,
+  loadPost,
+  loadPostFailure,
+  loadPostSuccess,
   loadSearchedBlog,
   removePost,
   saveBlogFailure,
@@ -28,10 +34,22 @@ export class BlogEffects {
   loadBlog$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadBlog),
-      switchMap(() =>
-        this.blogService.getBlog().pipe(
-          map((blog) => loadBlogSuccess({ blog })),
+      switchMap((action) =>
+        this.blogService.getBlog(action.page, action.itemsPerPage).pipe(
+          map((result) => loadBlogSuccess({ paginatedResult: result })),
           catchError((error) => of(loadBlogFailure({ error })))
+        )
+      )
+    )
+  );
+
+  loadPost$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadPost),
+      switchMap((action) =>
+        this.blogService.getPost(action.postId).pipe(
+          map((post) => loadPostSuccess({ post })),
+          catchError((error) => of(loadPostFailure({ error })))
         )
       )
     )
@@ -40,12 +58,13 @@ export class BlogEffects {
   loadSearchedBlog$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadSearchedBlog),
-      withLatestFrom(this.store.select(selectAllBlog)),
-      switchMap(([action, blog]) =>
-        this.blogService.getSearchedBlog(action.searchValue).pipe(
-          map((blog) => loadBlogSuccess({ blog })),
-          catchError((error) => of(loadBlogFailure({ error })))
-        )
+      switchMap((action) =>
+        this.blogService
+          .getSearchedBlog(action.searchValue, action.page, action.itemsPerPage)
+          .pipe(
+            map((result) => loadBlogSuccess({ paginatedResult: result })),
+            catchError((error) => of(loadBlogFailure({ error })))
+          )
       )
     )
   );
@@ -95,10 +114,24 @@ export class BlogEffects {
     )
   );
 
-  loadAfterSave$ = createEffect(() =>
+  // loadAfterSave$ = createEffect(() =>
+  //   this.actions$.pipe(
+  //     ofType(saveBlogSuccess),
+  //     map(() => loadBlog())
+  //   )
+  // );
+
+  blogStatistics$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(saveBlogSuccess),
-      map(() => loadBlog())
+      ofType(blogStatistics),
+      switchMap((action) =>
+        this.blogService.fetchBlogStatisticsForAdminPage().pipe(
+          map(
+            (stats) => loadBlogStatisticsSuccess({ stats }),
+            catchError((error) => of(loadBlogStatisticsFailure({ error })))
+          )
+        )
+      )
     )
   );
 }

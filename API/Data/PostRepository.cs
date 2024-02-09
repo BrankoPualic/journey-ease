@@ -1,5 +1,6 @@
 using API.DTOs;
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -17,11 +18,15 @@ namespace API.Data
             _context = context;
 
         }
-        public async Task<IEnumerable<PostDto>> GetBlogAsync()
+
+        public async Task<PagedList<PostDto>> GetBlogAsync(PostParams postParams)
         {
-            return await _context.Blog
+            var query = _context.Blog
                 .ProjectTo<PostDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
+                .OrderByDescending(p => p.PostDate)
+                .AsNoTracking();
+
+            return await PagedList<PostDto>.CreateAsync(query, postParams.PageNumber, postParams.PageSize);
         }
 
         public async Task<Post> GetPost(int postId)
@@ -44,12 +49,44 @@ namespace API.Data
             _context.Entry(post).State = EntityState.Modified;
         }
 
-        public async Task<IEnumerable<PostDto>> GetSearchedBlog(string searchValue)
+        public async Task<PagedList<PostDto>> GetSearchedBlog(string searchValue, PostParams postParams)
+        {
+            var query = _context.Blog
+                .Where(p => p.PostTitle.ToLower().Contains(searchValue.ToLower())
+                    || p.CreatorName.ToLower().Contains(searchValue.ToLower()))
+                .OrderByDescending(p => p.PostDate)
+                .ProjectTo<PostDto>(_mapper.ConfigurationProvider)
+                .AsNoTracking();
+
+            return await PagedList<PostDto>.CreateAsync(query, postParams.PageNumber, postParams.PageSize);
+        }
+
+        public async Task<PostDto> GetSelectedPost(int postId)
         {
             return await _context.Blog
-                .Where(blog => blog.PostTitle.ToLower().Contains(searchValue.ToLower()))
+                .Where(post => post.PostId == postId)
                 .ProjectTo<PostDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
+                .SingleOrDefaultAsync();
+                
+        }
+
+        public async Task<BlogStatistics> GetBlogStatisticsForAdminPage()
+        {
+            int blogCount = await _context.Blog.CountAsync();
+            int authorsCount = await _context.Blog.Select(p => p.CreatorName).Distinct().CountAsync();
+            int commentsCount = await _context.BlogComments.CountAsync();
+            var topAuthor = await _context.Blog.GroupBy(p => p.CreatorName)
+                .Select(group => new { AuthorName = group.Key, PostCount = group.Count()})
+                .OrderByDescending(author => author.PostCount)
+                .FirstOrDefaultAsync();
+            
+            string author = "";
+            if(topAuthor != null) 
+            {
+                author = topAuthor.AuthorName;
+            }
+
+            return new BlogStatistics(blogCount, authorsCount, author, commentsCount);
         }
     }
 }
