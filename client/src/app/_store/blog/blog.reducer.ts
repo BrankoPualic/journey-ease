@@ -32,6 +32,8 @@ export type BlogState = {
   error: string | null;
   status: UnionStatus;
   adminPageStats: BlogStatistics;
+  orderingColumn: string | undefined;
+  direction: string | undefined;
 };
 
 export const initialState: BlogState = {
@@ -52,18 +54,22 @@ export const initialState: BlogState = {
     topAuthor: '',
     totalComments: 0,
   },
+  orderingColumn: 'PostDate',
+  direction: 'descending',
 };
 
 export const blogReducer = createReducer(
   initialState,
 
-  on(loadBlog, (state, { page, itemsPerPage }) => ({
+  on(loadBlog, (state, { page, itemsPerPage, column, direction }) => ({
     ...state,
     pagination: {
       ...state.pagination,
       currentPage: page,
       itemsPerPage,
     },
+    orderingColumn: column,
+    direction,
     status: 'loading' as const,
   })),
 
@@ -87,17 +93,23 @@ export const blogReducer = createReducer(
     status: 'error' as const,
   })),
 
-  on(loadSearchedBlog, (state, { searchValue, page, itemsPerPage }) => ({
-    ...state,
-    blog: [
-      ...state.blog.filter((blog) => blog.postTitle.includes(searchValue)),
-    ],
-    pagination: {
-      ...state.pagination,
-      currentPage: page,
-      itemsPerPage,
-    },
-  })),
+  on(
+    loadSearchedBlog,
+    (state, { searchValue, page, itemsPerPage, column, direction }) => ({
+      ...state,
+      blog: [
+        ...state.blog.filter((blog) => blog.postTitle.includes(searchValue)),
+      ],
+      pagination: {
+        ...state.pagination,
+        currentPage: page,
+        itemsPerPage,
+      },
+      orderingColumn: column,
+      direction,
+      status: 'loading' as const,
+    })
+  ),
 
   on(setSelectedCreator, (state, { creator }) => ({
     ...state,

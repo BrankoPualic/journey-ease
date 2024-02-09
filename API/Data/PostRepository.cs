@@ -63,9 +63,18 @@ namespace API.Data
             var query = _context.Blog
                 .Where(p => p.PostTitle.ToLower().Contains(searchValue.ToLower())
                     || p.CreatorName.ToLower().Contains(searchValue.ToLower()))
-                .OrderByDescending(p => p.PostDate)
                 .ProjectTo<PostDto>(_mapper.ConfigurationProvider)
                 .AsNoTracking();
+
+            if(!string.IsNullOrWhiteSpace(postParams.Column))
+            {
+                string direction = postParams.Direction;
+                query = query.OrderByProperty<PostDto>(postParams.Column, direction);
+            }
+            else
+            {
+                query = query.OrderByDescending(p => p.PostDate);
+            }
 
             return await PagedList<PostDto>.CreateAsync(query, postParams.PageNumber, postParams.PageSize);
         }

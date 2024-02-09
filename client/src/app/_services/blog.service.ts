@@ -57,12 +57,22 @@ export class BlogService {
     return this.dataService.patch<{ message: string }>(newPost, 'post');
   }
 
-  getSearchedBlog(searchValue: string, page?: number, itemsPerPage?: number) {
+  getSearchedBlog(
+    searchValue: string,
+    page?: number,
+    itemsPerPage?: number,
+    column?: string,
+    direction?: string
+  ) {
     let params = new HttpParams();
 
     if (page && itemsPerPage) {
       params = params.append('pageNumber', page);
       params = params.append('pageSize', itemsPerPage);
+    }
+    if (direction && column) {
+      params = params.append('column', column);
+      params = params.append('direction', direction);
     }
 
     return this.dataService

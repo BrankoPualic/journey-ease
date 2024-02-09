@@ -67,7 +67,13 @@ export class BlogEffects {
       ofType(loadSearchedBlog),
       switchMap((action) =>
         this.blogService
-          .getSearchedBlog(action.searchValue, action.page, action.itemsPerPage)
+          .getSearchedBlog(
+            action.searchValue,
+            action.page,
+            action.itemsPerPage,
+            action.column,
+            action.direction
+          )
           .pipe(
             map((result) => loadBlogSuccess({ paginatedResult: result })),
             catchError((error) => of(loadBlogFailure({ error })))
