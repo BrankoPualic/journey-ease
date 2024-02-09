@@ -27,6 +27,7 @@ import { selectAllCountries } from '../../_store/countries/countries.selectors';
 })
 export class CountriesAndPlacesComponent implements OnInit, OnDestroy {
   private countriesSubscription: Subscription | undefined;
+  countriesCount = 0;
   countries$ = this.store.select(selectAllCountries);
   countryKeys: string[] = [];
   insertForm: FormGroup = this.fb.group({});
@@ -43,6 +44,8 @@ export class CountriesAndPlacesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.countriesSubscription = this.countries$.subscribe((countries) => {
       if (countries && countries.length > 0) {
+        this.countriesCount = countries.length;
+
         this.countryKeys = this.sharedService.getObjKeys(countries[0]);
 
         this.unsubscribeCountries();

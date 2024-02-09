@@ -14,6 +14,7 @@ namespace API.Data
         public DbSet<Country> Countries { get; set; }
         public DbSet<Season> Seasons { get; set; }
         public DbSet<Post> Blog { get; set; }
+        public DbSet<Faq> Faqs { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

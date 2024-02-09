@@ -19,6 +19,8 @@ namespace API.Data
 
         public IPostRepository PostRepository => new PostRepository(_context, _mapper);
 
+        public IFaqRepository FaqRepository => new FaqRepository(_context, _mapper);
+
         public async Task<bool> Complete()
         {
             return await _context.SaveChangesAsync() > 0;

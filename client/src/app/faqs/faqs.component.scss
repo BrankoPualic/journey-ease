@@ -1,0 +1,62 @@
+@import "../../styles.scss";
+
+.faqs {
+  .faqs-wrapper {
+    width: 55%;
+    margin: 0 auto;
+    padding: 5rem 0;
+  }
+  .faqs-top {
+    h1 {
+      font-size: 7em;
+      margin-bottom: 1.5rem;
+    }
+
+    p {
+      color: $grey;
+      font-size: 1.1em;
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  .faqs-bottom {
+    background-color: $light-grey;
+
+    .faq-row {
+      border-bottom: 2px solid $black;
+      .question-row {
+        padding: 0.8rem 0;
+        @include flex(row, space-between, wrap, center);
+        cursor: pointer;
+
+        &::after {
+          content: "\002B";
+          font-size: 2em;
+          margin-right: 1rem;
+        }
+
+        &.question-active::after {
+          content: "\2212";
+        }
+
+        p {
+          font-weight: bold;
+          font-size: 1.3em;
+        }
+      }
+      .answer-block {
+        padding: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height $transition ease-in-out;
+
+        p {
+          line-height: 1.8;
+          font-size: 1.1em;
+          letter-spacing: 0.3px;
+          margin-bottom: 0.8rem;
+        }
+      }
+    }
+  }
+}

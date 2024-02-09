@@ -166,6 +166,25 @@ namespace API.Data.Migrations
                     b.ToTable("Countries");
                 });
 
+            modelBuilder.Entity("API.Entities.Faq", b =>
+                {
+                    b.Property<int>("FaqId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("FaqId"));
+
+                    b.Property<string>("Answer")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Question")
+                        .HasColumnType("text");
+
+                    b.HasKey("FaqId");
+
+                    b.ToTable("FAQs");
+                });
+
             modelBuilder.Entity("API.Entities.Post", b =>
                 {
                     b.Property<int>("PostId")

@@ -1,0 +1,25 @@
+<div class="faqs">
+  <div class="faqs-top">
+    <div class="faqs-wrapper">
+      <h1>FAQs</h1>
+      <p>Frequently Asked Questions.</p>
+      <p>Here are some common questions about JourneyEase.</p>
+    </div>
+  </div>
+  <div class="faqs-bottom">
+    <div class="faqs-wrapper">
+      @for (faq of (faqs$ | async); track faq.faqId; let i = $index) {
+      <div class="faq-row">
+        <div class="question-row" (click)="onOpenQuestion(i)">
+          <p>{{ faq.question }}</p>
+        </div>
+        <div class="answer-block">
+          <p>{{ faq.answer }}</p>
+        </div>
+      </div>
+      } @empty {
+      <h3>There are no faqs currently!</h3>
+      }
+    </div>
+  </div>
+</div>
