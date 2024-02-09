@@ -30,3 +30,13 @@
     }
   }
 }
+
+.form-row {
+  padding-left: 1rem;
+  @include flex(row, flex-start, nowrap, center);
+  margin: 0 0 1rem 0;
+  label {
+    margin-right: 1rem;
+    font-weight: bold;
+  }
+}
