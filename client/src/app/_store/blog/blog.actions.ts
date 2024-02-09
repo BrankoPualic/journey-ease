@@ -5,7 +5,12 @@ import { PaginatedResult } from '../../_types/pagination';
 // BLOG
 export const loadBlog = createAction(
   '[Blog] Load Blog',
-  props<{ page: number; itemsPerPage: number }>()
+  props<{
+    page: number;
+    itemsPerPage: number;
+    column?: string;
+    direction?: string;
+  }>()
 );
 
 export const loadBlogSuccess = createAction(

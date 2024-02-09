@@ -270,6 +270,14 @@ $box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
         thead {
           th {
             padding: 0 1rem;
+            img.sort {
+              position: relative;
+              top: 5px;
+              left: 5px;
+              width: 25px;
+              height: 20px;
+              cursor: pointer;
+            }
           }
         }
         tbody {
@@ -407,4 +415,8 @@ $box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
   text-overflow: ellipsis;
   overflow: hidden;
   text-wrap: nowrap;
+}
+
+h3.nothing-found {
+  margin-left: 1rem;
 }

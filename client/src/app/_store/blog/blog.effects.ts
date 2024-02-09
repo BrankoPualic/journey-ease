@@ -35,10 +35,17 @@ export class BlogEffects {
     this.actions$.pipe(
       ofType(loadBlog),
       switchMap((action) =>
-        this.blogService.getBlog(action.page, action.itemsPerPage).pipe(
-          map((result) => loadBlogSuccess({ paginatedResult: result })),
-          catchError((error) => of(loadBlogFailure({ error })))
-        )
+        this.blogService
+          .getBlog(
+            action.page,
+            action.itemsPerPage,
+            action.column,
+            action.direction
+          )
+          .pipe(
+            map((result) => loadBlogSuccess({ paginatedResult: result })),
+            catchError((error) => of(loadBlogFailure({ error })))
+          )
       )
     )
   );

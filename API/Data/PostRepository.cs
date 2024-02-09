@@ -1,5 +1,6 @@
 using API.DTOs;
 using API.Entities;
+using API.Extensions;
 using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
@@ -23,8 +24,16 @@ namespace API.Data
         {
             var query = _context.Blog
                 .ProjectTo<PostDto>(_mapper.ConfigurationProvider)
-                .OrderByDescending(p => p.PostDate)
                 .AsNoTracking();
+
+            if(!string.IsNullOrWhiteSpace(postParams.Column))
+            {
+                string direction = postParams.Direction;
+                query = query.OrderByProperty<PostDto>(postParams.Column, direction);
+            }
+            else{
+                query = query.OrderByDescending(p => p.PostDate);
+            }
 
             return await PagedList<PostDto>.CreateAsync(query, postParams.PageNumber, postParams.PageSize);
         }

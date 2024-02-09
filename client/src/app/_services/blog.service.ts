@@ -12,12 +12,21 @@ import { PaginatedResult } from '../_types/pagination';
 export class BlogService {
   constructor(private dataService: DataService) {}
 
-  getBlog(page?: number, itemsPerPage?: number) {
+  getBlog(
+    page?: number,
+    itemsPerPage?: number,
+    column?: string,
+    direction?: string
+  ) {
     let params = new HttpParams();
 
     if (page && itemsPerPage) {
       params = params.append('pageNumber', page);
       params = params.append('pageSize', itemsPerPage);
+    }
+    if (direction && column) {
+      params = params.append('column', column);
+      params = params.append('direction', direction);
     }
 
     return this.dataService
@@ -30,6 +39,7 @@ export class BlogService {
           const pagination = response.headers.get('Pagination');
 
           if (pagination) paginatedResult.pagination = JSON.parse(pagination);
+
           return paginatedResult;
         })
       );
@@ -69,7 +79,6 @@ export class BlogService {
           const pagination = response.headers.get('Pagination');
 
           if (pagination) paginatedResult.pagination = JSON.parse(pagination);
-
           return paginatedResult;
         })
       );

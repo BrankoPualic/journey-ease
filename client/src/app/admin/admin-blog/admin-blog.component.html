@@ -55,12 +55,31 @@
     </div>
   </div>
   <div class="admin-data-body">
+    <form>
+      <div class="form-row">
+        <label>Search for post title or author name: </label>
+        <input
+          type="text"
+          [formControl]="searchValue"
+          placeholder="Search..."
+        />
+      </div>
+    </form>
     <form [formGroup]="post" (ngSubmit)="onInsertPost()">
       <table>
         <thead>
           <tr>
             @for (key of postKeys; track key) {
-            <th>{{ key }}</th>
+            <th>
+              {{ key }} @if (key === 'Post Id' || key === 'Post Date') {
+              <img
+                src="assets/icons/sort.svg"
+                alt="sort svg icon"
+                class="sort"
+                (click)="orderBy(key)"
+              />
+              }
+            </th>
             }
             <th>Operations</th>
           </tr>
@@ -120,6 +139,16 @@
         </tbody>
       </table>
     </form>
+    @if (pagination && blog.length) {
+    <app-pagination
+      [currentPage]="pagination.currentPage"
+      [itemsPerPage]="pagination.itemsPerPage"
+      [paginationType]="'blog'"
+      [totalPages]="pagination.totalPages"
+    />
+    } @if (!blog.length) {
+    <h3 class="nothing-found">No blog found for searched value.</h3>
+    }
   </div>
 </div>
 }
