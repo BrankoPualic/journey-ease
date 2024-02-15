@@ -37,7 +37,7 @@ namespace API.Controllers
 
                 string adminPanelUri = "/admin/countries-and-places";
 
-                if(await _uow.Complete()) return Created(adminPanelUri ,new { message = "Successfully added country!"});
+                if(await _uow.Complete()) return Created(adminPanelUri ,new { message = "Successfully added country."});
 
                 return BadRequest(new { message = "Failed to add to database" });
             }

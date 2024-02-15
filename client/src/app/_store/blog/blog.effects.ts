@@ -22,6 +22,7 @@ import {
 } from './blog.actions';
 import { catchError, from, map, of, switchMap, withLatestFrom } from 'rxjs';
 import { selectAllBlog } from './blog.selector';
+import { ITEMS_PER_PAGE } from '../../_types/pagination';
 
 @Injectable()
 export class BlogEffects {
@@ -85,8 +86,7 @@ export class BlogEffects {
   addPost$ = createEffect(() =>
     this.actions$.pipe(
       ofType(addPost),
-      withLatestFrom(this.store.select(selectAllBlog)),
-      switchMap(([action, blog]) => {
+      switchMap((action) => {
         return from(
           this.blogService.addPost(action.post).pipe(
             map(() => saveBlogSuccess()),
@@ -127,12 +127,12 @@ export class BlogEffects {
     )
   );
 
-  // loadAfterSave$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(saveBlogSuccess),
-  //     map(() => loadBlog())
-  //   )
-  // );
+  loadAfterSave$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(saveBlogSuccess),
+      map(() => loadBlog({ page: 1, itemsPerPage: ITEMS_PER_PAGE }))
+    )
+  );
 
   blogStatistics$ = createEffect(() =>
     this.actions$.pipe(

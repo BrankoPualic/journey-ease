@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { TypeOfPagination } from '../_types/pagination';
+import { ITEMS_PER_PAGE, TypeOfPagination } from '../_types/pagination';
 import { Store } from '@ngrx/store';
 import { AppState } from '../_store/app.state';
-import { loadBlog } from '../_store/blog/blog.actions';
+import { loadBlog, loadSearchedBlog } from '../_store/blog/blog.actions';
+import { selectSelectedCreator } from '../_store/blog/blog.selector';
 
 @Component({
   selector: 'app-pagination',
@@ -17,6 +18,8 @@ export class PaginationComponent implements OnInit {
   @Input() itemsPerPage?: number;
   @Input() paginationType?: TypeOfPagination;
   @Input() currentPage?: number;
+  @Input() orderingColumn?: string;
+  @Input() direction?: string;
   totalItemsArray: number[] = [];
 
   constructor(private store: Store<AppState>) {}
@@ -34,11 +37,27 @@ export class PaginationComponent implements OnInit {
   }
 
   changeBlogPage(page: number) {
-    this.store.dispatch(
-      loadBlog({
-        page,
-        itemsPerPage: this.itemsPerPage ? this.itemsPerPage : 10,
-      })
-    );
+    const itemsPerPage = this.itemsPerPage ? this.itemsPerPage : ITEMS_PER_PAGE;
+    this.store.select(selectSelectedCreator).subscribe((creator) => {
+      if (creator) {
+        this.store.dispatch(
+          loadSearchedBlog({
+            searchValue: creator,
+            page,
+            itemsPerPage: itemsPerPage,
+            column: this.orderingColumn,
+            direction: this.direction,
+          })
+        );
+      } else
+        this.store.dispatch(
+          loadBlog({
+            page,
+            itemsPerPage: itemsPerPage,
+            column: this.orderingColumn,
+            direction: this.direction,
+          })
+        );
+    });
   }
 }

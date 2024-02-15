@@ -18,7 +18,6 @@ import {
   removeSelectedPost,
   saveBlogFailure,
   saveBlogSuccess,
-  setCurrentPage,
   setSelectedCreator,
 } from './blog.actions';
 import { loadCountriesFailure } from '../countries/countries.actions';
@@ -126,9 +125,9 @@ export const blogReducer = createReducer(
     post: null,
   })),
 
-  on(addPost, (state, { post }) => ({
+  on(addPost, (state) => ({
     ...state,
-    blog: [...state.blog, post],
+    status: 'loading' as const,
   })),
 
   on(saveBlogSuccess, (state) => ({

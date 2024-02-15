@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../_store/app.state';
 import {
@@ -7,10 +13,12 @@ import {
   selectSelectedCreator,
 } from '../../_store/blog/blog.selector';
 import {
+  addPost,
   blogStatistics,
   loadBlog,
   loadSearchedBlog,
   removeSelectedCreator,
+  setSelectedCreator,
 } from '../../_store/blog/blog.actions';
 import { CommonModule } from '@angular/common';
 import {
@@ -18,38 +26,54 @@ import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { Post } from '../../_types/post.types';
 import { ITEMS_PER_PAGE, Pagination } from '../../_types/pagination';
 import { SharedService } from '../../_services/shared.service';
 import { Subscription, debounceTime, distinctUntilChanged } from 'rxjs';
 import { PaginationComponent } from '../../pagination/pagination.component';
+import { ModalService } from '../../_services/modal.service';
+import { TextReviewModalComponent } from '../../_modals/text-review-modal/text-review-modal.component';
 
 @Component({
   selector: 'app-admin-blog',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, PaginationComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    PaginationComponent,
+    TextReviewModalComponent,
+  ],
   templateUrl: './admin-blog.component.html',
   styleUrl: './admin-blog.component.scss',
 })
 export class AdminBlogComponent implements OnInit, OnDestroy {
+  @ViewChild('fileInput') fileInput?: ElementRef<HTMLInputElement>;
   blogStats$ = this.store.select(selectBlogStats);
   blog$ = this.store.select(selectBlogState);
   blog: Post[] = [];
   pagination?: Pagination;
-  stateOrderingColumn: string | undefined = 'PostDate';
-  stateDirection: string | undefined = 'descending';
   postKeys: string[] = [];
-  post: FormGroup = this.fb.group({});
+  postForm: FormGroup = this.fb.group({});
+  formData = new FormData();
+  imageUploaded = false;
   blogSubscription?: Subscription;
   searchValue = new FormControl('');
   typingSubscription?: Subscription;
+
+  stateOrderingColumn: string | undefined = 'PostDate';
+  stateDirection: string | undefined = 'descending';
   orderingOptions = new Map<string, string>();
+
+  textEditingModalMapSubscription?: Subscription;
+  textEditingModalMap?: Map<string, string>;
 
   constructor(
     private store: Store<AppState>,
     private fb: FormBuilder,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private modalService: ModalService
   ) {}
 
   ngOnInit(): void {
@@ -61,16 +85,40 @@ export class AdminBlogComponent implements OnInit, OnDestroy {
 
     this.orderingOptions.set('Post Id', 'descending');
     this.orderingOptions.set('Post Date', 'ascending');
+
+    this.textEditingModalMapSubscription =
+      this.modalService.textEditingModalMap$.subscribe(
+        (map) => (this.textEditingModalMap = map)
+      );
+
+    this.modalService.textEditingModalMap$.subscribe((map) => {
+      map.forEach((value, key) => {
+        if (this.postForm.controls[key])
+          this.postForm.controls[key].setValue(value);
+      });
+    });
   }
 
   ngOnDestroy(): void {
     this.blogSubscription?.unsubscribe();
+    this.store.dispatch(removeSelectedCreator());
+  }
+
+  initializeForm() {
+    this.postForm = this.fb.group({
+      postTitle: ['', Validators.required],
+      postContent: ['', Validators.required],
+      creatorName: ['', Validators.required],
+      postDescription: ['', Validators.required],
+    });
   }
 
   bodyInitialization() {
     this.blogSubscription = this.blog$.subscribe((state) => {
       this.blog = state.blog;
-      this.postKeys = this.sharedService.getObjKeys(this.blog[0]);
+      if (state.blog.length) {
+        this.postKeys = this.sharedService.getObjKeys(this.blog[0]);
+      }
       this.stateOrderingColumn = state.orderingColumn;
       this.stateDirection = state.direction;
 
@@ -79,10 +127,61 @@ export class AdminBlogComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.store.dispatch(loadBlog({ page: 1, itemsPerPage: ITEMS_PER_PAGE }));
+    this.store.select(selectSelectedCreator).subscribe((creator) => {
+      if (creator) {
+        this.store.dispatch(
+          loadSearchedBlog({
+            searchValue: creator,
+            page: 1,
+            itemsPerPage: ITEMS_PER_PAGE,
+          })
+        );
+      } else
+        this.store.dispatch(
+          loadBlog({ page: 1, itemsPerPage: ITEMS_PER_PAGE })
+        );
+    });
+
+    this.initializeForm();
   }
 
-  onInsertPost() {}
+  onInsertPost() {
+    if (!this.postForm.valid || !this.imageUploaded) return;
+
+    const postTitle = this.postForm.controls['postTitle'].value;
+    const postContent = this.postForm.controls['postContent'].value;
+    const creatorName = this.postForm.controls['creatorName'].value;
+    const postDescription = this.postForm.controls['postDescription'].value;
+    this.formData.append('postTitle', postTitle);
+    this.formData.append('postContent', postContent);
+    this.formData.append('creatorName', creatorName);
+    this.formData.append('postDescription', postDescription);
+
+    this.store.dispatch(addPost({ post: this.formData }));
+
+    this.postForm.reset();
+
+    this.modalService.clearTextEditingModalMap();
+
+    if (this.fileInput) {
+      this.fileInput.nativeElement.value = '';
+    }
+
+    this.imageUploaded = false;
+  }
+
+  uploadImage() {
+    this.fileInput?.nativeElement.click();
+  }
+
+  onImageInputChange(fileInput: HTMLInputElement) {
+    if (fileInput.files![0] === undefined) return;
+
+    const file = fileInput.files![0];
+
+    this.formData.append('image', file);
+    this.imageUploaded = true;
+  }
 
   blogSearch(searchValue: string | null) {
     if (searchValue === '') {
@@ -97,7 +196,8 @@ export class AdminBlogComponent implements OnInit, OnDestroy {
       );
       return;
     }
-    if (searchValue)
+    if (searchValue) {
+      this.store.dispatch(setSelectedCreator({ creator: searchValue }));
       this.store.dispatch(
         loadSearchedBlog({
           searchValue,
@@ -107,6 +207,7 @@ export class AdminBlogComponent implements OnInit, OnDestroy {
           direction: this.stateDirection,
         })
       );
+    }
   }
 
   orderBy(column: string) {
@@ -120,14 +221,51 @@ export class AdminBlogComponent implements OnInit, OnDestroy {
       this.pagination?.currentPage !== undefined
         ? this.pagination.currentPage
         : 1;
-    this.store.dispatch(
-      loadBlog({
-        page: page,
-        itemsPerPage: ITEMS_PER_PAGE,
-        column: columnUsed,
-        direction: newDirection,
-      })
-    );
+
+    this.store.select(selectSelectedCreator).subscribe((creator) => {
+      if (creator) {
+        this.store.dispatch(
+          loadSearchedBlog({
+            searchValue: creator,
+            page: page,
+            itemsPerPage: ITEMS_PER_PAGE,
+            column: columnUsed,
+            direction: newDirection,
+          })
+        );
+      } else {
+        this.store.dispatch(
+          loadBlog({
+            page: page,
+            itemsPerPage: ITEMS_PER_PAGE,
+            column: columnUsed,
+            direction: newDirection,
+          })
+        );
+      }
+    });
+  }
+
+  openTextReviewModal(text: string, title: string) {
+    this.modalService.setStatusTextReviewModal(true, title, text);
+  }
+
+  openPhotoModal(imgUrl: string) {
+    this.modalService.setStatusPhotoModal(true, [imgUrl]);
+  }
+
+  openTextEditingModal(key: string) {
+    this.modalService.setKeyWhatIsEdited(key);
+    if (this.textEditingModalMap && this.textEditingModalMap.has(key)) {
+      const value =
+        this.textEditingModalMap.get(key) !== undefined
+          ? this.textEditingModalMap.get(key)
+          : '';
+      if (value) this.modalService.setStatusTextEditingModal(true, key, value);
+      return;
+    }
+
+    this.modalService.setStatusTextEditingModal(true, key, '');
   }
 
   private searchTypingManagement() {

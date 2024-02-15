@@ -53,6 +53,18 @@ $box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
   list-style-type: none;
 }
 
+*::-webkit-scrollbar {
+  height: 9px;
+  width: 9px;
+  background-color: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: $grey;
+}
+
 .btn {
   padding: 0.75rem 1rem;
   font-size: 1em;
@@ -79,6 +91,16 @@ $box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
     -webkit-box-shadow: $box-shadow-hover;
     -moz-box-shadow: $box-shadow-hover;
     box-shadow: $box-shadow-hover;
+  }
+  &:disabled {
+    background-color: $grey;
+    border: none;
+    cursor: default;
+    &:hover {
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+    }
   }
 
   &.admin-insert-btn {
@@ -424,4 +446,61 @@ $box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
 
 h3.nothing-found {
   margin-left: 1rem;
+}
+
+.modal {
+  position: absolute;
+  width: 100dvw;
+  height: 100dvh;
+  top: 0;
+  left: 0;
+  z-index: 9997;
+  .modal-body {
+    padding: 1rem 4rem;
+    border-radius: 5px;
+    background-color: $snow-white;
+    position: absolute;
+    max-height: 90dvh;
+    height: auto;
+    max-width: 90dvw;
+    width: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    overflow: auto;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    img.close {
+      width: 25px;
+      height: 25px;
+      position: absolute;
+      top: 0.8rem;
+      right: 1.5rem;
+      cursor: pointer;
+    }
+    h2 {
+      margin-bottom: 1rem;
+    }
+    pre {
+      text-wrap: wrap;
+      font-size: 1.05em;
+      line-height: 1.75rem;
+    }
+  }
+  .modal-body.photo-modal {
+    height: 90dvh;
+    width: 90dvw;
+    padding: 1rem 4rem 3rem;
+    overflow: hidden;
+  }
+  .backdrop {
+    background-color: rgba($color: $black, $alpha: 0.9);
+    width: 100%;
+    z-index: 9998;
+    height: 100%;
+  }
 }
