@@ -145,13 +145,12 @@ export const blogReducer = createReducer(
   on(removePost, (state, { postId }) => ({
     ...state,
     blog: [...state.blog.filter((x) => x.postId !== postId)],
+    status: 'loading' as const,
   })),
 
-  on(editPost, (state, { updatedPost }) => ({
+  on(editPost, (state) => ({
     ...state,
-    blog: state.blog.map((post) =>
-      post.postId === updatedPost.postId ? updatedPost : post
-    ),
+    status: 'loading' as const,
   })),
 
   on(loadPost, (state) => ({

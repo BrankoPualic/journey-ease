@@ -23,6 +23,6 @@ export class DataService {
   }
 
   patch<T>(data: any, url: string) {
-    return this.http.patch<T>(data, this.baseUrl + url);
+    return this.http.patch<T>(this.baseUrl + url, data);
   }
 }

@@ -27,13 +27,13 @@ namespace API.Controllers
         }
 
         [HttpPost("addPost")]
-        public async Task<ActionResult<string>>  AddPost([FromForm] PostFormData formData)
+        public async Task<ActionResult<string>> AddPost([FromForm] PostFormData formData)
         {
             try
             {
                 var file = formData.Image;
 
-                if(file == null) return BadRequest(new { message = "Something went wrong, couldn't access image that was sent."});
+                if(file == null) return BadRequest(new { message = "Something went wrong! Couldn't access image that was sent."});
 
                 var result = await _photoService.AddPhotoAsync(file);
 
@@ -61,6 +61,72 @@ namespace API.Controllers
             {
                 return BadRequest(new { message = ex.Message });
             }
+        }
+        
+        [HttpPatch("editPost")]
+        public async Task<ActionResult<string>> EditPost([FromForm] PostFormData formData)
+        {
+            try
+            {
+                var existingPost = await _uow.PostRepository.GetPost(Convert.ToInt16(formData.PostId));
+
+                if(existingPost == null) return NotFound(new { message = "Post not found."});
+
+                existingPost.PostTitle = formData.PostTitle;
+                existingPost.PostDescription = formData.PostDescription;
+                existingPost.PostContent = formData.PostContent;
+                existingPost.CreatorName = formData.CreatorName;
+
+                if(formData.Image != null)
+                {
+                    var file = formData.Image;
+
+                    if(file == null) return BadRequest( new { message = "Something went wrong! Couldn't access image that was sent." });
+
+                    var result = await _photoService.AddPhotoAsync(file);
+
+                    if(result.Error != null) return BadRequest(new { message = result.Error.Message });
+
+                    var deletion = await _photoService.DeletePhotoAsync(existingPost.PublicId);
+
+                    if(deletion.Error != null) return BadRequest(new { message = deletion.Error.Message });
+
+                    existingPost.PostImageUrl = result.SecureUrl.AbsoluteUri;
+                    existingPost.PublicId = result.PublicId;
+
+                }
+
+                _uow.PostRepository.UpdatePost(existingPost);
+                
+                if(await _uow.Complete()) return Ok(new { message = "Successfully edited post." });
+
+                return BadRequest(new { message = "Failed to edit post." });
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+
+        }
+    
+        [HttpDelete("removePost")]
+        public async Task<ActionResult<string>> RemovePost([FromQuery]int postId)
+        {
+            if(postId <= 0) return BadRequest(new { message = "Post id cannot be 0 or negative."});
+
+            var post = await _uow.PostRepository.GetPost(postId);
+
+            if(post == null) return NotFound(new { message = "Post not found."});
+
+            var result = await _photoService.DeletePhotoAsync(post.PublicId);
+
+            if(result.Error != null) return BadRequest(new { message = result.Error.Message });
+
+            _uow.PostRepository.RemovePost(post); 
+
+            if(await _uow.Complete()) return Ok(new { message = "Post successfully removed"});
+
+            return BadRequest(new { message = "Failed to remove post from database."});
         }
     }
 }

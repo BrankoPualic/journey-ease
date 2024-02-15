@@ -180,8 +180,25 @@
             >
               ...
             </td>
-            <td class="operation-td">
-              <!-- Treba dodati opcije -->
+            <td class="operation-td" (click)="onRowAction(post.postId)">
+              <div
+                class="operations-menu hidden operations-menu-post-{{
+                  post.postId
+                }}"
+              >
+                <span
+                  class="admin-edit-span"
+                  (click)="onEditPostRow(post)"
+                >
+                  Edit</span
+                >
+                <span
+                  class="admin-delete-span"
+                  (click)="onDeletePostRow(post.postId)"
+                >
+                  Delete</span
+                >
+              </div>
             </td>
           </tr>
           }

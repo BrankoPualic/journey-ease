@@ -1,0 +1,57 @@
+@if(post){
+<section class="modal">
+  <div class="modal-body" [@modalAnimation]>
+    <h2>Edit post</h2>
+    <form
+      [formGroup]="editPostForm"
+      (ngSubmit)="editPost()"
+      enctype="multipart/form-data"
+    >
+      <div class="form-row">
+        <label>Post Title</label>
+        <input type="text" formControlName="postTitle" />
+      </div>
+      <div class="form-row">
+        <label>Post Image</label>
+        <input
+          type="file"
+          #image
+          (change)="onImageChange(image)"
+          accept=".png, .jpg"
+        />
+      </div>
+      <div class="form-row">
+        <label>Author</label>
+        <input type="text" formControlName="creatorName" />
+      </div>
+      <div class="form-row">
+        <label>Post Description</label>
+        <textarea
+          cols="30"
+          rows="10"
+          formControlName="postDescription"
+          class="post-desc-edit"
+        ></textarea>
+      </div>
+      <div class="form-row">
+        <label>Post Content</label>
+        <textarea
+          cols="30"
+          rows="10"
+          formControlName="postContent"
+          class="last-textarea"
+        ></textarea>
+      </div>
+      <div class="button-group">
+        <button class="btn btn-full-style btn-error" (click)="closeModal()">
+          Cancel
+        </button>
+        <button class="btn btn-full-style" [disabled]="!editPostForm.valid">
+          Save
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="backdrop"></div>
+</section>
+}

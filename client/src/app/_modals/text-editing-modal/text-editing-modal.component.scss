@@ -1,11 +1,11 @@
 @import "../../../styles.scss";
 textarea {
-  width: 80dvw;
-  height: 80dvh;
+  width: 60dvw;
+  height: 60dvh;
   border: 1px solid $grey;
   resize: none;
   padding: 1rem;
-  font-size: 1.05em;
+  font-size: 1em;
   line-height: 1.75rem;
   outline: none;
 }
