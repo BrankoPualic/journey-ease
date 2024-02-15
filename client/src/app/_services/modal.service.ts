@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { Post } from '../_types/post.types';
 
 @Injectable({
   providedIn: 'root',
@@ -25,6 +26,11 @@ export class ModalService {
   private setKeyAsToWhatAreYouEditing = new BehaviorSubject<string>('');
   setKeyAsToWhatAreYouEditing$ =
     this.setKeyAsToWhatAreYouEditing.asObservable();
+
+  private setPostEditModalStatus = new BehaviorSubject<boolean>(false);
+  postEditModalStatus$ = this.setPostEditModalStatus.asObservable();
+  private setPostForEditing = new BehaviorSubject<Post>({} as Post);
+  postForEditing$ = this.setPostForEditing.asObservable();
 
   setStatusTextReviewModal(status: boolean, title: string, text: string) {
     this.activeTextReviewModalContent.next([title, text]);
@@ -54,5 +60,10 @@ export class ModalService {
 
   setKeyWhatIsEdited(key: string) {
     this.setKeyAsToWhatAreYouEditing.next(key);
+  }
+
+  setStatusPostEditModal(status: boolean, post: Post) {
+    this.setPostEditModalStatus.next(status);
+    this.setPostForEditing.next(post);
   }
 }

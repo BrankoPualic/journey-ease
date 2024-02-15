@@ -78,7 +78,7 @@ export const removePost = createAction(
 
 export const editPost = createAction(
   '[Admin Page] Edit Post',
-  props<{ updatedPost: Post }>()
+  props<{ updatedPost: FormData }>()
 );
 
 export const saveBlogSuccess = createAction('[Admin Page] Save Blog Success');

@@ -17,6 +17,7 @@ import {
   blogStatistics,
   loadBlog,
   loadSearchedBlog,
+  removePost,
   removeSelectedCreator,
   setSelectedCreator,
 } from '../../_store/blog/blog.actions';
@@ -73,7 +74,8 @@ export class AdminBlogComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private fb: FormBuilder,
     private sharedService: SharedService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private elementRef: ElementRef
   ) {}
 
   ngOnInit(): void {
@@ -266,6 +268,30 @@ export class AdminBlogComponent implements OnInit, OnDestroy {
     }
 
     this.modalService.setStatusTextEditingModal(true, key, '');
+  }
+
+  onRowAction(postId: number) {
+    const operationMenuVisible = this.elementRef.nativeElement.querySelector(
+      '.operations-menu:not(.hidden)'
+    );
+
+    if (operationMenuVisible) operationMenuVisible.classList.toggle('hidden');
+
+    const selectedOperationMenu = this.elementRef.nativeElement.querySelector(
+      `.operations-menu-post-${postId}`
+    );
+
+    if (operationMenuVisible === selectedOperationMenu) return;
+
+    selectedOperationMenu.classList.toggle('hidden');
+  }
+
+  onEditPostRow(post: Post) {
+    this.modalService.setStatusPostEditModal(true, post);
+  }
+
+  onDeletePostRow(postId: number) {
+    this.store.dispatch(removePost({ postId }));
   }
 
   private searchTypingManagement() {

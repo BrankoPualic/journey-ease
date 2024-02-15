@@ -50,11 +50,16 @@ export class BlogService {
   }
 
   removePost(postId: number) {
-    return this.dataService.delete<{ message: string }>(`post/${postId}`);
+    return this.dataService.delete<{ message: string }>(
+      `admin/removePost?postId=${postId}`
+    );
   }
 
-  editPost(newPost: Post) {
-    return this.dataService.patch<{ message: string }>(newPost, 'post');
+  editPost(updatedPost: FormData) {
+    return this.dataService.patch<{ message: string }>(
+      updatedPost,
+      'admin/editPost'
+    );
   }
 
   getSearchedBlog(

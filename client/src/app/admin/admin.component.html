@@ -156,4 +156,6 @@
 <app-photo-modal [imagesArray]="imagesArray" />
 } @else if (textEditingModalStatus) {
 <app-text-editing-modal [key]="whatIsEdited" />
+} @else if (postEditModalStatus && selectedPost) {
+<app-post-edit-modal [post]="selectedPost" />
 }
