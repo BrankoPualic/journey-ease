@@ -13,8 +13,8 @@ namespace API.Extensions
             var type = typeof(T);
             var property = type.GetProperty(propertyName);
             var parameter = Expression.Parameter(type, "p");
-            var propertAccess = Expression.MakeMemberAccess(parameter, property);
-            var orderByExpression = Expression.Lambda(propertAccess, parameter);
+            var propertyAccess = Expression.MakeMemberAccess(parameter, property);
+            var orderByExpression = Expression.Lambda(propertyAccess, parameter);
             var resultExpression = Expression.Call
             (
                 typeof(Queryable),

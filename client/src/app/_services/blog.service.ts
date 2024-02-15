@@ -45,8 +45,8 @@ export class BlogService {
       );
   }
 
-  addPost(post: Post) {
-    return this.dataService.post<{ message: string }>(post, 'post');
+  addPost(post: FormData) {
+    return this.dataService.post<{ message: string }>(post, 'admin/addPost');
   }
 
   removePost(postId: number) {

@@ -68,7 +68,7 @@ export const removeSelectedPost = createAction('[Post] Post Selected Remove');
 
 export const addPost = createAction(
   '[Admin Page] Add Post',
-  props<{ post: Post }>()
+  props<{ post: FormData }>()
 );
 
 export const removePost = createAction(

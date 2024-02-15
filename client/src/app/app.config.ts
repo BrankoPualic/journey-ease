@@ -14,6 +14,7 @@ import { BlogEffects } from './_store/blog/blog.effects';
 import { blogReducer } from './_store/blog/blog.reducer';
 import { FaqEffects } from './_store/faqs/faqs.effects';
 import { faqReducer } from './_store/faqs/faqs.reducer';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -32,5 +33,6 @@ export const appConfig: ApplicationConfig = {
       BlogEffects,
       FaqEffects,
     ]),
+    provideAnimations(),
   ],
 };

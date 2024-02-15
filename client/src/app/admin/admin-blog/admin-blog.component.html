@@ -65,7 +65,11 @@
         />
       </div>
     </form>
-    <form [formGroup]="post" (ngSubmit)="onInsertPost()">
+    <form
+      [formGroup]="postForm"
+      (ngSubmit)="onInsertPost()"
+      enctype="multipart/form-data"
+    >
       <table>
         <thead>
           <tr>
@@ -89,29 +93,59 @@
             <td></td>
             <td>
               <div class="form-row">
-                <input type="text" formControlName="postTitle" />
+                <input
+                  type="text"
+                  formControlName="postTitle"
+                  placeholder="New..."
+                />
               </div>
             </td>
             <td>
-              <!-- Dugme za modal za upisati content -->
+              <img
+                style="cursor: pointer; width: 25px; height: 25px"
+                src="assets/icons/pencil-plus.svg"
+                alt="pencil plus svg icon"
+                (click)="openTextEditingModal('postContent')"
+              />
             </td>
             <td>
-              <!-- insert image -->
+              <img
+                style="cursor: pointer; width: 30px; height: 30px"
+                src="assets/icons/upload.svg"
+                alt="upload svg icon"
+                (click)="uploadImage()"
+              />
+              <input
+                type="file"
+                #fileInput
+                (change)="onImageInputChange(fileInput)"
+                accept=".png, .jpg"
+              />
             </td>
             <td></td>
             <td>
               <div class="form-row">
-                <input type="text" formControlName="creatorName" />
+                <input
+                  type="text"
+                  formControlName="creatorName"
+                  placeholder="New..."
+                />
               </div>
             </td>
             <td>
-              <!-- dugme za modal za kratku descripciju -->
+              <img
+                style="cursor: pointer; width: 25px; height: 25px"
+                src="assets/icons/pencil-plus.svg"
+                alt="pencil plus svg icon"
+                (click)="openTextEditingModal('postDescription')"
+              />
             </td>
             <td>
               <input
                 type="submit"
                 value="Insert"
                 class="btn admin-insert-btn btn-full-style"
+                [disabled]="!postForm.valid || !imageUploaded"
               />
             </td>
           </tr>
@@ -121,16 +155,31 @@
             <td class="text-continues">
               {{ post.postTitle }}
             </td>
-            <td>...</td>
+            <td
+              style="cursor: pointer; font-weight: bold; font-size: 1.5em"
+              (click)="openTextReviewModal(post.postContent, post.postTitle)"
+            >
+              ...
+            </td>
             <td>
-              <div class="admin-post-img">
+              <div
+                class="admin-post-img"
+                (click)="openPhotoModal(post.postImageUrl)"
+              >
                 <img src="{{ post.postImageUrl }}" alt="Post image" />
                 <div class="black-drop">View</div>
               </div>
             </td>
             <td>{{ post.postDate | date : "longDate" }}</td>
             <td class="text-continues">{{ post.creatorName }}</td>
-            <td>...</td>
+            <td
+              (click)="
+                openTextReviewModal(post.postDescription, post.postTitle)
+              "
+              style="font-weight: bold; font-size: 1.5em; cursor: pointer"
+            >
+              ...
+            </td>
             <td class="operation-td">
               <!-- Treba dodati opcije -->
             </td>
@@ -139,12 +188,14 @@
         </tbody>
       </table>
     </form>
-    @if (pagination && blog.length) {
+    @if (pagination && blog.length && pagination.totalPages > 1) {
     <app-pagination
       [currentPage]="pagination.currentPage"
       [itemsPerPage]="pagination.itemsPerPage"
       [paginationType]="'blog'"
       [totalPages]="pagination.totalPages"
+      [direction]="stateDirection"
+      [orderingColumn]="stateOrderingColumn"
     />
     } @if (!blog.length) {
     <h3 class="nothing-found">No blog found for searched value.</h3>

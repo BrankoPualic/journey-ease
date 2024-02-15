@@ -1,0 +1,14 @@
+@import "../../../styles.scss";
+textarea {
+  width: 80dvw;
+  height: 80dvh;
+  border: 1px solid $grey;
+  resize: none;
+  padding: 1rem;
+  font-size: 1.05em;
+  line-height: 1.75rem;
+  outline: none;
+}
+button {
+  float: right;
+}

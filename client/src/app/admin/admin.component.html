@@ -147,3 +147,13 @@
 
   <section class="body"><router-outlet /></section>
 </main>
+@if (textReviewModalStatus) {
+<app-text-review-modal
+  [title]="textReviewModalTitle"
+  [text]="textReviewModalText"
+/>
+} @else if (photoModalStatus) {
+<app-photo-modal [imagesArray]="imagesArray" />
+} @else if (textEditingModalStatus) {
+<app-text-editing-modal [key]="whatIsEdited" />
+}
