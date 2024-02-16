@@ -1,5 +1,9 @@
-@if (showHeader) {
+@if (showHeaderFooter) {
 <app-header />
 }
 
 <router-outlet />
+
+@if(showHeaderFooter) {
+<app-footer />
+}

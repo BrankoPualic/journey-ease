@@ -51,6 +51,11 @@ $box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
   box-sizing: border-box;
   font-family: "Quattrocento Sans", "Font Awesome 5 Free", sans-serif;
   list-style-type: none;
+  scroll-behavior: smooth;
+}
+
+main {
+  margin-top: 120px;
 }
 
 *::-webkit-scrollbar {
@@ -371,7 +376,7 @@ $box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
               @include flex(row, start, nowrap, center);
 
               .edit-mark {
-                width: 50%;
+                width: 3rem;
                 padding: 0.2rem;
                 font-size: 1.1em;
 
@@ -447,14 +452,12 @@ $box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
 
 .hidden-scale-in {
   opacity: 0;
-  filter: blur(5px);
   transform: scale(0);
   transition: all 0.8s;
 }
 
 .show-scale-in {
   opacity: 1;
-  filter: blur(0);
   transform: scale(1);
 }
 
@@ -465,6 +468,23 @@ $box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
 
 .show-opacity {
   opacity: 1;
+}
+
+.hidden-right {
+  opacity: 0;
+  transform: translateX(100%);
+  transition: all 0.8s;
+}
+
+.hidden-left {
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: all 0.8s;
+}
+
+.show-el {
+  opacity: 1;
+  transform: translate(0) scale(1);
 }
 
 .small-info {
@@ -483,6 +503,15 @@ $box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
   overflow: hidden;
   text-wrap: nowrap;
 }
+
+
+.section-title {
+  text-transform: uppercase;
+  width: 40%;
+  font-size: 2.1em;
+  text-align: center;
+  margin: 0 auto;
+  color: $dark-grey;
 
 h3.nothing-found {
   margin-left: 1rem;

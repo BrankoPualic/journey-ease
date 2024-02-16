@@ -1,13 +1,10 @@
 @import "../../styles.scss";
 
 main {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100dvh;
+  height: calc(100dvh);
   width: 100%;
   z-index: -1;
-  background: linear-gradient(0deg, $grey, $white);
+  margin-top: 0;
   @include flex(row, start, nowrap, center);
 
   .auth-container {

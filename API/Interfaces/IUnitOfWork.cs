@@ -7,6 +7,7 @@ namespace API.Interfaces
         IPostRepository PostRepository { get; }
         IFaqRepository FaqRepository { get; }
         IPostCommentRepository PostCommentRepository { get; }
+        INewsletterSubscriptionRepository NewsletterSubscriptionRepository { get; }
         Task<bool> Complete();
         bool HasChanges();
     }

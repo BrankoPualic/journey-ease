@@ -4,6 +4,12 @@ header {
   padding: $section-padding;
   height: 120px;
   overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+
   .logo img {
     width: 200px;
     cursor: pointer;

@@ -127,7 +127,11 @@ export class CountriesAndPlacesComponent implements OnInit, OnDestroy {
   }
 
   onEditCountry(countryId: number) {
-    console.log(countryId, this.insertForm.value.editCountry);
+    if (this.insertForm.value.editCountry === '') {
+      this.editingCountryIndex = undefined;
+
+      return;
+    }
 
     this.store.dispatch(
       editCountry({

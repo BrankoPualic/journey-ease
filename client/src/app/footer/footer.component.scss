@@ -1,0 +1,144 @@
+@import "../../styles.scss";
+
+footer {
+  position: relative;
+  .footer-top {
+    background-image: url("../../assets/img/footer-cover.jpg");
+    min-height: 70dvh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    text-align: center;
+    @include flex(column, flex-start, nowrap, center);
+    padding: 8rem;
+
+    h3 {
+      text-transform: uppercase;
+      color: $dark-grey;
+      font-size: 2.1em;
+    }
+
+    p {
+      margin: 4rem 0;
+      color: $dark-grey;
+      font-size: 1.3em;
+    }
+
+    .newsletter-block {
+      width: 40%;
+      position: relative;
+      form {
+        @include flex(row, space-between, wrap, center);
+        input[type="submit"] {
+          border-radius: 50px;
+          width: 30%;
+        }
+
+        input[type="email"] {
+          padding: 0.75rem 0.75rem 0.75rem 3.5rem;
+          font-size: 1em;
+          border-radius: 50px;
+          width: 65%;
+          @include border(1px, solid, $grey);
+
+          &:focus {
+            outline: none;
+          }
+        }
+      }
+
+      .email-input-icon {
+        position: absolute;
+        width: 2rem;
+        height: 2rem;
+        top: 0.4rem;
+        left: 1rem;
+        filter: invert(31%) sepia(23%) saturate(0%) hue-rotate(201deg)
+          brightness(111%) contrast(102%);
+      }
+    }
+  }
+
+  .footer-bottom {
+    height: 30dvh;
+    @include flex(column, flex-end, nowrap, center);
+    padding: 3rem;
+    color: $grey;
+  }
+
+  .footer-middle {
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    height: auto;
+    padding: 5rem 7rem;
+    background-color: $white;
+    box-shadow: $box-shadow;
+    z-index: 1;
+    @include flex(row, space-between, wrap, start);
+    border-radius: $border-radius;
+
+    .footer-block {
+      color: $dark-grey;
+      @include flex(column, flex-start, wrap, start);
+      width: 22%;
+      height: 100%;
+      h4 {
+        text-transform: uppercase;
+        font-size: 1.3em;
+        margin-bottom: 1.4rem;
+      }
+
+      a,
+      p {
+        margin-bottom: 1rem;
+        text-decoration: none;
+        color: $dark-grey;
+        text-transform: capitalize;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        span {
+          cursor: pointer;
+        }
+      }
+
+      .social-media {
+        @include flex(row, flex-start, wrap, center);
+        .media-holder {
+          cursor: pointer;
+          margin-left: 1rem;
+          margin-bottom: 0;
+          @include flex(row, center, nowrap, center);
+          border-radius: 100%;
+          @include border(1px, solid, $light-green);
+          padding: 0.4rem;
+          transition: all ease-in-out $transition;
+
+          &:first-child {
+            margin-left: 0;
+          }
+
+          &:hover {
+            background-color: $light-green;
+          }
+
+          &:hover img {
+            filter: invert(99%) sepia(52%) saturate(387%) hue-rotate(205deg)
+              brightness(120%) contrast(100%);
+          }
+
+          img {
+            width: 1.5rem;
+            filter: invert(67%) sepia(65%) saturate(5180%) hue-rotate(123deg)
+              brightness(99%) contrast(87%);
+          }
+        }
+      }
+    }
+  }
+}

@@ -23,6 +23,11 @@
       page.&rdquo; - Saint Augustine
     </div>
   </section>
+  <section #photographerOpportunityTrigger class="photographer-opportuinity">
+    @defer (on viewport(photographerOpportunityTrigger)) {
+    <app-photographer-opportunity />
+    }
+  </section>
   <section #testimonialsTrigger class="testimonials">
     @defer (on viewport(testimonialsTrigger)) {
     <app-testimonials />
