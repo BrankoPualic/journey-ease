@@ -31,7 +31,8 @@ namespace API.Controllers
         {
             try
             {
-                if(countryDto.CountryName == null || countryDto.CountryName == "") return BadRequest(new { message = "Country name can't be null!"});
+                if(string.IsNullOrWhiteSpace(countryDto.CountryName))
+                    return BadRequest(new { message = "Country name can't be null!"});
 
                 _uow.CountryRepository.AddCountry(countryDto.CountryName);
 

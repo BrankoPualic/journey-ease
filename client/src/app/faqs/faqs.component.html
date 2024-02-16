@@ -3,13 +3,16 @@
     <div class="faqs-wrapper">
       <h1>FAQs</h1>
       <p>Frequently Asked Questions.</p>
-      <p>Here are some common questions about JourneyEase.</p>
+      <p>
+        Here are some common questions about
+        <span class="green-text">JourneyEase</span>.
+      </p>
     </div>
   </div>
   <div class="faqs-bottom">
     <div class="faqs-wrapper">
       @for (faq of (faqs$ | async); track faq.faqId; let i = $index) {
-      <div class="faq-row">
+      <div class="faq-row hidden-el hidden-scale-in">
         <div class="question-row" (click)="onOpenQuestion(i)">
           <p>{{ faq.question }}</p>
         </div>

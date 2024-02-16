@@ -14,6 +14,8 @@ import { BlogEffects } from './_store/blog/blog.effects';
 import { blogReducer } from './_store/blog/blog.reducer';
 import { FaqEffects } from './_store/faqs/faqs.effects';
 import { faqReducer } from './_store/faqs/faqs.reducer';
+import { SubscriptionEffects } from './_store/newsletters/newsletters.effects';
+import { subscriptionReducer } from './_store/newsletters/newsletters.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -25,12 +27,14 @@ export const appConfig: ApplicationConfig = {
       seasons: seasonReducer,
       blog: blogReducer,
       faqs: faqReducer,
+      subscription: subscriptionReducer,
     }),
     provideEffects([
       CountryEffects,
       DestinationEffects,
       BlogEffects,
       FaqEffects,
+      SubscriptionEffects,
     ]),
   ],
 };

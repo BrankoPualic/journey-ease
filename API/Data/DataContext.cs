@@ -16,6 +16,7 @@ namespace API.Data
         public DbSet<Post> Blog { get; set; }
         public DbSet<Faq> Faqs { get; set; }
         public DbSet<PostComment> BlogComments { get; set; }
+        public DbSet<NewsletterSubscription> NewsletterSubscriptions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -33,6 +34,9 @@ namespace API.Data
                 .HasForeignKey(ur => ur.RoleId)
                 .IsRequired();
 
+            builder.Entity<NewsletterSubscription>()
+                .HasKey(ns => ns.SubscriberId);
+                
             builder.Entity<PostComment>()
                 .HasKey(pc => pc.CommentId);
 
@@ -47,6 +51,7 @@ namespace API.Data
                 .WithOne(pc => pc.Post)
                 .HasForeignKey(pc => pc.PostId)
                 .OnDelete(DeleteBehavior.Cascade);
+
             
         }
 

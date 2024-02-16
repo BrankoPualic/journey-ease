@@ -1,9 +1,9 @@
-import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { selectAllFaqs } from '../_store/faqs/faqs.selectors';
+import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../_store/app.state';
 import { loadFaqs } from '../_store/faqs/faqs.actions';
+import { selectAllFaqs } from '../_store/faqs/faqs.selectors';
 
 @Component({
   selector: 'app-faqs',
@@ -24,6 +24,10 @@ export class FaqsComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(loadFaqs());
+
+    setTimeout(() => {
+      this.animateContent();
+    }, 200);
   }
 
   onOpenQuestion(questionIndex: number) {
@@ -56,5 +60,23 @@ export class FaqsComponent implements OnInit {
 
   changeQAStyle(el: HTMLElement, style: string, value: string | number) {
     this.renderer.setStyle(el, style, value);
+  }
+
+  animateContent() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show-scale-in');
+          observer.unobserve(entry.target);
+        }
+      });
+    });
+
+    const hiddenEls =
+      this.elementRef.nativeElement.querySelectorAll('.hidden-el');
+
+    console.log(hiddenEls);
+
+    hiddenEls.forEach((el: HTMLElement) => observer.observe(el));
   }
 }

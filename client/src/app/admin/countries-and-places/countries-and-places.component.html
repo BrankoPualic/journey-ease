@@ -104,9 +104,9 @@
           @if(country.countryId){
           <tr>
             <td>{{ country.countryId }}</td>
+            <td>{{ country.countryName }}</td>
             @if(editingCountryIndex === undefined || editingCountryIndex !==
             country.countryId ){
-            <td>{{ country.countryName }}</td>
             <td class="operation-td" (click)="onRowAction(country.countryId)">
               <div
                 class="operations-menu hidden operations-menu-country-{{

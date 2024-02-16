@@ -1,34 +1,36 @@
 <router-outlet></router-outlet>
-<section class="blog">
-  <div class="search-blog">
-    <h2>Journey Ease Blog page</h2>
-    <div class="search-blog-container">
-      <img src="assets/icons/magnify.svg" alt="magnify svg icon" />
-      <input type="text" placeholder="Search" [formControl]="searchValue" />
+<main>
+  <section class="blog">
+    <div class="search-blog">
+      <h2>Journey Ease Blog page</h2>
+      <div class="search-blog-container">
+        <img src="assets/icons/magnify.svg" alt="magnify svg icon" />
+        <input type="text" placeholder="Search" [formControl]="searchValue" />
+      </div>
     </div>
-  </div>
-  @for (post of blog; track post) {
-  <div class="post hidden-el hidden-opacity">
-    <div class="post-info">
-      <h3>{{ post.postTitle }}</h3>
-      <p>
-        {{ post.postDescription }}
-      </p>
-      <p class="small-info">
-        {{ post.creatorName }}, {{ post.postDate | date : "mediumDate" }}
-      </p>
-      <a [routerLink]="['./post', post.postId]">Read More</a>
+    @for (post of blog; track post) {
+    <div class="post hidden-el hidden-opacity">
+      <div class="post-info">
+        <h3>{{ post.postTitle }}</h3>
+        <p>
+          {{ post.postDescription }}
+        </p>
+        <p class="small-info">
+          {{ post.creatorName }}, {{ post.postDate | date : "mediumDate" }}
+        </p>
+        <a [routerLink]="['./post', post.postId]">Read More</a>
+      </div>
+      <div class="post-image">
+        <img src="{{ post.postImageUrl }}" alt="{{ post.postImageUrl }}" />
+      </div>
     </div>
-    <div class="post-image">
-      <img src="{{ post.postImageUrl }}" alt="{{ post.postImageUrl }}" />
-    </div>
-  </div>
-  } @if (pagination && pagination.totalPages > 1) {
-  <app-pagination
-    [itemsPerPage]="pagination.itemsPerPage"
-    [totalPages]="pagination.totalPages"
-    [currentPage]="pagination.currentPage"
-    [paginationType]="'blog'"
-  />
-  }
-</section>
+    } @if (pagination && pagination.totalPages > 1) {
+    <app-pagination
+      [itemsPerPage]="pagination.itemsPerPage"
+      [totalPages]="pagination.totalPages"
+      [currentPage]="pagination.currentPage"
+      [paginationType]="'blog'"
+    />
+    }
+  </section>
+</main>

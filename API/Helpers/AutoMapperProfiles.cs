@@ -13,6 +13,7 @@ namespace API.Helpers
             CreateMap<Season, SeasonDto>();
             CreateMap<Post, PostDto>();
             CreateMap<Faq, FaqDto>();
+            CreateMap<NewsletterSubscription, NewsletterSubscriptionDto>();
         }
     }
 }
