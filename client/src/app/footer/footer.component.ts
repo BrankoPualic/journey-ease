@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -10,6 +10,7 @@ import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../_store/app.state';
 import { addSubscription } from '../_store/newsletters/newsletters.actions';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-footer',
@@ -24,7 +25,8 @@ export class FooterComponent implements OnInit {
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
   ngOnInit() {
@@ -32,7 +34,7 @@ export class FooterComponent implements OnInit {
       if (!(event instanceof NavigationEnd)) {
         return;
       }
-      window.scrollTo(0, 0);
+      if (isPlatformBrowser(this.platformId)) window.scrollTo(0, 0);
     });
 
     this.formInit();

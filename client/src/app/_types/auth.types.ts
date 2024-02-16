@@ -2,18 +2,25 @@ export type UserSigninCred = { email: string; password: string };
 export type UserSignupCred = {
   firstName: string;
   lastName: string;
-  phone?: string;
+  phoneNumber?: string;
   email: string;
   password: string;
   confirmPassword: string;
-  country: number;
+  countryId: number;
   newsletter?: boolean;
+};
+
+export type UserAuthorized = {
+  firstName: string;
+  lastName: string;
+  token: string;
+  userImage?: string;
+  roles: string[];
 };
 
 export type User = {
   firstName: string;
   lastName: string;
-  token: string;
   userEmail: string;
   userPhone: string;
   userImage: string;

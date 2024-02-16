@@ -24,7 +24,7 @@ $orange: #ffb906;
 $ultra-light-orange: #fff1cd;
 
 // Application
-$transition: 0.3s;
+$transition: 0.1s;
 $border-radius: 5px;
 $border-radius-2: 10px;
 $section-padding: 0 6%;
@@ -52,10 +52,6 @@ $box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
   font-family: "Quattrocento Sans", "Font Awesome 5 Free", sans-serif;
   list-style-type: none;
   scroll-behavior: smooth;
-}
-
-main {
-  margin-top: 120px;
 }
 
 *::-webkit-scrollbar {
@@ -504,7 +500,6 @@ main {
   text-wrap: nowrap;
 }
 
-
 .section-title {
   text-transform: uppercase;
   width: 40%;
@@ -512,6 +507,7 @@ main {
   text-align: center;
   margin: 0 auto;
   color: $dark-grey;
+}
 
 h3.nothing-found {
   margin-left: 1rem;
@@ -572,4 +568,11 @@ h3.nothing-found {
     z-index: 9998;
     height: 100%;
   }
+}
+
+.open {
+  display: flex;
+}
+.hidden {
+  display: none !important;
 }

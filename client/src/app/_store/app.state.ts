@@ -1,3 +1,4 @@
+import { AuthState } from './auth/auth.reducer';
 import { BlogState } from './blog/blog.reducer';
 import { CountryState } from './countries/countries.reducer';
 import { SeasonState } from './destinations/destinations.reducer';
@@ -10,4 +11,5 @@ export type AppState = {
   blog: BlogState;
   faqs: FaqState;
   subscriptions: SubscriptionState;
+  auth: AuthState;
 };

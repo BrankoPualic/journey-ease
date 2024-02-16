@@ -18,7 +18,7 @@
         <app-text-input
           [type]="'tel'"
           [label]="'Phone number'"
-          [formControl]="$any(signupForm.controls['phone'])"
+          [formControl]="$any(signupForm.controls['phoneNumber'])"
         />
       </div>
       <div class="form-row">
@@ -44,7 +44,7 @@
       </div>
     </div>
     <div class="form-row">
-      <select formControlName="country">
+      <select formControlName="countryId">
         <option value="0">Country *</option>
         @for (country of (countries$ | async); track country) {
         <option value="{{ country.countryId }}">

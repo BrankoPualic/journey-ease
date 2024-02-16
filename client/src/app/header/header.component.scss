@@ -3,13 +3,20 @@ header {
   @include flex(row, space-between, nowrap, center);
   padding: $section-padding;
   height: 120px;
-  overflow: hidden;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
   width: 100%;
 
+  &.headerAbsolute {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+
+  .logo {
+    height: 120px;
+    overflow: hidden;
+    @include flex(row, center, nowrap, center);
+  }
   .logo img {
     width: 200px;
     cursor: pointer;
@@ -25,15 +32,74 @@ header {
       border-radius: $border-radius;
       i {
         margin-left: 0.5rem;
+        position: relative;
+        top: 3px;
       }
       &:hover {
-        background-color: rgba($light-grey, 0.5);
+        color: $light-green;
       }
     }
   }
   .auth {
     button {
       margin: 0 0.25rem;
+    }
+  }
+  .auth-div {
+    @include flex(row, flex-end, nowrap, center);
+    width: auto;
+    cursor: pointer;
+    padding: 0.75rem 1rem;
+    position: relative;
+    .auth-div-text {
+      transition: 0.1s;
+      @include flex(row, center, nowrap, center);
+      font-size: 0.9em;
+      margin-right: 0.25rem;
+      i {
+        margin-left: 0.5rem;
+        position: relative;
+        top: 3px;
+      }
+    }
+    &:hover > .auth-div-text {
+      color: $light-green;
+    }
+
+    .auth-dropdown-menu {
+      position: absolute;
+      top: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      border-radius: $border-radius;
+      box-shadow: $box-shadow;
+      background-color: $snow-white;
+      @include flex(column, flex-start, nowrap, flex-start);
+      overflow: hidden;
+      .auth-dropdown-menu-item {
+        @include flex(row, flex-start, nowrap, center);
+        font-weight: bold;
+        padding: 1rem 0.5rem;
+        transition: $transition;
+        width: 100%;
+        p {
+          width: 90%;
+          color: $black;
+        }
+        img {
+          width: 25px;
+          height: 25px;
+          position: relative;
+          margin-right: 5px;
+          &.signout {
+            right: -1px;
+          }
+        }
+        &:hover {
+          background-color: $light-green;
+        }
+      }
     }
   }
 }
