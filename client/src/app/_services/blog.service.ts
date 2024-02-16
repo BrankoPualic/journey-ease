@@ -12,12 +12,21 @@ import { PaginatedResult } from '../_types/pagination';
 export class BlogService {
   constructor(private dataService: DataService) {}
 
-  getBlog(page?: number, itemsPerPage?: number) {
+  getBlog(
+    page?: number,
+    itemsPerPage?: number,
+    column?: string,
+    direction?: string
+  ) {
     let params = new HttpParams();
 
     if (page && itemsPerPage) {
       params = params.append('pageNumber', page);
       params = params.append('pageSize', itemsPerPage);
+    }
+    if (direction && column) {
+      params = params.append('column', column);
+      params = params.append('direction', direction);
     }
 
     return this.dataService
@@ -30,29 +39,45 @@ export class BlogService {
           const pagination = response.headers.get('Pagination');
 
           if (pagination) paginatedResult.pagination = JSON.parse(pagination);
+
           return paginatedResult;
         })
       );
   }
 
-  addPost(post: Post) {
-    return this.dataService.post<{ message: string }>(post, 'post');
+  addPost(post: FormData) {
+    return this.dataService.post<{ message: string }>(post, 'admin/addPost');
   }
 
   removePost(postId: number) {
-    return this.dataService.delete<{ message: string }>(`post/${postId}`);
+    return this.dataService.delete<{ message: string }>(
+      `admin/removePost?postId=${postId}`
+    );
   }
 
-  editPost(newPost: Post) {
-    return this.dataService.patch<{ message: string }>(newPost, 'post');
+  editPost(updatedPost: FormData) {
+    return this.dataService.patch<{ message: string }>(
+      updatedPost,
+      'admin/editPost'
+    );
   }
 
-  getSearchedBlog(searchValue: string, page?: number, itemsPerPage?: number) {
+  getSearchedBlog(
+    searchValue: string,
+    page?: number,
+    itemsPerPage?: number,
+    column?: string,
+    direction?: string
+  ) {
     let params = new HttpParams();
 
     if (page && itemsPerPage) {
       params = params.append('pageNumber', page);
       params = params.append('pageSize', itemsPerPage);
+    }
+    if (direction && column) {
+      params = params.append('column', column);
+      params = params.append('direction', direction);
     }
 
     return this.dataService
@@ -69,7 +94,6 @@ export class BlogService {
           const pagination = response.headers.get('Pagination');
 
           if (pagination) paginatedResult.pagination = JSON.parse(pagination);
-
           return paginatedResult;
         })
       );

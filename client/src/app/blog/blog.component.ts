@@ -9,7 +9,6 @@ import {
 import { Store } from '@ngrx/store';
 import { AppState } from '../_store/app.state';
 import {
-  selectAllBlog,
   selectBlogState,
   selectSelectedCreator,
 } from '../_store/blog/blog.selector';
@@ -56,7 +55,7 @@ export class BlogComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initializeBlog();
 
-    this.searchTypingManagment();
+    this.searchTypingManagement();
   }
 
   initializeBlog() {
@@ -137,7 +136,7 @@ export class BlogComponent implements OnInit, OnDestroy {
       );
   }
 
-  private searchTypingManagment() {
+  private searchTypingManagement() {
     this.typingSubscription = this.searchValue.valueChanges
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((newSearchValue) => this.blogSearch(newSearchValue));

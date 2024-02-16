@@ -1,0 +1,22 @@
+@if(key){
+<section class="modal">
+  <div class="modal-body" [@modalAnimation] [formGroup]="textWritten">
+    <img
+      src="assets/icons/close.svg"
+      alt="X mark or close svg icon"
+      class="close"
+      (click)="closeModal(key)"
+    />
+    <textarea
+      cols="30"
+      rows="10"
+      placeholder="Let's start..."
+      [formControlName]="key"
+    ></textarea>
+    <button class="btn btn-full-style" (click)="updateTextEditingModalMap(key)">
+      Done
+    </button>
+  </div>
+  <div class="backdrop"></div>
+</section>
+}

@@ -1,3 +1,4 @@
+#nullable enable
 namespace API.Helpers
 {
     public class PostParams
@@ -10,5 +11,8 @@ namespace API.Helpers
             get => _pageSize;
             set => _pageSize = (value > MaxPageSize) ? MaxPageSize : value;
         }
+
+        public string? Column { get; set; } = null;
+        public string? Direction { get; set; } = "ascending";
     }
 }

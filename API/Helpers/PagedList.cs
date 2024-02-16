@@ -1,3 +1,5 @@
+#nullable enable
+using API.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Helpers
@@ -23,6 +25,14 @@ namespace API.Helpers
             var items = await source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
 
             return new PagedList<T>(items, count, pageNumber, pageSize);
+        }
+
+        public static async Task<PagedList<T>> CreateAsyncWithOrdering(IQueryable<T> source, int pageNumber, int pageSize, string column, string direction)
+        {
+            source = source.OrderByProperty(column, direction);
+
+            return await CreateAsync(source, pageNumber, pageSize);
+
         }
     }
 }

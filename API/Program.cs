@@ -7,6 +7,12 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Load environment variables from .env file
+DotNetEnv.Env.Load();
+
+// Replace placeholder values in configuration with environment variables
+ReplacePlaceHoldersWithEnv(builder.Configuration.GetSection("CloudinarySettings"));
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -49,6 +55,18 @@ catch(Exception ex)
 {
     var logger = services.GetService<ILogger<Program>>();
     logger.LogError(ex, "An error occured during migration");
+}
+
+void ReplacePlaceHoldersWithEnv(IConfigurationSection section)
+{
+    foreach(var child in section.GetChildren())
+    {
+        var value = System.Environment.GetEnvironmentVariable(child.Key);
+        if(!string.IsNullOrEmpty(value))
+        {
+            section[child.Key] = value;
+        }
+    }
 }
 
 app.Run();

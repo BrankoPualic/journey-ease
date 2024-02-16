@@ -1,0 +1,30 @@
+<section class="modal">
+  <div class="modal-body photo-modal" [@modalAnimation]>
+    <img
+      src="assets/icons/close.svg"
+      alt="X mark or close svg icon"
+      (click)="closeModal()"
+      class="close"
+    />
+    @if (imagesArray.length === 1) {
+    <img src="{{ imagesArray[0] }}" alt="{{ imagesArray[0] }}" />
+    } @else { @for (image of imagesArray; let i = $index; track image) {
+    <img
+      src="{{ image }}"
+      alt="{{ image }}"
+      [ngClass]="{ 'image-active': selectedIndex === i }"
+    />
+    }
+    <div class="carousel-dot-container">
+      @for (dot of imagesArray; let i = $index; track dot) {
+      <span
+        class="dot"
+        [ngClass]="{ 'dot-active': selectedIndex === i }"
+        (click)="selectImage(i)"
+      ></span>
+      }
+    </div>
+    }
+  </div>
+  <div class="backdrop"></div>
+</section>

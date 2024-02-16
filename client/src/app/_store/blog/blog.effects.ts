@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
-import { AppState } from '../app.state';
 import { BlogService } from '../../_services/blog.service';
 import {
   addPost,
@@ -20,25 +18,28 @@ import {
   saveBlogFailure,
   saveBlogSuccess,
 } from './blog.actions';
-import { catchError, from, map, of, switchMap, withLatestFrom } from 'rxjs';
-import { selectAllBlog } from './blog.selector';
+import { catchError, from, map, of, switchMap } from 'rxjs';
+import { ITEMS_PER_PAGE } from '../../_types/pagination';
 
 @Injectable()
 export class BlogEffects {
-  constructor(
-    private actions$: Actions,
-    private store: Store<AppState>,
-    private blogService: BlogService
-  ) {}
+  constructor(private actions$: Actions, private blogService: BlogService) {}
 
   loadBlog$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadBlog),
       switchMap((action) =>
-        this.blogService.getBlog(action.page, action.itemsPerPage).pipe(
-          map((result) => loadBlogSuccess({ paginatedResult: result })),
-          catchError((error) => of(loadBlogFailure({ error })))
-        )
+        this.blogService
+          .getBlog(
+            action.page,
+            action.itemsPerPage,
+            action.column,
+            action.direction
+          )
+          .pipe(
+            map((result) => loadBlogSuccess({ paginatedResult: result })),
+            catchError((error) => of(loadBlogFailure({ error })))
+          )
       )
     )
   );
@@ -60,7 +61,13 @@ export class BlogEffects {
       ofType(loadSearchedBlog),
       switchMap((action) =>
         this.blogService
-          .getSearchedBlog(action.searchValue, action.page, action.itemsPerPage)
+          .getSearchedBlog(
+            action.searchValue,
+            action.page,
+            action.itemsPerPage,
+            action.column,
+            action.direction
+          )
           .pipe(
             map((result) => loadBlogSuccess({ paginatedResult: result })),
             catchError((error) => of(loadBlogFailure({ error })))
@@ -72,8 +79,7 @@ export class BlogEffects {
   addPost$ = createEffect(() =>
     this.actions$.pipe(
       ofType(addPost),
-      withLatestFrom(this.store.select(selectAllBlog)),
-      switchMap(([action, blog]) => {
+      switchMap((action) => {
         return from(
           this.blogService.addPost(action.post).pipe(
             map(() => saveBlogSuccess()),
@@ -87,8 +93,7 @@ export class BlogEffects {
   removePost$ = createEffect(() =>
     this.actions$.pipe(
       ofType(removePost),
-      withLatestFrom(this.store.select(selectAllBlog)),
-      switchMap(([action, blog]) => {
+      switchMap((action) => {
         return from(
           this.blogService.removePost(action.postId).pipe(
             map(() => saveBlogSuccess()),
@@ -102,8 +107,7 @@ export class BlogEffects {
   editPost$ = createEffect(() =>
     this.actions$.pipe(
       ofType(editPost),
-      withLatestFrom(this.store.select(selectAllBlog)),
-      switchMap(([action, blog]) => {
+      switchMap((action) => {
         return from(
           this.blogService.editPost(action.updatedPost).pipe(
             map(() => saveBlogSuccess()),
@@ -114,17 +118,17 @@ export class BlogEffects {
     )
   );
 
-  // loadAfterSave$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(saveBlogSuccess),
-  //     map(() => loadBlog())
-  //   )
-  // );
+  loadAfterSave$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(saveBlogSuccess),
+      map(() => loadBlog({ page: 1, itemsPerPage: ITEMS_PER_PAGE }))
+    )
+  );
 
   blogStatistics$ = createEffect(() =>
     this.actions$.pipe(
       ofType(blogStatistics),
-      switchMap((action) =>
+      switchMap(() =>
         this.blogService.fetchBlogStatisticsForAdminPage().pipe(
           map(
             (stats) => loadBlogStatisticsSuccess({ stats }),

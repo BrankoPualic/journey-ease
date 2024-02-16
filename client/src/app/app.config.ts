@@ -16,6 +16,8 @@ import { FaqEffects } from './_store/faqs/faqs.effects';
 import { faqReducer } from './_store/faqs/faqs.reducer';
 import { SubscriptionEffects } from './_store/newsletters/newsletters.effects';
 import { subscriptionReducer } from './_store/newsletters/newsletters.reducer';
+import { provideAnimations } from '@angular/platform-browser/animations';
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -36,5 +38,6 @@ export const appConfig: ApplicationConfig = {
       FaqEffects,
       SubscriptionEffects,
     ]),
+    provideAnimations(),
   ],
 };

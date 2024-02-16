@@ -5,7 +5,12 @@ import { PaginatedResult } from '../../_types/pagination';
 // BLOG
 export const loadBlog = createAction(
   '[Blog] Load Blog',
-  props<{ page: number; itemsPerPage: number }>()
+  props<{
+    page: number;
+    itemsPerPage: number;
+    column?: string;
+    direction?: string;
+  }>()
 );
 
 export const loadBlogSuccess = createAction(
@@ -25,7 +30,13 @@ export const setCurrentPage = createAction(
 
 export const loadSearchedBlog = createAction(
   '[Blog] Blog Search',
-  props<{ searchValue: string; page: number; itemsPerPage: number }>()
+  props<{
+    searchValue: string;
+    page: number;
+    itemsPerPage: number;
+    column?: string;
+    direction?: string;
+  }>()
 );
 
 export const setSelectedCreator = createAction(
@@ -57,7 +68,7 @@ export const removeSelectedPost = createAction('[Post] Post Selected Remove');
 
 export const addPost = createAction(
   '[Admin Page] Add Post',
-  props<{ post: Post }>()
+  props<{ post: FormData }>()
 );
 
 export const removePost = createAction(
@@ -67,7 +78,7 @@ export const removePost = createAction(
 
 export const editPost = createAction(
   '[Admin Page] Edit Post',
-  props<{ updatedPost: Post }>()
+  props<{ updatedPost: FormData }>()
 );
 
 export const saveBlogSuccess = createAction('[Admin Page] Save Blog Success');

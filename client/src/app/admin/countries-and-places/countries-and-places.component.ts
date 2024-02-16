@@ -26,12 +26,12 @@ import { selectAllCountries } from '../../_store/countries/countries.selectors';
   styleUrl: './countries-and-places.component.scss',
 })
 export class CountriesAndPlacesComponent implements OnInit, OnDestroy {
-  private countriesSubscription: Subscription | undefined;
+  private countriesSubscription?: Subscription;
   countriesCount = 0;
   countries$ = this.store.select(selectAllCountries);
   countryKeys: string[] = [];
   insertForm: FormGroup = this.fb.group({});
-  editingCountryIndex: number | undefined;
+  editingCountryIndex?: number;
   selectedAdminTab = 'countries';
 
   constructor(

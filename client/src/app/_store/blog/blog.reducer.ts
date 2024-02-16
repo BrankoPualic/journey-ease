@@ -18,7 +18,6 @@ import {
   removeSelectedPost,
   saveBlogFailure,
   saveBlogSuccess,
-  setCurrentPage,
   setSelectedCreator,
 } from './blog.actions';
 import { loadCountriesFailure } from '../countries/countries.actions';
@@ -32,6 +31,8 @@ export type BlogState = {
   error: string | null;
   status: UnionStatus;
   adminPageStats: BlogStatistics;
+  orderingColumn: string | undefined;
+  direction: string | undefined;
 };
 
 export const initialState: BlogState = {
@@ -52,18 +53,22 @@ export const initialState: BlogState = {
     topAuthor: '',
     totalComments: 0,
   },
+  orderingColumn: 'PostDate',
+  direction: 'descending',
 };
 
 export const blogReducer = createReducer(
   initialState,
 
-  on(loadBlog, (state, { page, itemsPerPage }) => ({
+  on(loadBlog, (state, { page, itemsPerPage, column, direction }) => ({
     ...state,
     pagination: {
       ...state.pagination,
       currentPage: page,
       itemsPerPage,
     },
+    orderingColumn: column,
+    direction,
     status: 'loading' as const,
   })),
 
@@ -87,17 +92,23 @@ export const blogReducer = createReducer(
     status: 'error' as const,
   })),
 
-  on(loadSearchedBlog, (state, { searchValue, page, itemsPerPage }) => ({
-    ...state,
-    blog: [
-      ...state.blog.filter((blog) => blog.postTitle.includes(searchValue)),
-    ],
-    pagination: {
-      ...state.pagination,
-      currentPage: page,
-      itemsPerPage,
-    },
-  })),
+  on(
+    loadSearchedBlog,
+    (state, { searchValue, page, itemsPerPage, column, direction }) => ({
+      ...state,
+      blog: [
+        ...state.blog.filter((blog) => blog.postTitle.includes(searchValue)),
+      ],
+      pagination: {
+        ...state.pagination,
+        currentPage: page,
+        itemsPerPage,
+      },
+      orderingColumn: column,
+      direction,
+      status: 'loading' as const,
+    })
+  ),
 
   on(setSelectedCreator, (state, { creator }) => ({
     ...state,
@@ -114,9 +125,9 @@ export const blogReducer = createReducer(
     post: null,
   })),
 
-  on(addPost, (state, { post }) => ({
+  on(addPost, (state) => ({
     ...state,
-    blog: [...state.blog, post],
+    status: 'loading' as const,
   })),
 
   on(saveBlogSuccess, (state) => ({
@@ -134,13 +145,12 @@ export const blogReducer = createReducer(
   on(removePost, (state, { postId }) => ({
     ...state,
     blog: [...state.blog.filter((x) => x.postId !== postId)],
+    status: 'loading' as const,
   })),
 
-  on(editPost, (state, { updatedPost }) => ({
+  on(editPost, (state) => ({
     ...state,
-    blog: state.blog.map((post) =>
-      post.postId === updatedPost.postId ? updatedPost : post
-    ),
+    status: 'loading' as const,
   })),
 
   on(loadPost, (state) => ({

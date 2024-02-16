@@ -1,5 +1,6 @@
 using API.DTOs;
 using API.Entities;
+using API.Extensions;
 using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
@@ -16,17 +17,15 @@ namespace API.Data
         {
             _mapper = mapper;
             _context = context;
-
         }
 
         public async Task<PagedList<PostDto>> GetBlogAsync(PostParams postParams)
         {
             var query = _context.Blog
                 .ProjectTo<PostDto>(_mapper.ConfigurationProvider)
-                .OrderByDescending(p => p.PostDate)
                 .AsNoTracking();
 
-            return await PagedList<PostDto>.CreateAsync(query, postParams.PageNumber, postParams.PageSize);
+            return await ApplyCommonFilters(query, postParams);
         }
 
         public async Task<Post> GetPost(int postId)
@@ -35,15 +34,13 @@ namespace API.Data
         }
         public void AddPost(Post post)
         {
-            _context.Blog.Add(post);
+            post.PostId = _context.Blog.Max(p => p.PostId) + 1;
+            var result = _context.Blog.Add(post);
         }
-
-
         public void RemovePost(Post post)
         {
             _context.Blog.Remove(post);
         }
-
         public void UpdatePost(Post post)
         {
             _context.Entry(post).State = EntityState.Modified;
@@ -54,11 +51,11 @@ namespace API.Data
             var query = _context.Blog
                 .Where(p => p.PostTitle.ToLower().Contains(searchValue.ToLower())
                     || p.CreatorName.ToLower().Contains(searchValue.ToLower()))
-                .OrderByDescending(p => p.PostDate)
                 .ProjectTo<PostDto>(_mapper.ConfigurationProvider)
                 .AsNoTracking();
 
-            return await PagedList<PostDto>.CreateAsync(query, postParams.PageNumber, postParams.PageSize);
+            return await ApplyCommonFilters(query, postParams);
+
         }
 
         public async Task<PostDto> GetSelectedPost(int postId)
@@ -87,6 +84,17 @@ namespace API.Data
             }
 
             return new BlogStatistics(blogCount, authorsCount, author, commentsCount);
+        }
+
+        private async Task<PagedList<PostDto>> ApplyCommonFilters(IQueryable<PostDto> query, PostParams postParams)
+        {
+            if(!string.IsNullOrWhiteSpace(postParams.Column) && !string.IsNullOrWhiteSpace(postParams.Direction))
+                return await PagedList<PostDto>.CreateAsyncWithOrdering(query, postParams.PageNumber, postParams.PageSize, postParams.Column, postParams.Direction);
+            else
+            {
+                query = query.OrderByDescending(p => p.PostDate);
+                return await PagedList<PostDto>.CreateAsync(query, postParams.PageNumber, postParams.PageSize);
+            }
         }
     }
 }

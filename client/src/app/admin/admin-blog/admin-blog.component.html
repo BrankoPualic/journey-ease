@@ -55,12 +55,35 @@
     </div>
   </div>
   <div class="admin-data-body">
-    <form [formGroup]="post" (ngSubmit)="onInsertPost()">
+    <form>
+      <div class="form-row">
+        <label>Search for post title or author name: </label>
+        <input
+          type="text"
+          [formControl]="searchValue"
+          placeholder="Search..."
+        />
+      </div>
+    </form>
+    <form
+      [formGroup]="postForm"
+      (ngSubmit)="onInsertPost()"
+      enctype="multipart/form-data"
+    >
       <table>
         <thead>
           <tr>
             @for (key of postKeys; track key) {
-            <th>{{ key }}</th>
+            <th>
+              {{ key }} @if (key === 'Post Id' || key === 'Post Date') {
+              <img
+                src="assets/icons/sort.svg"
+                alt="sort svg icon"
+                class="sort"
+                (click)="orderBy(key)"
+              />
+              }
+            </th>
             }
             <th>Operations</th>
           </tr>
@@ -70,29 +93,59 @@
             <td></td>
             <td>
               <div class="form-row">
-                <input type="text" formControlName="postTitle" />
+                <input
+                  type="text"
+                  formControlName="postTitle"
+                  placeholder="New..."
+                />
               </div>
             </td>
             <td>
-              <!-- Dugme za modal za upisati content -->
+              <img
+                style="cursor: pointer; width: 25px; height: 25px"
+                src="assets/icons/pencil-plus.svg"
+                alt="pencil plus svg icon"
+                (click)="openTextEditingModal('postContent')"
+              />
             </td>
             <td>
-              <!-- insert image -->
+              <img
+                style="cursor: pointer; width: 30px; height: 30px"
+                src="assets/icons/upload.svg"
+                alt="upload svg icon"
+                (click)="uploadImage()"
+              />
+              <input
+                type="file"
+                #fileInput
+                (change)="onImageInputChange(fileInput)"
+                accept=".png, .jpg"
+              />
             </td>
             <td></td>
             <td>
               <div class="form-row">
-                <input type="text" formControlName="creatorName" />
+                <input
+                  type="text"
+                  formControlName="creatorName"
+                  placeholder="New..."
+                />
               </div>
             </td>
             <td>
-              <!-- dugme za modal za kratku descripciju -->
+              <img
+                style="cursor: pointer; width: 25px; height: 25px"
+                src="assets/icons/pencil-plus.svg"
+                alt="pencil plus svg icon"
+                (click)="openTextEditingModal('postDescription')"
+              />
             </td>
             <td>
               <input
                 type="submit"
                 value="Insert"
                 class="btn admin-insert-btn btn-full-style"
+                [disabled]="!postForm.valid || !imageUploaded"
               />
             </td>
           </tr>
@@ -102,24 +155,68 @@
             <td class="text-continues">
               {{ post.postTitle }}
             </td>
-            <td>...</td>
+            <td
+              style="cursor: pointer; font-weight: bold; font-size: 1.5em"
+              (click)="openTextReviewModal(post.postContent, post.postTitle)"
+            >
+              ...
+            </td>
             <td>
-              <div class="admin-post-img">
+              <div
+                class="admin-post-img"
+                (click)="openPhotoModal(post.postImageUrl)"
+              >
                 <img src="{{ post.postImageUrl }}" alt="Post image" />
                 <div class="black-drop">View</div>
               </div>
             </td>
             <td>{{ post.postDate | date : "longDate" }}</td>
             <td class="text-continues">{{ post.creatorName }}</td>
-            <td>...</td>
-            <td class="operation-td">
-              <!-- Treba dodati opcije -->
+            <td
+              (click)="
+                openTextReviewModal(post.postDescription, post.postTitle)
+              "
+              style="font-weight: bold; font-size: 1.5em; cursor: pointer"
+            >
+              ...
+            </td>
+            <td class="operation-td" (click)="onRowAction(post.postId)">
+              <div
+                class="operations-menu hidden operations-menu-post-{{
+                  post.postId
+                }}"
+              >
+                <span
+                  class="admin-edit-span"
+                  (click)="onEditPostRow(post)"
+                >
+                  Edit</span
+                >
+                <span
+                  class="admin-delete-span"
+                  (click)="onDeletePostRow(post.postId)"
+                >
+                  Delete</span
+                >
+              </div>
             </td>
           </tr>
           }
         </tbody>
       </table>
     </form>
+    @if (pagination && blog.length && pagination.totalPages > 1) {
+    <app-pagination
+      [currentPage]="pagination.currentPage"
+      [itemsPerPage]="pagination.itemsPerPage"
+      [paginationType]="'blog'"
+      [totalPages]="pagination.totalPages"
+      [direction]="stateDirection"
+      [orderingColumn]="stateOrderingColumn"
+    />
+    } @if (!blog.length) {
+    <h3 class="nothing-found">No blog found for searched value.</h3>
+    }
   </div>
 </div>
 }

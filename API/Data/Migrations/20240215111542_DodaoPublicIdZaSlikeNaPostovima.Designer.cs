@@ -3,6 +3,7 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240215111542_DodaoPublicIdZaSlikeNaPostovima")]
+    partial class DodaoPublicIdZaSlikeNaPostovima
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -183,28 +186,6 @@ namespace API.Data.Migrations
                     b.HasKey("FaqId");
 
                     b.ToTable("FAQs");
-                });
-
-            modelBuilder.Entity("API.Entities.NewsletterSubscription", b =>
-                {
-                    b.Property<int>("SubscriberId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("SubscriberId"));
-
-                    b.Property<string>("Email")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("Status")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime>("StatusChangedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("SubscriberId");
-
-                    b.ToTable("NewsletterSubscriptions");
                 });
 
             modelBuilder.Entity("API.Entities.Post", b =>
