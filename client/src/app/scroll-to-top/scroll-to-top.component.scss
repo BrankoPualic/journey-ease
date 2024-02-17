@@ -1,0 +1,29 @@
+@import "../../styles.scss";
+
+.scroll-to-top-btn {
+  position: fixed;
+  right: 2rem;
+  bottom: 2rem;
+  cursor: pointer;
+  transition: all ease $transition;
+  filter: invert(49%) sepia(71%) saturate(1793%) hue-rotate(123deg)
+    brightness(99%) contrast(87%);
+
+  &:hover {
+    animation: bounce 1.2s infinite;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes bounce {
+  0%,
+  50%,
+  100% {
+    bottom: 2rem;
+  }
+
+  25%,
+  75% {
+    bottom: 3rem;
+  }
+}

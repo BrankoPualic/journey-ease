@@ -28,6 +28,11 @@
     <app-photographer-opportunity />
     }
   </section>
+  <section #aboutUsTrigger>
+    @defer (on viewport(aboutUsTrigger)) {
+    <app-about-us-section />
+    }
+  </section>
   <section #testimonialsTrigger class="testimonials">
     @defer (on viewport(testimonialsTrigger)) {
     <app-testimonials />

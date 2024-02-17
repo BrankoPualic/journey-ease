@@ -1,9 +1,9 @@
 @import "../../../styles.scss";
 
 .opportunity-block {
-  height: auto;
   position: relative;
   min-height: 100dvh;
+  height: 100dvh;
   overflow: hidden;
 
   .img-holder-1 {

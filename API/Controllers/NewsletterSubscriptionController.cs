@@ -35,7 +35,10 @@ namespace API.Controllers
 
                 _uow.NewsletterSubscriptionRepository.AddSubscription(nsDto.Email);
 
-                if(await _uow.Complete()) return Created();
+                string uri = "https://localhost:4200/api/newsletterSubscription";
+
+                if(await _uow.Complete())
+                    return Created(uri, new { message = "Successfully subscribed."});
 
                 return BadRequest(new { message = "Failed to add to database" });
             }

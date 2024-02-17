@@ -1,0 +1,49 @@
+@import "../../../styles.scss";
+
+.about-us-holder {
+  height: 80dvh;
+  margin: 2rem 0 1rem;
+
+  .info-holder {
+    height: 100%;
+    color: $white;
+    text-align: center;
+    @include flex(row, space-between, nowrap, center);
+    position: relative;
+
+    .about-us-cover-img {
+      background-image: url("../../../assets/img/about-us-cover.jpg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: left bottom;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      z-index: -1;
+      filter: brightness(0.7);
+    }
+
+    .info {
+      @include flex(column, space-between, nowrap, center);
+      width: 50%;
+      height: 55%;
+      margin: 0 auto;
+
+      h2 {
+        color: $white;
+      }
+
+      h3 {
+        font-size: 1.5em;
+      }
+
+      p {
+        font-weight: bold;
+        font-size: 1.3em;
+      }
+    }
+  }
+}

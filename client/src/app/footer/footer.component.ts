@@ -1,15 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
-  FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { AppState } from '../_store/app.state';
-import { addSubscription } from '../_store/newsletters/newsletters.actions';
+import { UserService } from '../_services/user.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-footer',
@@ -18,23 +16,17 @@ import { addSubscription } from '../_store/newsletters/newsletters.actions';
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.scss',
 })
-export class FooterComponent implements OnInit {
+export class FooterComponent implements OnInit, OnDestroy {
   newsletterForm: FormGroup = this.fb.group({});
+  newsletterSubscription: Subscription = new Subscription();
 
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private store: Store<AppState>
+    private userService: UserService
   ) {}
 
   ngOnInit() {
-    this.router.events.subscribe((event) => {
-      if (!(event instanceof NavigationEnd)) {
-        return;
-      }
-      window.scrollTo(0, 0);
-    });
-
     this.formInit();
   }
 
@@ -45,10 +37,18 @@ export class FooterComponent implements OnInit {
   }
 
   onAddSubscription() {
-    this.store.dispatch(
-      addSubscription({ email: this.newsletterForm.value.email })
-    );
+    this.newsletterSubscription = this.userService
+      .addSubscription(this.newsletterForm.value.email)
+      .subscribe({
+        //TODO
+        next: (response: { message: string }) => console.log(response.message),
+        error: (error) => console.error(error),
+      });
 
     this.newsletterForm.reset();
+  }
+
+  ngOnDestroy(): void {
+    this.newsletterSubscription.unsubscribe();
   }
 }
