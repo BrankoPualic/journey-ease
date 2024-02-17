@@ -6,6 +6,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { AppState } from '../../_store/app.state';
+import { Store } from '@ngrx/store';
+import { signin } from '../../_store/auth/auth.actions';
 
 @Component({
   selector: 'app-sign-in',
@@ -18,7 +21,7 @@ export class SignInComponent implements OnInit {
   @Output() showSignUpEvent: EventEmitter<string> = new EventEmitter<string>();
   signinForm: FormGroup = this.fb.group({});
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private store: Store<AppState>) {}
 
   ngOnInit(): void {
     this.initializeForm();
@@ -38,7 +41,15 @@ export class SignInComponent implements OnInit {
     });
   }
 
-  signin() {}
+  signin() {
+    if (!this.signinForm.valid) return;
+
+    const userSignin = this.signinForm.value;
+
+    this.store.dispatch(signin({ userSignin }));
+
+    this.signinForm.reset();
+  }
 
   onShowSignUp() {
     this.showSignUpEvent.emit('sign-up');

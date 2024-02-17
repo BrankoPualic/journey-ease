@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { blogResolver } from './_resolvers/blog.resolver';
+import { AuthGuard } from './_guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -9,6 +10,7 @@ export const routes: Routes = [
   },
   {
     path: '',
+    runGuardsAndResolvers: 'always',
     children: [
       {
         path: 'auth/:type',
@@ -36,6 +38,14 @@ export const routes: Routes = [
         path: 'faqs',
         loadComponent: () =>
           import('./faqs/faqs.component').then((m) => m.FaqsComponent),
+      },
+      {
+        path: 'profile',
+        canActivate: [AuthGuard],
+        loadComponent: () =>
+          import('./account-profile/account-profile.component').then(
+            (m) => m.AccountProfileComponent
+          ),
       },
       {
         path: 'admin',

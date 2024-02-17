@@ -1,4 +1,4 @@
-<header>
+<header [ngClass]="{ headerAbsolute: isHomePage }">
   <div class="logo">
     <img src="assets/img/logo.png" alt="JourneyEase logo." routerLink="" />
   </div>
@@ -14,6 +14,38 @@
       <li><a>Contact</a></li>
     </ul>
   </nav>
+  @if(authService.currentUser$ | async; as user){
+  <div
+    class="auth-div"
+    (mouseover)="authDropdownIsOpened = true"
+    (mouseleave)="authDropdownIsOpened = false"
+  >
+    <div class="auth-div-text">
+      <h3>My account</h3>
+      <i class="fa-solid fa-angle-down"></i>
+    </div>
+    <div
+      class="auth-dropdown-menu"
+      [ngClass]="authDropdownIsOpened ? 'open' : 'hidden'"
+    >
+      <div class="auth-dropdown-menu-item" routerLink="/profile">
+        <p>My profile</p>
+        <img
+          src="assets/icons/account-circle.svg"
+          alt="account circle svg icon"
+        />
+      </div>
+      <div class="auth-dropdown-menu-item" (click)="signout()">
+        <p>Sign out</p>
+        <img
+          src="assets/icons/logout.svg"
+          alt="logout svg icon"
+          class="signout"
+        />
+      </div>
+    </div>
+  </div>
+  } @else {
   <div class="auth">
     <button class="btn btn-empty-style" routerLink="/auth/sign-in">
       Sign in
@@ -22,4 +54,5 @@
       Sign up
     </button>
   </div>
+  }
 </header>

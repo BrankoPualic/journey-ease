@@ -13,6 +13,7 @@ import { TextInputComponent } from '../../_forms/text-input/text-input.component
 import { AppState } from '../../_store/app.state';
 import { selectAllCountries } from '../../_store/countries/countries.selectors';
 import { loadCountries } from '../../_store/countries/countries.actions';
+import { signup } from '../../_store/auth/auth.actions';
 
 @Component({
   selector: 'app-sign-up',
@@ -37,7 +38,7 @@ export class SignUpComponent implements OnInit {
     this.signupForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      phone: [null, Validators.pattern(/^\+?[0-9\s.-]+$/)],
+      phoneNumber: [null, Validators.pattern(/^\+?[0-9\s.-]+$/)],
       email: ['', [Validators.required, Validators.email]],
       password: [
         '',
@@ -51,7 +52,7 @@ export class SignUpComponent implements OnInit {
         '',
         [Validators.required, this.matchValues('password')],
       ],
-      country: [0, [Validators.pattern(/^[1-9]\d*$/)]],
+      countryId: [0, [Validators.pattern(/^[1-9]\d*$/)]],
       newsletter: [false],
     });
 
@@ -69,7 +70,15 @@ export class SignUpComponent implements OnInit {
     };
   }
 
-  signup() {}
+  signup() {
+    if (!this.signupForm.valid) return;
+
+    const userSignup = this.signupForm.value;
+
+    this.store.dispatch(signup({ userSignup }));
+
+    this.signupForm.reset();
+  }
 
   onShowSignIn() {
     this.showSignInEvent.emit('sign-in');

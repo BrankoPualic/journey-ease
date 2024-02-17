@@ -14,6 +14,7 @@ namespace API.Helpers
             CreateMap<Post, PostDto>();
             CreateMap<Faq, FaqDto>();
             CreateMap<NewsletterSubscription, NewsletterSubscriptionDto>();
+            CreateMap<SignupDto, AppUser>();
         }
     }
 }
