@@ -15,6 +15,7 @@ namespace API.Extensions
                 opt.UseNpgsql(config.GetConnectionString("DefaultConnection"));
             });
             services.AddCors();
+            services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.Configure<CloduinarySettings>(config.GetSection("CloudinarySettings"));

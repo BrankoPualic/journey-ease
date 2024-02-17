@@ -17,7 +17,8 @@ import { faqReducer } from './_store/faqs/faqs.reducer';
 import { SubscriptionEffects } from './_store/newsletters/newsletters.effects';
 import { subscriptionReducer } from './_store/newsletters/newsletters.reducer';
 import { provideAnimations } from '@angular/platform-browser/animations';
-
+import { authReducer } from './_store/auth/auth.reducer';
+import { AuthEffects } from './_store/auth/auth.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -30,6 +31,7 @@ export const appConfig: ApplicationConfig = {
       blog: blogReducer,
       faqs: faqReducer,
       subscription: subscriptionReducer,
+      auth: authReducer,
     }),
     provideEffects([
       CountryEffects,
@@ -37,6 +39,7 @@ export const appConfig: ApplicationConfig = {
       BlogEffects,
       FaqEffects,
       SubscriptionEffects,
+      AuthEffects,
     ]),
     provideAnimations(),
   ],
