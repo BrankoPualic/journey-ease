@@ -36,9 +36,9 @@ namespace API.Controllers
 
                 _uow.CountryRepository.AddCountry(countryDto.CountryName);
 
-                string adminPanelUri = "/admin/countries-and-places";
+                string uri = "https://localhost:4200/admin/countries-and-places/api/country";
 
-                if(await _uow.Complete()) return Created(adminPanelUri ,new { message = "Successfully added country."});
+                if(await _uow.Complete()) return Created(uri ,new { message = "Successfully added country."});
 
                 return BadRequest(new { message = "Failed to add to database" });
             }

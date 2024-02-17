@@ -14,8 +14,6 @@ import { BlogEffects } from './_store/blog/blog.effects';
 import { blogReducer } from './_store/blog/blog.reducer';
 import { FaqEffects } from './_store/faqs/faqs.effects';
 import { faqReducer } from './_store/faqs/faqs.reducer';
-import { SubscriptionEffects } from './_store/newsletters/newsletters.effects';
-import { subscriptionReducer } from './_store/newsletters/newsletters.reducer';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { authReducer } from './_store/auth/auth.reducer';
 import { AuthEffects } from './_store/auth/auth.effects';
@@ -30,7 +28,6 @@ export const appConfig: ApplicationConfig = {
       seasons: seasonReducer,
       blog: blogReducer,
       faqs: faqReducer,
-      subscription: subscriptionReducer,
       auth: authReducer,
     }),
     provideEffects([
@@ -38,7 +35,6 @@ export const appConfig: ApplicationConfig = {
       DestinationEffects,
       BlogEffects,
       FaqEffects,
-      SubscriptionEffects,
       AuthEffects,
     ]),
     provideAnimations(),

@@ -2,6 +2,7 @@ import { Component, ElementRef } from '@angular/core';
 import { SearchHomeComponent } from './search-home/search-home.component';
 import { TestimonialsComponent } from './testimonials/testimonials.component';
 import { PhotographerOpportunityComponent } from './photographer-opportunity/photographer-opportunity.component';
+import { AboutUsSectionComponent } from './about-us-section/about-us-section.component';
 
 @Component({
   selector: 'app-home',
@@ -10,6 +11,7 @@ import { PhotographerOpportunityComponent } from './photographer-opportunity/pho
     SearchHomeComponent,
     TestimonialsComponent,
     PhotographerOpportunityComponent,
+    AboutUsSectionComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
