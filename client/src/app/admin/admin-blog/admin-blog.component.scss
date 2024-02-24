@@ -10,7 +10,6 @@
     object-fit: cover;
     width: 100%;
     height: 100%;
-    border-radius: 5px;
   }
   .black-drop {
     background-color: rgba($color: $dark-green, $alpha: 0.9);
@@ -20,7 +19,6 @@
     left: -100px;
     top: 0;
     transition: 0.3s;
-    border-radius: 5px;
     color: $snow-white;
     @include flex(row, center, nowrap, center);
   }

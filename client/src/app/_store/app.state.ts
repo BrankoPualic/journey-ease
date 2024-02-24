@@ -9,6 +9,5 @@ export type AppState = {
   seasons: SeasonState;
   blog: BlogState;
   faqs: FaqState;
-  subscriptions: SubscriptionState;
   auth: AuthState;
 };

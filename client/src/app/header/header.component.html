@@ -12,6 +12,9 @@
       <li><a>Destinations</a></li>
       <li routerLink="/faqs"><a>FAQs</a></li>
       <li><a>Contact</a></li>
+      <li routerLink="/admin" *appHasRole="['Admin']">
+        <a>Admin</a>
+      </li>
     </ul>
   </nav>
   @if(authService.currentUser$ | async; as user){

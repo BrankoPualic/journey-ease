@@ -40,20 +40,14 @@ namespace API.Data
             AppUser admin = new()
             {
                 Id = 9,
-                UserName = "admin",
-                Email = "adminBO@gmail.com"
+                UserName = "Admin",
+                Email = "adminBO@gmail.com",
+                CountryId = 1
             };
             
-            try{
 
-            var result = await userManager.CreateAsync(admin, "Pa$$w0rd");
-            if(result.Succeeded){
+            await userManager.CreateAsync(admin, "Pa$$w0rd");
             await userManager.AddToRoleAsync(admin, "Admin");
-
-            } else{
-                Console.WriteLine($"{result.Errors}");
-            }
-            } catch(Exception ex){Console.WriteLine($"{ex}");}
             
         }
         public static async Task SeedCountries(DataContext context)

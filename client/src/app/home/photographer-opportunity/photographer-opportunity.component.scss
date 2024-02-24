@@ -16,7 +16,7 @@
 
     img {
       width: 100%;
-      border-radius: $border-radius;
+
       box-shadow: $box-shadow;
     }
   }
@@ -29,7 +29,6 @@
     z-index: -1;
 
     img {
-      border-radius: $border-radius;
       width: 100%;
       box-shadow: $box-shadow;
     }
@@ -45,7 +44,6 @@
     position: absolute;
     top: 53%;
     left: 15%;
-    border-radius: $border-radius;
 
     h3 {
       text-transform: uppercase;

@@ -28,7 +28,7 @@ main {
 
         .line {
           background-color: $white;
-          border-radius: $border-radius-2;
+
           height: 3px;
           margin: 3.5px 0;
 
@@ -65,7 +65,7 @@ main {
           content: "";
           position: absolute;
           border-left: 4px solid $white;
-          border-radius: $border-radius;
+
           left: -1rem;
           height: 20px;
           opacity: 0;

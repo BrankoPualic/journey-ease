@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-    //  [Authorize(Policy = "RequireAdminRole")]
+     [Authorize(Policy = "RequireAdminRole")]
     public class AdminController : BaseApiController
     {
         private readonly IUnitOfWork _uow;

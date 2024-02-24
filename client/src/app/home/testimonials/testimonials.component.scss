@@ -12,7 +12,6 @@
       background: linear-gradient(to bottom, $light-grey, $ultra-light-grey);
       padding: 3rem 4rem;
       margin-bottom: 1.5rem;
-      border-radius: $border-radius-2;
 
       &:last-child {
         margin-bottom: 0;
@@ -86,7 +85,7 @@
       &.hidden-testimonial {
         opacity: 0;
         transform: translateX(-100%);
-        transition: all 1.5s;
+        transition: all 1s;
       }
 
       &.hidden-testimonial:nth-child(even) {
@@ -103,11 +102,11 @@
       }
 
       &:nth-child(2) {
-        transition-delay: 50ms;
+        transition-delay: 100ms;
       }
 
       &:nth-child(3) {
-        transition-delay: 100ms;
+        transition-delay: 150ms;
       }
     }
   }
