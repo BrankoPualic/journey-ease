@@ -25,13 +25,9 @@ $ultra-light-orange: #fff1cd;
 
 // Application
 $transition: 0.1s;
-$border-radius: 5px;
-$border-radius-2: 10px;
 $section-padding: 0 6%;
-$box-shadow-hover: 0px 0px 5px 0px $light-green;
-$box-shadow-hover-bad: 0px 0px 5px 0px $red;
-$box-shadow-hover-grey: 0px 0px 5px 0px $grey;
-$box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+$box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+  rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 
 // Mixins
 @mixin border($width: 1px, $style: solid, $color: $light-green) {
@@ -72,7 +68,7 @@ $box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
   font-weight: bold;
   background-color: transparent;
   cursor: pointer;
-  border-radius: $border-radius;
+
   transition: $transition;
   @include border();
   &.btn-empty-style {
@@ -87,31 +83,10 @@ $box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
     color: $white;
     border-color: $red;
   }
-
-  &.btn-empty-style:hover {
-    -webkit-box-shadow: $box-shadow-hover;
-    -moz-box-shadow: $box-shadow-hover;
-    box-shadow: $box-shadow-hover;
-  }
-  &.btn-full-style:hover {
-    -webkit-box-shadow: $box-shadow-hover;
-    -moz-box-shadow: $box-shadow-hover;
-    box-shadow: $box-shadow-hover;
-  }
-  &.btn-error:hover {
-    -webkit-box-shadow: $box-shadow-hover-bad;
-    -moz-box-shadow: $box-shadow-hover-bad;
-    box-shadow: $box-shadow-hover-bad;
-  }
   &:disabled {
     background-color: $grey;
     border: none;
     cursor: default;
-    &:hover {
-      -webkit-box-shadow: none;
-      -moz-box-shadow: none;
-      box-shadow: none;
-    }
   }
 
   &.admin-insert-btn {
@@ -138,7 +113,7 @@ $box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
   input[type="text"],
   select {
     padding: 0.5rem 1rem;
-    border-radius: $border-radius;
+
     box-shadow: $box-shadow !important;
     font-size: 1em !important;
     border: none;
@@ -186,15 +161,10 @@ $box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
     margin: 0 auto;
     cursor: pointer;
     border: none;
-    border-radius: $border-radius;
+
     background-color: $light-green;
     color: $light-grey;
     transition: $transition;
-    &:hover {
-      -webkit-box-shadow: $box-shadow-hover;
-      -moz-box-shadow: $box-shadow-hover;
-      box-shadow: $box-shadow-hover;
-    }
     &:disabled {
       background-color: $grey;
       cursor: default;
@@ -232,7 +202,7 @@ $box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
     .admin-stats-block {
       @include flex(row, flex-start, nowrap, center);
       background-color: $white;
-      border-radius: $border-radius;
+
       padding: 1.3rem 1.75rem;
       width: 22%;
       box-shadow: $box-shadow;
@@ -303,7 +273,7 @@ $box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
     width: 100%;
     height: 82%;
     box-shadow: $box-shadow;
-    border-radius: $border-radius-2;
+
     padding: 2rem 2.8rem;
     overflow: auto;
 
@@ -319,15 +289,14 @@ $box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
         margin-bottom: 1rem;
         cursor: pointer;
         padding: 0.5rem 1rem;
-        border-radius: $border-radius;
+
         background-color: $white;
         @include border(1px, solid, $grey);
         color: $dark-grey;
         transition: $transition ease-in-out;
 
-        &:hover,
         &.admin-tab-active {
-          box-shadow: $box-shadow-hover-grey;
+          color: $light-red;
         }
       }
     }
@@ -382,25 +351,11 @@ $box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
               .edit-checkmark {
                 color: $white;
                 background-color: $light-green;
-                border-radius: $border-radius 0 0 $border-radius;
-
-                &:hover {
-                  -webkit-box-shadow: $box-shadow-hover;
-                  -moz-box-shadow: $box-shadow-hover;
-                  box-shadow: $box-shadow-hover;
-                }
               }
 
               .edit-xmark {
                 color: $dark-grey;
                 background-color: $red;
-                border-radius: 0 $border-radius $border-radius 0;
-
-                &:hover {
-                  -webkit-box-shadow: $box-shadow-hover-bad;
-                  -moz-box-shadow: $box-shadow-hover-bad;
-                  box-shadow: $box-shadow-hover-bad;
-                }
               }
             }
           }
@@ -412,7 +367,7 @@ $box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
             left: 50%;
             transform: translateX(-50%);
             background-color: $white;
-            border-radius: $border-radius;
+
             @include border(1px, solid, $grey);
             z-index: 3;
             display: grid;
@@ -522,7 +477,6 @@ h3.nothing-found {
   z-index: 9997;
   .modal-body {
     padding: 1rem 4rem;
-    border-radius: 5px;
     background-color: $snow-white;
     position: absolute;
     max-height: 90dvh;

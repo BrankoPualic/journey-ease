@@ -5,15 +5,14 @@ form {
   @include flex("row", "flex-start", "nowrap", center);
   height: 50px;
   background-color: $white;
-  border-radius: 50px;
   box-shadow: $box-shadow;
-  padding: 0.5rem;
+  padding-right: 0.5rem;
 
   .input-element {
     flex: 1;
+    height: 100%;
   }
   input[type="submit"] {
-    border-radius: 50px;
     width: 100px;
     padding: 0.5rem;
   }
@@ -21,9 +20,8 @@ form {
     width: 120px;
     margin: 0 0.75rem;
     cursor: pointer;
-    border-radius: 5px;
     padding-right: 0.5rem;
-    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.25);
+    box-shadow: $box-shadow;
     select {
       background-color: transparent;
       padding: 0.5rem;

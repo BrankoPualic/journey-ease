@@ -30,8 +30,6 @@ main {
       background-image: url("../../assets/img/leaf-texture-2.png");
       background-position: center;
       background-size: cover;
-      border-radius: $border-radius-2 $border-radius-2 $border-radius-2
-        $border-radius-2;
       @include flex(row, center, nowrap, center);
       position: relative;
       left: 25%;
