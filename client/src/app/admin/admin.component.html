@@ -118,8 +118,13 @@
         <a [routerLink]="['./dashboard']" routerLinkActive="breadcrumb-active"
           >Home</a
         >
-        <!-- >
-        <a>FAQs</a> -->
+        @for (nav of segments; let i = $index; track nav) { >
+        <a
+          [routerLink]="['./', nav | lowercase]"
+          [ngClass]="{ 'breadcrumb-active': indexOflastActive === i }"
+          >{{ nav }}</a
+        >
+        }
       </div>
     </div>
     <div class="admin-info">

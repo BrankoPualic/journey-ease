@@ -36,6 +36,7 @@ import { Subscription, debounceTime, distinctUntilChanged } from 'rxjs';
 import { PaginationComponent } from '../../pagination/pagination.component';
 import { ModalService } from '../../_services/modal.service';
 import { TextReviewModalComponent } from '../../_modals/text-review-modal/text-review-modal.component';
+import { Router, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-admin-blog',
@@ -45,6 +46,7 @@ import { TextReviewModalComponent } from '../../_modals/text-review-modal/text-r
     ReactiveFormsModule,
     PaginationComponent,
     TextReviewModalComponent,
+    RouterOutlet,
   ],
   templateUrl: './admin-blog.component.html',
   styleUrl: './admin-blog.component.scss',
@@ -75,7 +77,8 @@ export class AdminBlogComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private sharedService: SharedService,
     private modalService: ModalService,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -292,6 +295,11 @@ export class AdminBlogComponent implements OnInit, OnDestroy {
 
   onDeletePostRow(postId: number) {
     this.store.dispatch(removePost({ postId }));
+  }
+
+  onPostCommentRow(postId: number) {
+    // this.store.dispatch(loadComments({postId}))
+    this.router.navigateByUrl('/admin/blog/comments');
   }
 
   private searchTypingManagement() {

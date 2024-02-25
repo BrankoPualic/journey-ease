@@ -8,7 +8,26 @@
         <a>Home</a>
       </li>
       <li routerLink="/blog"><a>Blog</a></li>
-      <li><a>About us</a><i class="fa-solid fa-angle-down"></i></li>
+      <li
+        (mouseover)="aboutUsDropdownIsOpened = true"
+        (mouseleave)="aboutUsDropdownIsOpened = false"
+      >
+        <a>About us</a><i class="fa-solid fa-angle-down"></i>
+        <div
+          class="dropdown-menu"
+          [ngClass]="aboutUsDropdownIsOpened ? 'open' : 'hidden'"
+        >
+          <div class="dropdown-menu-item">
+            <p>About JourneyEase</p>
+          </div>
+          <div class="dropdown-menu-item">
+            <p>Testimonials</p>
+          </div>
+          <div class="dropdown-menu-item">
+            <p>License</p>
+          </div>
+        </div>
+      </li>
       <li><a>Destinations</a></li>
       <li routerLink="/faqs"><a>FAQs</a></li>
       <li><a>Contact</a></li>
@@ -28,17 +47,17 @@
       <i class="fa-solid fa-angle-down"></i>
     </div>
     <div
-      class="auth-dropdown-menu"
+      class="dropdown-menu"
       [ngClass]="authDropdownIsOpened ? 'open' : 'hidden'"
     >
-      <div class="auth-dropdown-menu-item" routerLink="/profile">
+      <div class="dropdown-menu-item" routerLink="/profile">
         <p>My profile</p>
         <img
           src="assets/icons/account-circle.svg"
           alt="account circle svg icon"
         />
       </div>
-      <div class="auth-dropdown-menu-item" (click)="signout()">
+      <div class="dropdown-menu-item" (click)="signout()">
         <p>Sign out</p>
         <img
           src="assets/icons/logout.svg"

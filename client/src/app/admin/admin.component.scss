@@ -119,10 +119,11 @@ main {
       .breadcrumb {
         a {
           text-decoration: none;
+          color: $black;
+          font-weight: bold;
 
           &.breadcrumb-active {
             color: $grey;
-            font-weight: bold;
             text-decoration: none;
             pointer-events: none;
           }

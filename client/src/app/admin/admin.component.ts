@@ -1,17 +1,25 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import {
+  NavigationEnd,
+  Router,
+  RouterLink,
+  RouterLinkActive,
+  RouterOutlet,
+} from '@angular/router';
 import { ModalService } from '../_services/modal.service';
 import { TextReviewModalComponent } from '../_modals/text-review-modal/text-review-modal.component';
-import { Subscription, map, take } from 'rxjs';
+import { Subscription, filter, map, take } from 'rxjs';
 import { PhotoModalComponent } from '../_modals/photo-modal/photo-modal.component';
 import { TextEditingModalComponent } from '../_modals/text-editing-modal/text-editing-modal.component';
 import { PostEditModalComponent } from '../_modals/post-edit-modal/post-edit-modal.component';
 import { Post } from '../_types/post.types';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
   imports: [
+    CommonModule,
     RouterOutlet,
     RouterLink,
     RouterLinkActive,
@@ -39,10 +47,19 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   allSubscriptions: Subscription[] = [];
 
-  constructor(private modalService: ModalService) {}
+  segments: string[] = [];
+  indexOflastActive = 0;
+
+  constructor(private modalService: ModalService, private router: Router) {}
 
   ngOnInit(): void {
     this.allSubscriptions.push(
+      this.router.events
+        .pipe(filter((event) => event instanceof NavigationEnd))
+        .subscribe(() => {
+          this.segments = this.extractSegments();
+          console.log(this.segments);
+        }),
       this.modalService.activePhotoModal$
         .pipe(
           map((active) => {
@@ -110,5 +127,21 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.allSubscriptions.forEach((sub) => sub.unsubscribe());
+  }
+
+  private extractSegments(): string[] {
+    const segments = this.router.url
+      .split('/')
+      .slice(2)
+      .map((value) => {
+        value = value.charAt(0).toUpperCase() + value.slice(1);
+        return value.replace(
+          /-([a-z])/g,
+          (match, group) => ' ' + group.toUpperCase()
+        );
+      });
+    this.indexOflastActive = segments.length - 1;
+    if (segments[0] === 'Dashboard') return [];
+    return segments;
   }
 }

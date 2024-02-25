@@ -82,10 +82,23 @@ export const routes: Routes = [
           },
           {
             path: 'blog',
-            loadComponent: () =>
-              import('./admin/admin-blog/admin-blog.component').then(
-                (m) => m.AdminBlogComponent
-              ),
+            children: [
+              {
+                path: '',
+                loadComponent: () =>
+                  import('./admin/admin-blog/admin-blog.component').then(
+                    (m) => m.AdminBlogComponent
+                  ),
+                pathMatch: 'full',
+              },
+              {
+                path: 'comments',
+                loadComponent: () =>
+                  import(
+                    './admin/admin-blog/admin-post-comments/admin-post-comments.component'
+                  ).then((m) => m.AdminPostCommentsComponent),
+              },
+            ],
           },
         ],
       },

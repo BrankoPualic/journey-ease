@@ -11,7 +11,7 @@ import { AboutUsSectionComponent } from './about-us-section/about-us-section.com
     SearchHomeComponent,
     TestimonialsComponent,
     PhotographerOpportunityComponent,
-    AboutUsSectionComponent
+    AboutUsSectionComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
