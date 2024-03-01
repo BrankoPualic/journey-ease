@@ -35,8 +35,8 @@ import { SharedService } from '../../_services/shared.service';
 import { Subscription, debounceTime, distinctUntilChanged } from 'rxjs';
 import { PaginationComponent } from '../../pagination/pagination.component';
 import { ModalService } from '../../_services/modal.service';
-import { TextReviewModalComponent } from '../../_modals/text-review-modal/text-review-modal.component';
 import { Router, RouterOutlet } from '@angular/router';
+import { setPostForSelectedComments } from '../../_store/comments/comments.actions';
 
 @Component({
   selector: 'app-admin-blog',
@@ -45,7 +45,6 @@ import { Router, RouterOutlet } from '@angular/router';
     CommonModule,
     ReactiveFormsModule,
     PaginationComponent,
-    TextReviewModalComponent,
     RouterOutlet,
   ],
   templateUrl: './admin-blog.component.html',
@@ -232,7 +231,7 @@ export class AdminBlogComponent implements OnInit, OnDestroy {
         this.store.dispatch(
           loadSearchedBlog({
             searchValue: creator,
-            page: page,
+            page,
             itemsPerPage: ITEMS_PER_PAGE,
             column: columnUsed,
             direction: newDirection,
@@ -241,7 +240,7 @@ export class AdminBlogComponent implements OnInit, OnDestroy {
       } else {
         this.store.dispatch(
           loadBlog({
-            page: page,
+            page,
             itemsPerPage: ITEMS_PER_PAGE,
             column: columnUsed,
             direction: newDirection,
@@ -298,7 +297,7 @@ export class AdminBlogComponent implements OnInit, OnDestroy {
   }
 
   onPostCommentRow(postId: number) {
-    // this.store.dispatch(loadComments({postId}))
+    this.store.dispatch(setPostForSelectedComments({ postId }));
     this.router.navigateByUrl('/admin/blog/comments');
   }
 

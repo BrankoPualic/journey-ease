@@ -22,6 +22,8 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { authReducer } from './_store/auth/auth.reducer';
 import { AuthEffects } from './_store/auth/auth.effects';
 import { jwtInterceptor } from './_interceptors/jwt.interceptor';
+import { commentReducer } from './_store/comments/comments.reducer';
+import { CommentEffects } from './_store/comments/comments.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -34,6 +36,7 @@ export const appConfig: ApplicationConfig = {
       blog: blogReducer,
       faqs: faqReducer,
       auth: authReducer,
+      comments: commentReducer,
     }),
     provideEffects([
       CountryEffects,
@@ -41,6 +44,7 @@ export const appConfig: ApplicationConfig = {
       BlogEffects,
       FaqEffects,
       AuthEffects,
+      CommentEffects,
     ]),
     provideAnimations(),
     provideHttpClient(withInterceptors([jwtInterceptor])),

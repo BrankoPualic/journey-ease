@@ -56,10 +56,7 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.allSubscriptions.push(
       this.router.events
         .pipe(filter((event) => event instanceof NavigationEnd))
-        .subscribe(() => {
-          this.segments = this.extractSegments();
-          console.log(this.segments);
-        }),
+        .subscribe(() => (this.segments = this.extractSegments())),
       this.modalService.activePhotoModal$
         .pipe(
           map((active) => {

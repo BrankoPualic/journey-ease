@@ -1,1 +1,69 @@
-<p>admin-post-comments works!</p>
+<div class="admin-body">
+  <div class="admin-data-body">
+    <form>
+      <table>
+        <thead>
+          <tr>
+            @for (key of commentKeys; track key) {
+            <th>
+              {{ key }} @if(key === 'Comment Id' || key === 'Comment Date'){
+              <img
+                src="assets/icons/sort.svg"
+                alt="sort svg icon"
+                class="sort"
+                (click)="orderBy(key)"
+              />
+              }
+            </th>
+            } @if(comments.length){
+            <th>Operations</th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (comment of comments; track comment.commentId) {
+          <tr>
+            <td>{{ comment.commentId }}</td>
+            <td>
+              <div class="user-image" (click)="seeUser(comment.user.id)">
+                <img
+                  src="{{ comment.user.userImage }}"
+                  alt="Image of an user that posted comment"
+                />
+              </div>
+            </td>
+            <td
+              style="cursor: pointer; font-weight: bold; font-size: 1.5em"
+              (click)="openTextReviewModal(comment.comment)"
+            >
+              ...
+            </td>
+            <td>{{ comment.commentDate | date : "longDate" }}</td>
+            <td>{{ comment.edited }}</td>
+            <td>
+              <button
+                class="btn btn-error"
+                (click)="onDeleteComment(comment.commentId)"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </form>
+    @if (pagination && comments.length && pagination.totalPages > 1) {
+    <app-pagination
+      [currentPage]="pagination.currentPage"
+      [itemsPerPage]="pagination.itemsPerPage"
+      [paginationType]="'comments'"
+      [totalPages]="pagination.totalPages"
+      [direction]="stateDirection"
+      [orderingColumn]="stateOrderingColumn"
+    />
+    } @if(!comments.length){
+    <h3 class="nothing-found">No comments found for chosen post.</h3>
+    }
+  </div>
+</div>

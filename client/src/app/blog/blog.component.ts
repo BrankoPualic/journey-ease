@@ -16,7 +16,6 @@ import {
   loadBlog,
   loadSearchedBlog,
   removeSelectedCreator,
-  setCurrentPage,
 } from '../_store/blog/blog.actions';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
