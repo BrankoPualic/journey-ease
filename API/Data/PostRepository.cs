@@ -25,7 +25,7 @@ namespace API.Data
                 .ProjectTo<PostDto>(_mapper.ConfigurationProvider)
                 .AsNoTracking();
 
-            return await ApplyCommonFilters(query, postParams);
+            return await PagedListExtension<PostDto>.ApplyCommonFilters(query, postParams, "PostDate");
         }
 
         public async Task<Post> GetPost(int postId)
@@ -54,7 +54,7 @@ namespace API.Data
                 .ProjectTo<PostDto>(_mapper.ConfigurationProvider)
                 .AsNoTracking();
 
-            return await ApplyCommonFilters(query, postParams);
+            return await PagedListExtension<PostDto>.ApplyCommonFilters(query, postParams, "PostDate");
 
         }
 
@@ -84,17 +84,6 @@ namespace API.Data
             }
 
             return new BlogStatistics(blogCount, authorsCount, author, commentsCount);
-        }
-
-        private async Task<PagedList<PostDto>> ApplyCommonFilters(IQueryable<PostDto> query, PostParams postParams)
-        {
-            if(!string.IsNullOrWhiteSpace(postParams.Column) && !string.IsNullOrWhiteSpace(postParams.Direction))
-                return await PagedList<PostDto>.CreateAsyncWithOrdering(query, postParams.PageNumber, postParams.PageSize, postParams.Column, postParams.Direction);
-            else
-            {
-                query = query.OrderByDescending(p => p.PostDate);
-                return await PagedList<PostDto>.CreateAsync(query, postParams.PageNumber, postParams.PageSize);
-            }
         }
     }
 }

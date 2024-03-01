@@ -5,11 +5,11 @@ export type Comment = {
   comment: string;
   commentDate: Date;
   edited: boolean;
-  postId: number;
   user: CommentUser;
 };
 
 type CommentUser = {
+  id: number;
   firstName: string;
   lastName: string;
   userImage: string;

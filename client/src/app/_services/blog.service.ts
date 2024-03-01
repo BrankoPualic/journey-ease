@@ -110,4 +110,47 @@ export class BlogService {
   fetchBlogStatisticsForAdminPage() {
     return this.dataService.get<BlogStatistics>('admin/blogStatistics');
   }
+
+  getComments(
+    postId: number,
+    page?: number,
+    itemsPerPage?: number,
+    column?: string,
+    direction?: string
+  ) {
+    let params = new HttpParams();
+
+    if (page && itemsPerPage) {
+      params = params.append('pageNumber', page);
+      params = params.append('pageSize', itemsPerPage);
+    }
+    if (direction && column) {
+      params = params.append('column', column);
+      params = params.append('direction', direction);
+    }
+
+    return this.dataService
+      .get<HttpResponse<Comment[]>>(`postComment?postId=${postId}`, {
+        observe: 'response',
+        params,
+      })
+      .pipe(
+        map((response) => {
+          const paginatedResult = new PaginatedResult<Comment[]>();
+          if (response.body) paginatedResult.result = response.body;
+
+          const pagination = response.headers.get('Pagination');
+
+          if (pagination) paginatedResult.pagination = JSON.parse(pagination);
+
+          return paginatedResult;
+        })
+      );
+  }
+
+  removeComment(id: number) {
+    return this.dataService.delete<{ message: string }>(
+      `postComment?commentId=${id}`
+    );
+  }
 }

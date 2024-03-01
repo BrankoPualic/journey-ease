@@ -15,6 +15,7 @@ import { HasRoleDirective } from '../_directives/has-role.directive';
 export class HeaderComponent implements OnInit {
   isHomePage = false;
   authDropdownIsOpened = false;
+  aboutUsDropdownIsOpened = false;
 
   constructor(private router: Router, public authService: AuthService) {}
 

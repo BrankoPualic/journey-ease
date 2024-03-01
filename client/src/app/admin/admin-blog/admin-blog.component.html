@@ -1,3 +1,4 @@
+<router-outlet />
 @if (blogStats$ | async; as stats) {
 <div class="admin-body">
   <div class="admin-info-stats dashboard-info">
@@ -186,10 +187,8 @@
                   post.postId
                 }}"
               >
-                <span
-                  class="admin-edit-span"
-                  (click)="onEditPostRow(post)"
-                >
+                <span (click)="onPostCommentRow(post.postId)"> Comments </span>
+                <span class="admin-edit-span" (click)="onEditPostRow(post)">
                   Edit</span
                 >
                 <span

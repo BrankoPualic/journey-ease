@@ -35,7 +35,8 @@ import { SharedService } from '../../_services/shared.service';
 import { Subscription, debounceTime, distinctUntilChanged } from 'rxjs';
 import { PaginationComponent } from '../../pagination/pagination.component';
 import { ModalService } from '../../_services/modal.service';
-import { TextReviewModalComponent } from '../../_modals/text-review-modal/text-review-modal.component';
+import { Router, RouterOutlet } from '@angular/router';
+import { setPostForSelectedComments } from '../../_store/comments/comments.actions';
 
 @Component({
   selector: 'app-admin-blog',
@@ -44,7 +45,7 @@ import { TextReviewModalComponent } from '../../_modals/text-review-modal/text-r
     CommonModule,
     ReactiveFormsModule,
     PaginationComponent,
-    TextReviewModalComponent,
+    RouterOutlet,
   ],
   templateUrl: './admin-blog.component.html',
   styleUrl: './admin-blog.component.scss',
@@ -75,7 +76,8 @@ export class AdminBlogComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private sharedService: SharedService,
     private modalService: ModalService,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -229,7 +231,7 @@ export class AdminBlogComponent implements OnInit, OnDestroy {
         this.store.dispatch(
           loadSearchedBlog({
             searchValue: creator,
-            page: page,
+            page,
             itemsPerPage: ITEMS_PER_PAGE,
             column: columnUsed,
             direction: newDirection,
@@ -238,7 +240,7 @@ export class AdminBlogComponent implements OnInit, OnDestroy {
       } else {
         this.store.dispatch(
           loadBlog({
-            page: page,
+            page,
             itemsPerPage: ITEMS_PER_PAGE,
             column: columnUsed,
             direction: newDirection,
@@ -292,6 +294,11 @@ export class AdminBlogComponent implements OnInit, OnDestroy {
 
   onDeletePostRow(postId: number) {
     this.store.dispatch(removePost({ postId }));
+  }
+
+  onPostCommentRow(postId: number) {
+    this.store.dispatch(setPostForSelectedComments({ postId }));
+    this.router.navigateByUrl('/admin/blog/comments');
   }
 
   private searchTypingManagement() {

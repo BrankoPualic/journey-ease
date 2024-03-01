@@ -1,5 +1,7 @@
 using API.DTOs;
 using API.Entities;
+using API.Extensions;
+using API.Helpers;
 using API.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,21 +16,19 @@ namespace API.Data
             _context = context;
 
         }
-        public async Task<IEnumerable<PostCommentDto>> GetBlogComments(int postId)
+        public async Task<IEnumerable<PostCommentDto>> GetBlogComments(int postId, PostParams postParams)
         {
-            var commentsQuery = _context.BlogComments
-                .Where(p => p.PostId == postId);
-
-            var commentsDto = await commentsQuery
+            var query = _context.BlogComments
+                .Where(p => p.PostId == postId)
                 .Select(pc => new PostCommentDto
                 {
                     CommentId = pc.CommentId,
                     Comment = pc.Comment,
                     CommentDate = pc.CommentDate,
                     Edited = pc.Edited,
-                    PostId = pc.PostId,
                     User = new UserCommentDto
                     {
+                        Id = pc.AppUser.Id,
                         FirstName = pc.AppUser.FirstName,
                         LastName = pc.AppUser.LastName,
                         UserImage = pc.AppUser.UserImage,
@@ -42,11 +42,16 @@ namespace API.Data
                             : null,
                         CommentCount = pc.AppUser.PostComments.Count()
                     }
-                })
-                .ToListAsync();
+                }).AsNoTracking();
 
-            return commentsDto;
+            return await PagedListExtension<PostCommentDto>.ApplyCommonFilters(query, postParams, "CommentDate");
         }
+        
+        public async Task<PostComment> GetComment(int commentId)
+        {
+            return await _context.BlogComments.FindAsync(commentId);
+        }
+        
         public void AddComment(PostComment comment)
         {
             _context.BlogComments.Add(comment);

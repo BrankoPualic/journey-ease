@@ -17,13 +17,9 @@ export class SharedService {
 
   private capitalizeFirstLetterAndAddSpace(key: string): string {
     const words = key.split(/(?=[A-Z])/);
-    if (words.length > 1) {
-      words[0] = words[0].charAt(0).toUpperCase() + words[0].slice(1);
+    words[0] = words[0].charAt(0).toUpperCase() + words[0].slice(1);
 
-      return words.join(' ');
-    }
-
-    return key;
+    return words.join(' ');
   }
 
   addActiveClassAdmin(el: HTMLElement) {

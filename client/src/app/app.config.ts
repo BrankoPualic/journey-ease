@@ -3,7 +3,11 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withFetch,
+  withInterceptors,
+} from '@angular/common/http';
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { countryReducer } from './_store/countries/countries.reducer';
@@ -17,6 +21,9 @@ import { faqReducer } from './_store/faqs/faqs.reducer';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { authReducer } from './_store/auth/auth.reducer';
 import { AuthEffects } from './_store/auth/auth.effects';
+import { jwtInterceptor } from './_interceptors/jwt.interceptor';
+import { commentReducer } from './_store/comments/comments.reducer';
+import { CommentEffects } from './_store/comments/comments.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -29,6 +36,7 @@ export const appConfig: ApplicationConfig = {
       blog: blogReducer,
       faqs: faqReducer,
       auth: authReducer,
+      comments: commentReducer,
     }),
     provideEffects([
       CountryEffects,
@@ -36,7 +44,9 @@ export const appConfig: ApplicationConfig = {
       BlogEffects,
       FaqEffects,
       AuthEffects,
+      CommentEffects,
     ]),
     provideAnimations(),
+    provideHttpClient(withInterceptors([jwtInterceptor])),
   ],
 };
